@@ -1,0 +1,125 @@
+
+SZUKANIE PUNKTÓW DZIĘKI NOMINATIM
+
+
+var suggestInput = document.getElementById('address');
+var suggestionsContainer = document.getElementById('suggestions');
+
+suggestInput.addEventListener('input', function() {
+    var query = suggestInput.value;
+
+    if (query.length > 2) {
+        var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + query +
+            '&addressdetails=1&extratags=1&namedetails=1&json_callback=callback';
+
+        var script = document.createElement('script');
+        script.src = url;
+
+        window.callback = function(data) {
+            suggestionsContainer.innerHTML = '';
+
+            if (data.length > 0) {
+                data.slice(0, 5).forEach(function(result) {
+                    var suggestion = document.createElement('div');
+                    suggestion.classList.add('suggestion');
+
+                    suggestion.textContent = result.display_name;
+
+                    suggestion.addEventListener('click', function() {
+                        var addressParts = [];
+
+                        if (result.address.city) {
+                            addressParts.push(result.address.city);
+                        }
+                        if (result.address.country) {
+                            addressParts.push(result.address.country);
+                        }
+                        if (result.address.village) {
+                            addressParts.push(result.address.village);
+                        }
+                        if (result.address.road && result.address.house_number) {
+                            addressParts.push(result.address.road + ' ' + result.address.house_number);
+                        } else if (result.address.road) {
+                            addressParts.push(result.address.road);
+                        }
+
+                        suggestInput.value = addressParts.join(', ');
+                        suggestionsContainer.innerHTML = '';
+                        // Dodaj kod obsługujący dodawanie punktu do mapy
+                    });
+
+                    suggestionsContainer.appendChild(suggestion);
+                });
+            }
+        };
+
+        document.head.appendChild(script);
+    } else {
+        suggestionsContainer.innerHTML = '';
+    }
+});
+
+
+SZUKANIE PUNKTÓW DZIĘKI GEOCODER NOMINATIM  (tutaj dodane jest jeszcze opźnienie i lowercase)
+
+
+
+var suggestInput = document.getElementById('address');
+var suggestionsContainer = document.getElementById('suggestions');
+var geocoder = L.Control.Geocoder.nominatim();
+
+var delay = 400; // Opóźnienie w ms
+var timerId = null;
+
+suggestInput.addEventListener('input', function() {
+    clearTimeout(timerId);
+
+    timerId = setTimeout(function() {
+        var query = suggestInput.value.toLowerCase();
+
+        if (query.length > 2) {
+            geocoder.geocode(query, function(results) {
+                suggestionsContainer.innerHTML = '';
+
+                if (results.length > 0) {
+                    results.forEach(function(result) {
+                        var suggestion = document.createElement('div');
+                        suggestion.classList.add('suggestion');
+                        suggestion.textContent = result.name;
+
+                        suggestion.addEventListener('click', function() {
+                            var addressParts = [];
+
+                            if (result.properties && result.properties.address) {
+                                var address = result.properties.address;
+
+                                if (address.country) {
+                                    addressParts.push(address.country);
+                                }
+                                if (address.city) {
+                                    addressParts.push(address.city);
+                                }
+                                if (address.town) {
+                                    addressParts.push(address.town);
+                                }
+                                if (address.village) {
+                                    addressParts.push(address.village);
+                                }
+                                if (address.road && address.house_number) {
+                                    addressParts.push(address.road + ' ' + address.house_number);
+                                } else if (address.road) {
+                                    addressParts.push(address.road);
+                                }
+                            }
+                            suggestInput.value = addressParts.join(', ');
+                            suggestionsContainer.innerHTML = '';
+                        });
+
+                        suggestionsContainer.appendChild(suggestion);
+                    });
+                }
+            });
+        } else {
+            suggestionsContainer.innerHTML = '';
+        } }, delay);
+});

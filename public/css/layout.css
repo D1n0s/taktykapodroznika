@@ -1,0 +1,54 @@
+
+/* Styl dla telefonów komórkowych */
+@media screen and (max-width: 767px) {
+    #logo{
+        height:5em;
+        margin-top:0em;
+        position: static;
+    }
+    .logo_tekst{
+        font-size:3em;margin-left:0em;position:static;
+    }
+    #menu-bar{
+        background-color: rgb(255, 255, 255);
+
+    }
+
+  }
+
+  /* Styl dla przeglądarek na komputerach */
+  @media screen and (min-width: 768px) {
+    #logo{
+        height:10em;
+        margin-top:2em;
+        position: static;
+    }
+    .logo_tekst{
+        font-size:3em;margin-left:1em;position:static;
+    }
+    #menu-bar{
+        background-color: rgb(255, 255, 255);
+        position: relative;
+        border-radius: 0px;
+        margin-top:-1px;
+    }
+  }
+
+#app{
+    min-height: 100vh;
+    background-color: rgb(13, 16, 71);
+    background-image: radial-gradient(#ffffff 3%, transparent 3%),
+    radial-gradient(#cb1205 3%, transparent 3%);
+background-position: 0 0, 50px 50px;
+background-size: 100px 100px;
+}
+
+.editable-text {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .editable-text:focus {
+    outline: none;
+    border-color: blue;
+  }

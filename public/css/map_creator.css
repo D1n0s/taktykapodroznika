@@ -1,0 +1,155 @@
+#map {
+    height: 600px;
+    width: 80%;
+    margin: 0 auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 1.5%;
+}
+
+.container {
+    height: 10vh;
+    /*background-color: white;*/
+    width: 80%;
+
+}
+#title{
+font-size: large;
+    text-align: center;
+    color:white;
+    font-size: 30px;
+}
+
+.card {
+    width: 90vh;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.form-container-sugestion {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    height: 250px;
+    min-height: 250px;
+    max-height: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    display: none;
+    position: fixed;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* Stylowanie podświetlania rekordów */
+.suggestion:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+/* Zmiana kształtu kursora podczas klikania */
+.suggestion:active {
+    cursor: grabbing;
+}
+
+
+
+
+.map_bar{
+    width:80%;
+    background-color: white;
+    margin: auto;
+}
+
+
+/* PRZYCISKI POD MAPĄ !  */
+
+/* PERPECTIVE */
+.button-perspective {
+    float: left;
+    margin-right: 1%;
+    background-color: #3DD1E7;
+    border: 0 solid #E5E7EB;
+    box-sizing: border-box;
+    color: #000000;
+    display: flex;
+    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.75rem;
+    padding: .45rem 0.25rem;
+    position: relative;
+    text-align: center;
+    text-decoration: none #000000 solid;
+    text-decoration-thickness: auto;
+    width: 100%;
+    max-width: 260px;
+    position: relative;
+    cursor: pointer;
+    transform: rotate(-2deg);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  .button-perspective:focus {
+    outline: 0;
+  }
+
+  .button-perspective:after {
+    content: '';
+    position: absolute;
+    border: 1px solid white;
+    bottom: 4px;
+    left: 4px;
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+  }
+
+  .button-perspective:hover:after {
+    bottom: 2px;
+    left: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .button-perspective {
+      padding: .75rem 3rem;
+      font-size: 1.25rem;
+    }
+  }

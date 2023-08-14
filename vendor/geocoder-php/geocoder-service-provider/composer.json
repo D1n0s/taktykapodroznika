@@ -1,0 +1,26 @@
+{
+    "name": "geocoder-php/geocoder-service-provider",
+    "description": "Geocoder service provider for Silex",
+    "keywords": ["geocoder", "silex", "service", "provider"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kévin Gomez",
+            "email": "contact@kevingomez.fr",
+            "homepage": "http://www.kevingomez.fr/"
+        }
+    ],
+    "require": {
+        "willdurand/geocoder": "^2.0"
+    },
+    "require-dev": {
+        "silex/silex": "^1.0",
+        "symfony/twig-bridge": "^2.2",
+        "phpunit/phpunit": "^5.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Geocoder": "src/"
+        }
+    }
+}

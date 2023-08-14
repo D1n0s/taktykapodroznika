@@ -1,0 +1,77 @@
+Table: users
+    - user_id:increments
+    - login:string(255)
+    - name:string(255)
+    - surname:string(255)
+    - phone:string(9)
+    - email:string(255)
+    - email_verified_at:timestamp:nullable
+    - remember_token:string(100)
+    - password:string(255)
+    - created_at:timestamps
+    - updated_at:timestamps
+
+Table: user_settings
+    - user_id:unsignedBigInteger:index
+    - notification_preference:boolean
+    - foreignKeys:user_id:users,user_id
+    - primary:user_id
+    - timestamps
+
+Table: trips
+    - trip_id:increments
+    - title:string(255)
+    - desc:text
+    - start_date:date
+    - end_date:date
+    - created_at:timestamps
+    - updated_at:timestamps
+
+Table: marks
+    - mark_id:increments
+    - trip_id:unsignedBigInteger:index
+    - name:string(255)
+    - desc:text
+    - address:string(255)
+    - latitude:decimal
+    - longitude:decimal
+    - category_id:unsignedBigInteger:index
+    - is_general:boolean
+    - created_at:timestamps
+    - updated_at:timestamps
+
+Table: categories
+    - category_id:increments
+    - name:string(255)
+    - created_at:timestamps
+    - updated_at:timestamps
+
+Table: categorie_marks
+    - category_mark_id:unsignedBigInteger
+    - category_id:unsignedBigInteger:index
+    - mark_id:unsignedBigInteger:index
+    - primary:category_mark_id,category_id,mark_id
+    - foreignKeys:category_id:categories,category_id
+    - foreignKeys:mark_id:marks,mark_id
+
+Table: shared_trips
+    - shared_id:increments
+    - trip_id:unsignedBigInteger:index
+    - shared_with_user_id:unsignedBigInteger:index
+    - foreignKeys:trip_id:trips,trip_id
+    - foreignKeys:shared_with_user_id:users,user_id
+
+Table: public_trips
+    - public_id:increments
+    - trip_id:unsignedBigInteger:index
+    - created_at:timestamps
+    - updated_at:timestamps
+    - foreignKeys:trip_id:trips,trip_id
+
+Table: user_trips
+    - user_trip_id:increments
+    - user_id:unsignedBigInteger:index
+    - trip_id:unsignedBigInteger:index
+    - created_at:timestamps
+    - foreignKeys:user_id:users,user_id
+    - foreignKeys:trip_id:trips,trip_id
