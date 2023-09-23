@@ -41,6 +41,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var form = $(this);
+        var trip_id = $('#trip_id').val();
         var name = $('#name').val();
         var desc = $('#desc').val();
         var address = $('#address').val();
@@ -54,6 +55,7 @@ $(document).ready(function() {
         }
 
         var formData = {
+            trip_id: trip_id,
             name: name,
             desc: desc,
             address: address,

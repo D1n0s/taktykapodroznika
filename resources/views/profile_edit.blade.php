@@ -21,7 +21,7 @@
         <div class="card mb-4">
           <div class="card-body">
               <form method="get"  action="{{ route('profile.update') }}">
-                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                  <input type="hidden" name="user_id" value="{{ Auth::user()->user_id }}">
             <div class="row">
               <div class="col-sm-3">
                 <p class="mb-0">Imię</p>

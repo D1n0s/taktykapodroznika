@@ -24,6 +24,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mytrips',[ProfileController::class,'mytrips']);
+
+});
+
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -32,7 +41,10 @@ Route::get('/profile_edited', [ProfileController::class, 'update'])->name('profi
 Route::get('/profile_cancel', [ProfileController::class, 'cancel'])->name('profile.cancel');
 
 
-Route::get('/map', [TripController::class, 'index']);
+//Tworzenie TRIPA
+Route::post('/init',[TripController::class, 'init'])->name('init');
+//Route::get('/map', [TripController::class, 'index']);
+Route::get('/map/{trip}', [TripController::class, 'index']);
 Route::post('/mark', [TripController::class, 'store'])->name('trip.store');
 
 Route::get('/', function () {
@@ -46,3 +58,5 @@ Route::get('/color', function () {
 Route::post('/fireEvent', function (Request $request) {
     PublicEvent::dispatch($request->color);
 })->name('fire.public.event');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

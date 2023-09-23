@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Trip extends Model
 {
     protected $primaryKey = 'trip_id';
-
+    public $timestamps = false;
     protected $fillable = [
+        'owner_id',
         'title',
         'desc',
         'start_date',

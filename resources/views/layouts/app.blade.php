@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Taktyka Podróżnika') }}</title>
     <img >
 
     <!-- Fonts -->
@@ -38,7 +38,7 @@
 
             <img id="logo" src={{ asset('storage/logo.png') }}>
                 <a class="navbar-brand logo_tekst" style="" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Taktyka Podróżnika') }}
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -52,6 +52,9 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
+
+
+
                     <ul class="navbar-nav ms-auto bg-white" >
                         <!-- Authentication Links -->
                         @guest
@@ -67,11 +70,10 @@
                                 </li>
                             @endif
                         @else
-        <div class="d-inline" style="float:left;position:relative;">
-                <a class=" nav-item dropdown-item" href="{{ url('/profile') }}">
-                    {{ Auth::user()->login }}
-                </a>
-                            <li class="">
+
+            <li class="nav-item dropdown-item">
+                <a class="nav-link"   href="{{ url('/profile') }}">{{ Auth::user()->name }}</a>
+            </li>
                                 <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a> -->
@@ -90,8 +92,7 @@
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
-                        </div>
+                        </li>
                         @endguest
                     </ul>
                 </div>

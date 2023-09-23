@@ -16,6 +16,16 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 import { createApp } from 'vue';
 
+
+// resources/js/app.js
+
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready

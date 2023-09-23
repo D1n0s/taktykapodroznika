@@ -11,7 +11,7 @@ class SharedTrip extends Model
 
     protected $fillable = [
         'trip_id',
-        'shared_with_user_id',
+        'user_id',
     ];
 
     public function trip()

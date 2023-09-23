@@ -13,7 +13,14 @@
 
 @section('content')
 
-    <p id="title">TYTUŁ</p>
+    @if(session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
+
+        <p id="title">Tytuł: {{ $trip->title}}</p>
+        <p  id="title">Opis: {{ $trip->desc }}</p>
 
     <div id="map"></div>
         <div class="map_bar">

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Trip;
+use App\Models\SharedTrip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,16 +22,27 @@ class ProfileController extends Controller{
         return view('profile');
     }
 
+    public function mytrips(){
+
+
+        $trips = Trip::where('owner_id',Auth::user()->user_id)->paginate(5); // Paginacja po 10 rekordów na stronę
+
+        return view('myTrips', compact('trips'));
+
+
+
+    }
+
     public function update(Request $request){
         $userId = $request->user_id;
-        $user = User::find($userId );
+        $user = User::find($userId);
 
 
 
     $validator = Validator::make($request->all(), [
         'name' => 'nullable|string|max:255',
         'surname' => 'nullable|string|max:255',
-        'email' => 'email|unique:users,email,' . $userId . ',id',
+        'email' => 'email|unique:users,email,' . $userId . ',user_id',
         'phone' => 'nullable|regex:/^[0-9]{9}$/'
     ]);
 

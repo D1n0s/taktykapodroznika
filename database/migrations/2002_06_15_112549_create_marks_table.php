@@ -10,20 +10,20 @@ class CreateMarksTable extends Migration
     {
         Schema::create('marks', function (Blueprint $table) {
             $table->increments('mark_id'); // Dodaj autoinkrementację
-           //$table->integer('trip_id');
+            $table->integer('trip_id')->unsigned();
             $table->string('name', 255);
             $table->text('desc');
             $table->string('address', 255);
             $table->string('latitude', 255);
             $table->string('longitude', 255);
-            //$table->integer('category_id');
+            $table->integer('category_id');
             $table->boolean('is_general');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });
 
         Schema::table('marks', function (Blueprint $table) {
-           // $table->foreign('trip_id')->references('trip_id')->on('trips');
+            $table->foreign('trip_id')->references('trip_id')->on('trips');
         });
     }
 
