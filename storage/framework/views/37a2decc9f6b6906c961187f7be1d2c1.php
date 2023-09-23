@@ -1,0 +1,1 @@
+<?php /**PATH C:\taktykapodroznika\resources\views/components/pagination.blade.php ENDPATH**/ ?>
