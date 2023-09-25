@@ -6,12 +6,17 @@
     border-radius: 10px;
     margin-bottom: 1.5%;
 }
+.container_content{
+    margin-bottom: 10vh;
+    /*background-color: white;*/
+    width: 70%;
+
+}
 
 .container {
     height: 10vh;
     /*background-color: white;*/
     width: 80%;
-
 }
 #title{
 font-size: large;

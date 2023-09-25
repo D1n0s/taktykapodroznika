@@ -74,9 +74,7 @@ class TripController extends Controller
                 abort(404); // Możesz przekierować użytkownika lub wyświetlić inny komunikat błędu
             }
 
-            $sharedTrip = SharedTrip::where('user_id', $user->user_id)
-                ->where('trip_id', $trip_id)
-                ->first();
+
             if( $user->user_id === $trip->owner_id){
             }else if($sharedTrip != null && $user->user_id === $sharedTrip->user_id){
             }else{

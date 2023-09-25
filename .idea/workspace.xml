@@ -5,13 +5,122 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace">
-      <change afterPath="$PROJECT_DIR$/resources/views/components/tripPagination.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/buttons.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/esbuild.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/esbuild.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/rollup.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/rollup.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/vite.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/vite.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/alpinejs.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/alpinejs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/alpinejs.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/alpinejs.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/axios.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/bootstrap.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/bootstrap.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-OZI5HTJH.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-OZI5HTJH.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-SVLGB6QV.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-SVLGB6QV.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-UNSAQ7PR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/chunk-UNSAQ7PR.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/jquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/jquery.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/jquery.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/laravel-echo.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/laravel-echo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/laravel-echo.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/laravel-echo.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-control-geocoder.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-control-geocoder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-control-geocoder.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-control-geocoder.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-control-geocoder_dist_Control__Geocoder__js.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-control-geocoder_dist_Control__Geocoder__js.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-routing-machine.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-routing-machine.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-routing-machine_dist_leaflet-routing-machine__js.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet-routing-machine_dist_leaflet-routing-machine__js.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet_dist_leaflet__js.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet_dist_leaflet__js.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet_dist_leaflet__js.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/leaflet_dist_leaflet__js.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/vue.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/lib/main.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/lib/main.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/lib/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/lib/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/esbuild/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/at-rule.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/at-rule.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/comment.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/comment.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/container.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/container.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/container.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/css-syntax-error.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/css-syntax-error.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/css-syntax-error.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/css-syntax-error.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/declaration.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/declaration.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/document.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/document.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/input.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/input.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/input.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/input.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/lazy-result.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/lazy-result.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/lazy-result.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/lazy-result.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/list.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/list.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/list.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/list.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/map-generator.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/map-generator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/no-work-result.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/no-work-result.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/no-work-result.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/no-work-result.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/node.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/node.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/node.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/node.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/parser.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/parser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/postcss.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/postcss.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/previous-map.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/previous-map.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/previous-map.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/previous-map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/processor.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/processor.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/processor.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/processor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/result.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/result.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/root.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/root.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/root.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/root.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/rule.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/rule.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/stringifier.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/stringifier.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/stringifier.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/stringifier.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/terminal-highlight.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/terminal-highlight.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/tokenize.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/tokenize.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/warning.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/warning.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/lib/warning.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/lib/warning.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/postcss/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/postcss/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/LICENSE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/bin/rollup" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/bin/rollup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/rollup.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/rollup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/node-entry.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/node-entry.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/watch.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/watch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/fsevents-importer.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/fsevents-importer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/loadConfigFile.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/loadConfigFile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/rollup.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/rollup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch-cli.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch-cli.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch-proxy.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch-proxy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/rollup/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/rollup/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/client.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/client.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/client/client.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/client/client.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/client/client.mjs.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/client/client.mjs.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node-cjs/publicUtils.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/node-cjs/publicUtils.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-5673ffe5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-8989cf2a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-934dbc7c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/cli.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/cli.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/dist/node/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/customEvent.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/types/customEvent.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/importMeta.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/types/importMeta.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vite/types/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/map_creator.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/map_creator.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/myTrips.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/myTrips.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZEto4FRmm1glod4vuL8Y6DisDFGKlUMzD3DVQRpw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/l3GxqWRgYyvDsHtFme73AfRwRRs74bP4y8NneW5b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/5b1c0dbc295f5356cebb0400ef3ff4cb.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/5b1c0dbc295f5356cebb0400ef3ff4cb.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/a799202a33853e34863e9754c49e7a0a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a799202a33853e34863e9754c49e7a0a.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
     </list>
@@ -30,7 +139,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="xampp">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
@@ -162,8 +271,14 @@
       <path value="$PROJECT_DIR$/vendor/paragonie/sodium_compat" />
       <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/../xampp/php/PEAR" />
+      <path value="$PROJECT_DIR$/../xampp/php" />
     </include_path>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2VbeSnLtJnoFlTjBAxtFIaoYdLT" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -176,18 +291,20 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/taktykapodroznika/resources/views/components",
+    "last_opened_file_path": "C:/taktykapodroznika/public/css",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2023.1.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\taktykapodroznika\public\css" />
       <recent name="C:\taktykapodroznika\resources\views\components" />
       <recent name="C:\taktykapodroznika\resources\views" />
       <recent name="C:\taktykapodroznika\public\js" />
@@ -205,6 +322,11 @@
       <workItem from="1695109387557" duration="93000" />
       <workItem from="1695109786692" duration="36742000" />
       <workItem from="1695639455715" duration="8486000" />
+      <workItem from="1695652842198" duration="1137000" />
+      <workItem from="1695654066281" duration="144000" />
+      <workItem from="1695654745752" duration="617000" />
+      <workItem from="1695655472649" duration="2000" />
+      <workItem from="1695657483166" duration="14640000" />
     </task>
     <task id="LOCAL-00001" summary="prace">
       <option name="closed" value="true" />
@@ -250,5 +372,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="prace" />
     <option name="LAST_COMMIT_MESSAGE" value="prace" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/resources/views/myTrips.blade.php</url>
+          <line>65</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

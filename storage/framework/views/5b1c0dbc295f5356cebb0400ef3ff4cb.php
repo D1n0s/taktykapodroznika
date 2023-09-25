@@ -14,6 +14,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="<?php echo e(asset('css/layout.css')); ?>" rel="stylesheet">
+
     <?php echo $__env->yieldContent('styles'); ?>
 
 

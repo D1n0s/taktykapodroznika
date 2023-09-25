@@ -29,7 +29,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/mytrips',[ProfileController::class,'mytrips']);
-
+    Route::get('/map/{trip}', [TripController::class, 'index']);
 });
 
 
@@ -44,7 +44,7 @@ Route::get('/profile_cancel', [ProfileController::class, 'cancel'])->name('profi
 //Tworzenie TRIPA
 Route::post('/init',[TripController::class, 'init'])->name('init');
 //Route::get('/map', [TripController::class, 'index']);
-Route::get('/map/{trip}', [TripController::class, 'index']);
+
 Route::post('/mark', [TripController::class, 'store'])->name('trip.store');
 
 Route::get('/', function () {
