@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace" />
+    <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace">
+      <change afterPath="$PROJECT_DIR$/resources/views/components/tripPagination.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/myTrips.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/myTrips.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/ZEto4FRmm1glod4vuL8Y6DisDFGKlUMzD3DVQRpw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/sessions/l3GxqWRgYyvDsHtFme73AfRwRRs74bP4y8NneW5b" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/a799202a33853e34863e9754c49e7a0a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a799202a33853e34863e9754c49e7a0a.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -166,7 +176,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/taktykapodroznika/resources/views",
+    "last_opened_file_path": "C:/taktykapodroznika/resources/views/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -178,8 +188,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\taktykapodroznika\resources\views" />
       <recent name="C:\taktykapodroznika\resources\views\components" />
+      <recent name="C:\taktykapodroznika\resources\views" />
       <recent name="C:\taktykapodroznika\public\js" />
     </key>
   </component>
@@ -194,6 +204,7 @@
       <workItem from="1695109216823" duration="83000" />
       <workItem from="1695109387557" duration="93000" />
       <workItem from="1695109786692" duration="36742000" />
+      <workItem from="1695639455715" duration="8486000" />
     </task>
     <task id="LOCAL-00001" summary="prace">
       <option name="closed" value="true" />

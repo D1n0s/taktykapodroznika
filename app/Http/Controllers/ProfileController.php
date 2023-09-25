@@ -25,13 +25,12 @@ class ProfileController extends Controller{
     public function mytrips(){
 
 
-        $trips = Trip::where('owner_id',Auth::user()->user_id)->paginate(5); // Paginacja po 10 rekordów na stronę
+        $trips = Trip::where('owner_id',Auth::user()->user_id)->paginate(5);
 
         return view('myTrips', compact('trips'));
-
-
-
     }
+
+
 
     public function update(Request $request){
         $userId = $request->user_id;
