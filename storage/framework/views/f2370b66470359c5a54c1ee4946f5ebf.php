@@ -7,9 +7,119 @@
     <link rel="stylesheet" href="<?php echo e(asset('leaflet-control-geocoder/dist/Control.Geocoder.css')); ?>"/>
     <!-- Stylizacja Leaflet Routing Machine -->
     <link rel="stylesheet" href="<?php echo e(asset('leaflet-routing-machine/dist/leaflet-routing-machine.css')); ?>"/>
+<script src="<?php echo e(asset('js/app.js')); ?>"></script>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+
+
+
+
+
+<div style="background-color: white">
+    <h3> TO JEST WIADOMOŚĆ PRYWATNA ! </h3>
+    <input id="txt_priv" type="text" value="nothing">
+    <button class="button-perspective" onclick="sendpriv()">WYŚLIJ PRYWATNIE</button>
+    <div id="response_priv" class="p-6 bg-white border-b border-gray-200">
+        ----------NOTHING----------
+    </div>
+</div>
+<script>
+
+
+    window.onload = sendpriv;
+
+        function sendpriv() {
+        let messagepriv = document.getElementById('txt_priv')
+
+        axios.post("<?php echo e(route('fire.private.event')); ?>", {
+                message: messagepriv.value
+        }, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
+            }
+        })
+
+    }
+
+    Echo.private('private.<?php echo e(auth()->user()->user_id); ?>')
+        .listen('PrivateEvent', (e) => {
+            document.getElementById('response_priv').innerText = e.message;
+
+        });
+</script>
+
+<br><br><br>
+
+
+
+<div style="background-color: white">
+    <h3> TO JEST WIADOMOŚĆ PUBLICZNA ! </h3>
+    <input id="txt_pub" type="text">
+    <button class="button-perspective" onclick="sendpub()">WYŚLIJ PRYWATNIE</button>
+    <div id="response_pub" class="p-6 bg-white border-b border-gray-200">
+        ----------NOTHING----------
+    </div>
+</div>
+<script>
+    function sendpub() {
+        let messagepub = document.getElementById('txt_pub');
+
+        axios.post("<?php echo e(route('fire.public.event')); ?>", {
+            color: messagepub.value
+        }, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
+            }
+        })
+
+
+
+    }
+
+    Echo.channel('public')
+        .listen('PublicEvent', (e) => {
+            document.getElementById('response_pub').innerText = e.color;
+
+        });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br><br><br>
+<div style="background-color: white;">
+    <p id="message">NIC TU NIE MA</p>
+    <p><?php echo e(auth()->user()->user_id); ?></p>
+</div>
+
+<script>
+    Echo.private('private.')
+        .listen('PrivateEvent', (e) => document.getElementById('message').innerText = e.message);
+</script>
+
+
+
+
+
+
+
 
     <?php if(session('message')): ?>
         <div class="alert alert-success">

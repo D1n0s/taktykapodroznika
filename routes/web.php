@@ -25,8 +25,6 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/mytrips',[ProfileController::class,'mytrips']);
     Route::get('/map/{trip}', [TripController::class, 'index']);
@@ -54,6 +52,25 @@ Route::get('/', function () {
 Route::get('/color', function () {
     return view('color-picker');
 });
+
+Route::post('/waterEvent', function (Request $request){
+
+     PrivateEvent::dispatch($request->message);
+
+})->name('fire.private.event');
+
+//Route::get('/waterEvent',
+//    function () {
+//        PrivateEvent::dispatch('Your cv has been uploaded');
+//    })->name('fire.private.event');
+
+//Route::get('/private/fireEvent',
+//    function () {
+//        // faking file upload
+//        sleep(3);
+//        PrivateEvent::dispatch('Your cv has been uploaded');
+//    }
+//)->name('fire.private.event');
 
 Route::post('/fireEvent', function (Request $request) {
     PublicEvent::dispatch($request->color);

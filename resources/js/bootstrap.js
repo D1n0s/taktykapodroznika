@@ -1,5 +1,5 @@
 
-window._ = require('lodash');
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -7,10 +7,9 @@ window._ = require('lodash');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 import 'bootstrap';
-
 import 'leaflet/dist/leaflet.js';
 import 'leaflet/dist/leaflet.css';
-window.L = require('leaflet');
+
 
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -31,7 +30,8 @@ window.Echo = new Echo({
     disableStats: true,
     enabledTransports: ['ws', 'wss'],
 });
-
+window._ = require('lodash');
+window.L = require('leaflet');
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

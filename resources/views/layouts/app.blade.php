@@ -27,7 +27,7 @@
      'public/leaflet/dist/leaflet.js',
      'public/leaflet-routing-machine/dist/leaflet-routing-machine.js',
       'public/leaflet-control-geocoder/dist/Control.Geocoder.js',
-
+      'node_modules/axios/dist/axios.js',
 
      ])
 

@@ -396,16 +396,87 @@
                 color: rgba(107, 114, 128, var(--tw-text-opacity))
             }
         }
-    </style>
-
-    <style>
         body {
             font-family: 'Nunito', sans-serif;
         }
     </style>
-</head>
+    <script src="{{ asset('js/app.js') }}"></script>
 
+</head>
 <body class="antialiased">
+
+
+{{--PRIV--}}
+
+<div style="background-color: white">
+    <h3> TO JEST WIADOMOŚĆ PRYWATNA ! </h3>
+    <input id="txt_priv" type="text">
+    <button class="button-perspective" onclick="sendpriv()">WYŚLIJ PRYWATNIE</button>
+    <div id="response_priv" class="p-6 bg-white border-b border-gray-200">
+        ----------NOTHING----------
+    </div>
+</div>
+<script>
+    function sendpriv() {
+        let messagepriv = document.getElementById('txt_priv');
+
+        axios.post("{{route('fire.private.event')}}", {
+            message: messagepriv.value
+        }, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
+            }
+        })
+
+    }
+
+    Echo.private('private.{{auth()->user()->user_id}}')
+        .listen('PrivateEvent', (e) => {
+            document.getElementById('response_priv').innerText = e.message;
+
+        });
+</script>
+
+<br><br><br>
+
+{{--public --}}
+
+<div style="background-color: white">
+    <h3> TO JEST WIADOMOŚĆ PUBLICZNA ! </h3>
+    <input id="txt_pub" type="text">
+    <button class="button-perspective" onclick="sendpub()">WYŚLIJ PRYWATNIE</button>
+    <div id="response_pub" class="p-6 bg-white border-b border-gray-200">
+        ----------NOTHING----------
+    </div>
+</div>
+<script>
+    function sendpub() {
+        let messagepub = document.getElementById('txt_pub');
+
+        axios.post("{{route('fire.public.event')}}", {
+            color: messagepub.value
+        }, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
+            }
+        })
+
+
+
+    }
+
+    Echo.channel('public')
+        .listen('PublicEvent', (e) => {
+            document.getElementById('response_pub').innerText = e.color;
+
+        });
+</script>
+
+
+
+
     <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
@@ -433,7 +504,6 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
     <script>
         Echo.channel('public')
             .listen('PublicEvent', (e) => {
