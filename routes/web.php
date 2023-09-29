@@ -1,4 +1,6 @@
 <?php
+
+use App\Events\TripEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -41,39 +43,34 @@ Route::get('/profile_cancel', [ProfileController::class, 'cancel'])->name('profi
 
 //Tworzenie TRIPA
 Route::post('/init',[TripController::class, 'init'])->name('init');
-//Route::get('/map', [TripController::class, 'index']);
+Route::post('/trip/getMarkers/{trip_id}', [TripController::class, 'getMarkers']);
 
-Route::post('/mark', [TripController::class, 'store'])->name('trip.store');
+Route::post('/mark', [TripController::class, 'addMarker'])->name('addMarker');
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+
+
+
 Route::get('/color', function () {
     return view('color-picker');
 });
-
 Route::post('/waterEvent', function (Request $request){
+    TripEvent::dispatch($request->trip_id,$request->message);
+})->name('trip.event');
+//Route::post('/waterEvent', function (Request $request){
+//
+//     PrivateEvent::dispatch($request->message);
+//
+//})->name('fire.private.event');
 
-     PrivateEvent::dispatch($request->message);
-
-})->name('fire.private.event');
-
-//Route::get('/waterEvent',
-//    function () {
-//        PrivateEvent::dispatch('Your cv has been uploaded');
-//    })->name('fire.private.event');
-
-//Route::get('/private/fireEvent',
-//    function () {
-//        // faking file upload
-//        sleep(3);
-//        PrivateEvent::dispatch('Your cv has been uploaded');
-//    }
-//)->name('fire.private.event');
 
 Route::post('/fireEvent', function (Request $request) {
     PublicEvent::dispatch($request->color);
 })->name('fire.public.event');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

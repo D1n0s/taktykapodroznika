@@ -33,7 +33,8 @@
         function sendpriv() {
         let messagepriv = document.getElementById('txt_priv')
 
-        axios.post("<?php echo e(route('fire.private.event')); ?>", {
+        axios.post("<?php echo e(route('trip.event')); ?>", {
+                trip_id: <?php echo e($trip->trip_id); ?>,
                 message: messagepriv.value
         }, {
             headers: {
@@ -44,11 +45,14 @@
 
     }
 
-    Echo.private('private.<?php echo e(auth()->user()->user_id); ?>')
-        .listen('PrivateEvent', (e) => {
-            document.getElementById('response_priv').innerText = e.message;
-
+    Echo.private('privateTrip.<?php echo e($trip->trip_id); ?>')
+        .listen('TripEvent', (e) => {
+            document.getElementById('message').innerText = e.message+ " " +  e.mark.name + " " + e.mark.desc;
+            document.getElementById('response_priv').innerText = e.message + "NOWA WESJA";
+            addMarker(e.mark);
         });
+
+
 </script>
 
 <br><br><br>
@@ -128,7 +132,7 @@
         </div>
     <?php endif; ?>
 
-        <p id="title">Tytuł: <?php echo e($trip->title); ?></p>
+        <p id="title">Tytuł: <?php echo e($trip->title); ?> <?php echo e($trip->trip_id); ?></p>
         <p  id="title">Opis: <?php echo e($trip->desc); ?></p>
 
     <div id="map"></div>
@@ -177,11 +181,10 @@
         <?php echo \Illuminate\View\Factory::parentPlaceholder('scripts'); ?>
         <!-- Skrypt Leaflet -->
         <script src="<?php echo e(asset('leaflet/dist/leaflet.js')); ?>"></script>
-        <!-- Skrypt Leaflet Control Geocoder -->
+
         <script src="<?php echo e(asset('leaflet-control-geocoder/dist/Control.Geocoder.js')); ?>"></script>
-        <!-- Skrypt Leaflet Routing Machine -->
+
         <script src="<?php echo e(asset('leaflet-routing-machine/dist/leaflet-routing-machine.js')); ?>"></script>
-        <script src="<?php echo e(asset('js/map_creator.js')); ?>" ></script>
         <!-- MAPA -->
         <script>
             var map = L.map('map').setView([52.237049, 21.017532], 6);
@@ -189,17 +192,19 @@
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             }).addTo(map);
 
-
-            // MARKERY Z BAZY DANYCH
-            <?php $__currentLoopData = $markerData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $marker): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            var marker = L.marker([<?php echo e($marker['latitude']); ?>, <?php echo e($marker['longitude']); ?>]).addTo(map);
-            marker.bindPopup("<b><?php echo e($marker['name']); ?></b><br><?php echo e($marker['address']); ?>");
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                // MARKERY Z BAZY DANYCH
+                var markersData = <?php echo json_encode($markerData); ?>; // Konwertuje dane PHP na dane JavaScript
+                var markers = markersData.map(function(marker) {
+                    var newMarker = L.marker([marker.latitude, marker.longitude]).addTo(map);
+                    newMarker.bindPopup("<b>" + marker.name + "</b><br>" + marker.address);
+                    return newMarker;
+                });
 
 
 
 
         </script>
+        <script src="<?php echo e(asset('js/map_creator.js')); ?>" ></script>
 
     <?php $__env->stopSection(); ?>
 <?php $__env->stopSection(); ?>

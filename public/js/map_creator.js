@@ -8,29 +8,10 @@ function hideForm(formId) {
 	form.style.display = "none";
 }
 
-function addMarker(location,formId) {
-    var nazwaMiejscowosci = document.getElementById(location).value;
-    var query = 'https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(nazwaMiejscowosci);
-    fetch(query)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            if (data.length > 0) {
-                var location = [data[0].lat, data[0].lon];
-
-                L.marker(location).addTo(map);
-                map.setView(location, 8);
-
-            } else {
-                console.log('Nie znaleziono miejsca:', nazwaMiejscowosci);
-            }
-        })
-        .catch(function (error) {
-            console.log('Błąd geokodowania:', error);
-        });
-
-    hideForm(formId);
+function addMarker(mark) {
+    // Tworzymy marker
+    var newMarker = L.marker([mark.latitude, mark.longitude]).addTo(map);
+    newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
 }
 
 
@@ -64,20 +45,33 @@ $(document).ready(function() {
             _token: token
         };
 
-        $.ajax({
-            url: form.attr('action'),
-            type: "POST",
-            data: formData,
-            success: function(response) {
-                console.log(response);
-                addMarker('address','button1-form');
+        // $.ajax({
+        //     url: form.attr('action'),
+        //     type: "POST",
+        //     data: formData,
+        //     success: function(response) {
+        //         console.log(response);
+        //         // addMarker('address','button1-form');
+        //         alert('Dane zapisane pomyślnie.');
+        //         form.trigger('reset');
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.log(xhr.responseText);
+        //     }
+        // });
+
+        axios.post(form.attr('action'), formData)
+            .then(function(response) {
+                console.log(response.data);
                 alert('Dane zapisane pomyślnie.');
                 form.trigger('reset');
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+
+
+
     });
 });
 

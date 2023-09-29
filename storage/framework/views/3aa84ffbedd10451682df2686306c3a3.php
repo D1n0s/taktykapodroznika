@@ -6,7 +6,7 @@
             <div class="form-container">
                 <div class="text-center">
                     <h4>Formularz</h4>
-                    <form method="POST" id="tripForm" action="<?php echo e(route('trip.store')); ?>">
+                    <form method="POST" id="tripForm" action="<?php echo e(route('addMarker')); ?>">
                         <?php echo csrf_field(); ?>
                         <div class="form-group">
                             <input type="hidden" name="trip_id" id="trip_id" value="<?php echo e($trip->trip_id); ?>">

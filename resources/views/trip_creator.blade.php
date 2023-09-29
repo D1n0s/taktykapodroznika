@@ -35,7 +35,8 @@
         function sendpriv() {
         let messagepriv = document.getElementById('txt_priv')
 
-        axios.post("{{route('fire.private.event')}}", {
+        axios.post("{{route('trip.event')}}", {
+                trip_id: {{$trip->trip_id}},
                 message: messagepriv.value
         }, {
             headers: {
@@ -46,11 +47,14 @@
 
     }
 
-    Echo.private('private.{{auth()->user()->user_id}}')
-        .listen('PrivateEvent', (e) => {
-            document.getElementById('response_priv').innerText = e.message;
-
+    Echo.private('privateTrip.{{$trip->trip_id}}')
+        .listen('TripEvent', (e) => {
+            document.getElementById('message').innerText = e.message+ " " +  e.mark.name + " " + e.mark.desc;
+            document.getElementById('response_priv').innerText = e.message + "NOWA WESJA";
+            addMarker(e.mark);
         });
+
+
 </script>
 
 <br><br><br>
@@ -129,7 +133,7 @@
         </div>
     @endif
 
-        <p id="title">Tytuł: {{ $trip->title}}</p>
+        <p id="title">Tytuł: {{ $trip->title}} {{$trip->trip_id}}</p>
         <p  id="title">Opis: {{ $trip->desc }}</p>
 
     <div id="map"></div>
@@ -178,11 +182,10 @@
         @parent
         <!-- Skrypt Leaflet -->
         <script src="{{ asset('leaflet/dist/leaflet.js') }}"></script>
-        <!-- Skrypt Leaflet Control Geocoder -->
+{{--        <!-- Skrypt Leaflet Control Geocoder -->--}}
         <script src="{{ asset('leaflet-control-geocoder/dist/Control.Geocoder.js') }}"></script>
-        <!-- Skrypt Leaflet Routing Machine -->
+{{--        <!-- Skrypt Leaflet Routing Machine -->--}}
         <script src="{{ asset('leaflet-routing-machine/dist/leaflet-routing-machine.js') }}"></script>
-        <script src="{{ asset('js/map_creator.js') }}" ></script>
         <!-- MAPA -->
         <script>
             var map = L.map('map').setView([52.237049, 21.017532], 6);
@@ -190,17 +193,19 @@
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             }).addTo(map);
 
-
-            // MARKERY Z BAZY DANYCH
-            @foreach($markerData as $marker)
-            var marker = L.marker([{{ $marker['latitude'] }}, {{ $marker['longitude'] }}]).addTo(map);
-            marker.bindPopup("<b>{{ $marker['name'] }}</b><br>{{ $marker['address'] }}");
-            @endforeach
+                // MARKERY Z BAZY DANYCH
+                var markersData = {!! json_encode($markerData) !!}; // Konwertuje dane PHP na dane JavaScript
+                var markers = markersData.map(function(marker) {
+                    var newMarker = L.marker([marker.latitude, marker.longitude]).addTo(map);
+                    newMarker.bindPopup("<b>" + marker.name + "</b><br>" + marker.address);
+                    return newMarker;
+                });
 
 
 
 
         </script>
+        <script src="{{ asset('js/map_creator.js') }}" ></script>
 
     @endsection
 @endsection

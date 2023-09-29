@@ -420,7 +420,7 @@
     let colorPicker = document.getElementById('colorPicker');
     colorPicker.addEventListener('input', async function() {
 
-        axios.get("{{route('fire.public.event')}}", {
+        axios.post("{{route('fire.public.event')}}", {
             color: colorPicker.value
         }, {
             headers: {

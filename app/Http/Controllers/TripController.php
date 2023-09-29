@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\PrivateEvent;
+use App\Events\TripEvent;
 use App\Models\Trip;
 use App\Models\UserTrip;
 use App\Models\SharedTrip;
@@ -51,47 +53,38 @@ class TripController extends Controller
             return redirect()->back()->with('error', 'Wystąpił błąd podczas zapisywania danych.' . $e->getMessage());
         }
 
-
-
-
-
     }
 
-
-
-    public function index($trip_id)
-    {
-        try{
+    public function checkPermissions($trip){
+$user = null;
             if(Auth::user() != null){
                 $user = Auth::user();
             }else{
                 return redirect('/login');
-
             }
+
+
             // Pobierz dane o wybranym tripie na podstawie $tripId
-            $trip = Trip::find($trip_id);
+        //    $trip = Trip::find($trip->trip_id);
             if (!$trip) {
-                abort(404); // Możesz przekierować użytkownika lub wyświetlić inny komunikat błędu
+                return abort(404); // Możesz przekierować użytkownika lub wyświetlić inny komunikat błędu
             }
 
-            $sharedTrip = SharedTrip::where('trip_id', $trip_id)->where('user_id', $user->user_id)->first();
-
+            $sharedTrip = SharedTrip::where('trip_id', $trip->trip_id)->where('user_id', $user->user_id)->first();
 
             if( $user->user_id === $trip->owner_id){
+                return true;
             }else if($sharedTrip != null && $user->user_id === $sharedTrip->user_id && $sharedTrip->trip_id === $trip->trip_id){
+                return true;
             }else{
-                abort(403);
+               return abort(403);
             }
 
-        }catch (Exception $e){
-            abort(404);
+
+
     }
-
-
-
-
-
-        // Pobierz markery związane z tym triprem
+// POBIERANIE MARKERÓW DO MAPY INICJOWANE NA SAMYM STARCIE
+    public function getMarkers($trip_id) {
         $markers = Mark::where('trip_id', $trip_id)->get();
 
         $markerData = [];
@@ -107,24 +100,44 @@ class TripController extends Controller
                 ];
             }
         }
-  /*
-        $markers = Mark::all();
-        $markerData = [];
-        foreach ($markers as $marker) {
-            $markerData[] = [
-                'id' =>$marker->id,
-                'desc' =>$marker->desc,
-                'name' => $marker->name,
-                'address' => $marker->address,
-                'latitude' => $marker->latitude,
-                'longitude' => $marker->longitude,
-            ];
-        }
+
+        /*
+       $markers = Mark::all();
+       $markerData = [];
+       foreach ($markers as $marker) {
+           $markerData[] = [
+               'id' =>$marker->id,
+               'desc' =>$marker->desc,
+               'name' => $marker->name,
+               'address' => $marker->address,
+               'latitude' => $marker->latitude,
+               'longitude' => $marker->longitude,
+           ];
+       }
 */
-        return view('trip_creator', compact('markerData', 'trip'));
+        // Sprawdź, czy żądanie jest typu JSON
+        if (request()->expectsJson()) {
+            return response()->json($markerData);
+        }
+
+        return $markerData;
     }
 
-    public function store(Request $request)
+
+    public function index($trip_id)
+    {
+        $trip = Trip::find($trip_id);
+
+  if(!$this->checkPermissions($trip)){
+      return abort(404);
+  }
+
+      $markerData = $this->getMarkers($trip_id);
+
+      return view('trip_creator', compact('markerData', 'trip'));
+    }
+
+    public function addMarker(Request $request)
     {
 
 /*
@@ -164,6 +177,9 @@ class TripController extends Controller
         $mark->longitude = $request->longitude;
         $mark->save();
 
-        return redirect()->back()->with('message', 'Operacja zakończona pomyślnie.'. $mark->trip_id);
+        TripEvent::dispatch($trip_id,"JEST TO FUNKCJA ADD MARKER", $mark);
+//        return redirect()->back()->with('message', 'Operacja zakończona pomyślnie.'. $mark->trip_id);
+
+        return response()->json(['message' => 'Dane zapisane pomyślnie']);
     }
 }

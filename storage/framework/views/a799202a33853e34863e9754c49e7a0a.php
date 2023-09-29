@@ -61,6 +61,7 @@
             border-style: inset;
             border-width: 8vh;
             border-left-width: 20vh;
+            border-right-width: 8vh;
             border-top-width: 5vh;
             display: grid;
             row-gap: 2rem;

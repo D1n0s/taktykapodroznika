@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserTrip extends Model
 {
-    protected $primaryKey = 'user_trip_id';
+    protected $primaryKey = 'shared_id';
 
     protected $fillable = [
         'user_id',
         'trip_id',
-        'created_at',
     ];
 
     public function user()
