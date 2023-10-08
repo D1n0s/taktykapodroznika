@@ -1,0 +1,162 @@
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 1132deg;
+    inherits: false;
+}
+
+:root {
+    --card-width: 40vh;
+    --card-height: ;
+}
+.first{
+    background-color: red       ;
+    width: 100%;
+    height: 20vh;
+}
+.box{
+    width: 100%;
+    height: 100%;
+    margin:5vh;
+    float:left;
+}
+
+
+.card {
+    padding: 3vh;
+    background: #191c29;
+    width: var(--card-width);
+    height: var(--card-height);
+    position: relative;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    font-size: 1.5em;
+    color: white;
+}
+
+
+.card::before {
+    content: "";
+    width: 102%;
+    height: 102%;
+    border-radius: 8px;
+    background-image: linear-gradient(
+        var(--rotate)
+        , #5ddcff, #3c67e3 43%, #4e00c2);
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -1%;
+    animation: spin 2.5s linear infinite;
+}
+
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+    100% {
+        --rotate: 360deg;
+    }
+}
+
+
+/* form starting stylings ------------------------------- */
+.group 			  {
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    margin-bottom:45px;
+}
+.input_card 				{
+    -webkit-text-stroke: 1px white; /* width and color */
+    color: black;
+    background: none;
+    font-size: 20px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width:100%;
+    border:none;
+    border-bottom:1px solid #757575;
+
+}
+.input_read{
+    -webkit-text-stroke: 1px white; /* width and color */
+    color: black;
+    background: none;
+    font-size: 20px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width:100%;
+    border:none;
+    border-bottom:1px solid #757575;
+}
+.input_card:focus {
+    outline:none;
+    border-right:1px solid white;
+    border-left:1px solid white;
+    border-bottom: 1px solid white;
+    transition:0.5s ease all;
+    -moz-transition:0.5s ease all;
+    -webkit-transition:0.5s ease all;
+}
+
+/* LABEL ======================================= */
+.label_card			 {
+    color:#999;
+    font-size:18px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:10px;
+    transition:0.2s ease all;
+    -moz-transition:0.2s ease all;
+    -webkit-transition:0.2s ease all;
+}
+.label_read_only			 {
+    color:#999;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:-25px;
+    font-size:18px;
+    font-weight: bolder;
+    color:#5264AE;
+}
+
+/* active state */
+.input_card:focus ~ .label_card, .input_card:valid ~ .label_card		{
+    top:-25px;
+    font-size:18px;
+    font-weight: bolder;
+    color:#5264AE;
+}
+
+/* active state */
+.input_card:focus ~ .bar:before, .input_card:focus ~ .bar:after {
+    width:40%;
+}
+/* active state */
+.input_card:focus ~ .highlight {
+    -webkit-animation:inputHighlighter 0.3s ease;
+    -moz-animation:inputHighlighter 0.3s ease;
+    animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+    from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+    from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+    from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+}
+

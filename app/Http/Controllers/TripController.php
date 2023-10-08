@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\EditMarkEvent;
 use App\Events\PrivateEvent;
 use App\Events\TripEvent;
 use App\Models\Trip;
@@ -55,17 +56,17 @@ class TripController extends Controller
 
     }
 
-    public function checkPermissions($trip){
-$user = null;
+    public function checkPermissions($trip_id){
+
+            $user = null;
             if(Auth::user() != null){
                 $user = Auth::user();
             }else{
                 return redirect('/login');
             }
 
+        $trip = Trip::find($trip_id);
 
-            // Pobierz dane o wybranym tripie na podstawie $tripId
-        //    $trip = Trip::find($trip->trip_id);
             if (!$trip) {
                 return abort(404); // Możesz przekierować użytkownika lub wyświetlić inny komunikat błędu
             }
@@ -91,12 +92,13 @@ $user = null;
         if ($markers) {
             foreach ($markers as $marker) {
                 $markerData[] = [
-                    'id' => $marker->id,
+                    'id' => $marker->mark_id,
                     'desc' => $marker->desc,
                     'name' => $marker->name,
                     'address' => $marker->address,
                     'latitude' => $marker->latitude,
                     'longitude' => $marker->longitude,
+                    'category_id' => $marker->category_id,
                 ];
             }
         }
@@ -126,19 +128,23 @@ $user = null;
 
     public function index($trip_id)
     {
-        $trip = Trip::find($trip_id);
 
-  if(!$this->checkPermissions($trip)){
-      return abort(404);
-  }
-
-      $markerData = $this->getMarkers($trip_id);
+            if(!$this->checkPermissions($trip_id)){
+                     return abort(404);
+             }
+          $trip = Trip::find($trip_id);
+         session(['trip_id' => $trip_id]);
+          $markerData = $this->getMarkers($trip_id);
 
       return view('trip_creator', compact('markerData', 'trip'));
     }
 
     public function addMarker(Request $request)
     {
+        $trip_id = $request->trip_id;
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
 
 /*
                 try {
@@ -165,7 +171,7 @@ $user = null;
         return redirect()->back()/*->with('success', 'Dane zapisane pomyślnie.')*/;
         // Odczytaj identyfikator tripa z żądania
 
-        $trip_id = $request->trip_id;
+
 
         $mark = new Mark();
         $mark->trip_id = $trip_id;
@@ -182,4 +188,41 @@ $user = null;
 
         return response()->json(['message' => 'Dane zapisane pomyślnie']);
     }
+    public function editMarker(Request $request){
+
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+
+
+        // Odczytaj dane z żądania POST
+        $id = $request->input('id');
+
+        $name = $request->input('name');
+        $desc = $request->input('desc');
+        $address = $request->input('address');
+
+
+        // Przykład zapisu do bazy danych w Laravel Eloquent:
+        $mark = Mark::find($id);
+
+        $mark->name = $name;
+        $mark->desc = $desc;
+        $mark->address = $address;
+
+        $mark->save();
+
+
+        EditMarkEvent::dispatch($trip_id,"JEST TO FUNKCJA EDIT MARKER", $mark);
+
+
+        // Odpowiedź z sukcesem lub błędem
+        return response()->json(['message' => 'Zaktualizowano dane pomyślnie'. $trip_id],200);
+
+    }
+
+
+
 }

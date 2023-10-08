@@ -12,7 +12,24 @@ function addMarker(mark) {
     // Tworzymy marker
     var newMarker = L.marker([mark.latitude, mark.longitude]).addTo(map);
     newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
+
+    addMarkerDiv(mark);
 }
+function editMarker(mark) {
+
+    var existingMarker = L.marker([mark.latitude, mark.longitude]);
+
+    existingMarker.addTo(map)
+        .bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
+}
+
+// Przykład użycia funkcji editMarker do dodawania lub aktualizacji markera
+var markerData = {
+    latitude: 51.12345, // Szerokość geograficzna
+    longitude: 4.56789, // Długość geograficzna
+    name: "Nazwa markera",
+    address: "Adres markera"
+};
 
 
 // ------------------- przesyłanie formularza ---------------------

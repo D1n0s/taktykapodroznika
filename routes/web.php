@@ -45,8 +45,8 @@ Route::get('/profile_cancel', [ProfileController::class, 'cancel'])->name('profi
 Route::post('/init',[TripController::class, 'init'])->name('init');
 Route::post('/trip/getMarkers/{trip_id}', [TripController::class, 'getMarkers']);
 
-Route::post('/mark', [TripController::class, 'addMarker'])->name('addMarker');
-
+Route::post('/markadd', [TripController::class, 'addMarker'])->name('addMarker');
+Route::post('/markedit', [TripController::class, 'editMarker'])->name('editMarker');
 Route::get('/', function () {
     return view('welcome');
 });
