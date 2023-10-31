@@ -43,11 +43,6 @@
                         </div>
                         <div id="koniec_" >
                             <button class="button-perspective"  onclick="showForm()">Punkt Końcowy</button>
-                            @foreach($markerData as $marks)
-                                <h2>{{ $marks['name'] }}</h2>
-                                <p>{{ $marks['id'] }}</p>
-                                <p>{{ $trip->trip_id}}</p>
-                            @endforeach
                         </div>
 
         </div>
@@ -61,25 +56,42 @@
     <div class="dashboard">
         <div class="dash_menu">
             <div class="outer">
-            <button class="dash_bttn "><i class="material-icons">location_on</i> Markery</button>
-            <button class="dash_bttn "><i class="material-icons">location_on</i> Markery</button>
-            <button class="dash_bttn "><i class="material-icons">location_on</i> Markery</button>
-            <button class="dash_bttn "><i class="material-icons">location_on</i> Markery</button>
+            <button class="dash_bttn tablinks" onclick="change(event, 'markers')"><i class="material-icons">location_on</i> Markery</button>
+            <button class="dash_bttn tablinks" onclick="change(event, 'routes')"><i class="material-icons">location_on</i> Trasowanie</button>
+            <button class="dash_bttn tablinks" onclick="change(event, 'test')"><i class="material-icons">location_on</i> Markery</button>
+            <button class="dash_bttn tablinks" onclick="change(event, 'test1')"><i class="material-icons">location_on</i> Markery</button>
 
             </div>
         </div>
-        <div class="dash_content" >
-
+        <div class="dash_content tabcontent" id="markers" >
                 @include('components.markerComponents')
-
-
-
-
-
+        </div>
+        <div class="dash_content tabcontent" id="routes" >
+        TRASOWANIE
+        </div>
+        <div class="dash_content tabcontent" id="test" >
+        cOŚ TAM
+        </div>
+        <div class="dash_content tabcontent" id="test1" >
+         POW POW POW
         </div>
     </div>
 
-
+    <script>
+        function change(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
 
 
     @section('scripts')

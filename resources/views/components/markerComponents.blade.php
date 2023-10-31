@@ -10,7 +10,7 @@
 
     </div>
     @forelse($markerData as $mark)
-        <div class="secound">
+        <div class="secound" id="RefreshDivMarkers">
             <div class="card box" id="box_{{$mark['id']}}">
                 <h2>LOKALIZACJA </h2>
                 <br><br>
@@ -27,13 +27,13 @@
                             <input class="input_card "  type="text" value="{{$mark['desc']}}" required id="desc_{{$mark['id']}}" readonly data-original-value="{{$mark['desc']}}">
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            <label class="label_read_only label_card">Tytuł</label>
+                            <label class="label_read_only label_card">Opis</label>
                         </div>
                         <div class="group">
                             <input class="input_card "  type="text" value="{{$mark['address']}}" required id="address_{{$mark['id']}}" readonly data-original-value="{{$mark['address']}}">
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            <label class="label_read_only label_card">Tytuł</label>
+                            <label class="label_read_only label_card">Adres</label>
                         </div>
 
                         <div class="group editControls">
@@ -50,7 +50,7 @@
 
 
     <div class="secound">
-            <div class="card box" id="">
+            <div class="card box" id="RefreshDivMarkers">
                 <h2>LOKALIZACJA NR :</h2>
                 <br><br>
                 <div class="txt" style="height:80%;width: 100%;">
@@ -62,45 +62,8 @@
 </div>
 
     <script>
-        function addMarkerDiv(mark) {
-            var newDiv = `
-                    <div class="card box" id="box_${mark.id}">
-                        <h2>LOKALIZACJA</h2>
-                        <br><br>
-                        <div class="txt" style="height:80%;width: 100%;">
-                            <form id="form_${mark.id}" method="POST" action="{{route('editMarker')}}" onsubmit="saveChanges(event, '${mark.id}')">
-                                @csrf
-            <div class="group">
-                <input class="input_card " type="text" value="${mark.name}" required id="name_${mark.id}" readonly data-original-value="${mark.name}">
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label class="label_read_only label_card">Tytuł</label>
-                                </div>
-                                <div class="group">
-                                    <input class="input_card " type="text" value="${mark.desc}" required id="desc_${mark.id}" readonly data-original-value="${mark.desc}">
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label class="label_read_only label_card">Tytuł</label>
-                                </div>
-                                <div class="group">
-                                    <input class="input_card " type="text" value="${mark.address}" required id="address_${mark.id}" readonly data-original-value="${mark.address}">
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label class="label_read_only label_card">Tytuł</label>
-                                </div>
-                                <div class="group editControls">
-                                    <button type="button" id="edit-button_${mark.id}" onclick="toggleEditMode('${mark.id}')">Przełącz Tryb Edycji</button>
-                                    <button type="submit" id="save-button_${mark.id}" style="display: none;" onclick="saveChanges('${mark.id}')">Zapisz</button>
-                                    <button type="button" id="cancel-button_${mark.id}" style="display: none;" onclick="cancelEdit('${mark.id}')">Anuluj</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-            `;
-
-            // Dodaj nowy div do kontenera (np. divContainer)
-            $('.secound').append(newDiv);
+        function RefreshDivMarkers(mark) {
+            $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
         }
 
 
