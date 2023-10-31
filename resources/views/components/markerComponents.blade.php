@@ -1,12 +1,8 @@
 <link href="{{ asset('css/components/markerComponents.css')}}" rel="stylesheet">
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 
 <div class="box" style="">
     <div class="first">
-        <div x-data="{ message: 'Witaj, Alpine.js!' }">
-            <p x-text="message"></p>
-        </div>
 
     </div>
     @forelse($markerData as $mark)
@@ -62,7 +58,7 @@
 </div>
 
     <script>
-        function RefreshDivMarkers(mark) {
+        function RefreshDivMarkers() {
             $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
         }
 

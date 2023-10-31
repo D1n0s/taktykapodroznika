@@ -51,8 +51,6 @@
 
 
 
-
-
     <div class="dashboard">
         <div class="dash_menu">
             <div class="outer">
@@ -68,6 +66,7 @@
         </div>
         <div class="dash_content tabcontent" id="routes" >
         TRASOWANIE
+            @include('components.routeComponents')
         </div>
         <div class="dash_content tabcontent" id="test" >
         cOŚ TAM
@@ -78,6 +77,10 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Po załadowaniu strony wywołaj funkcję change z odpowiednim argumentem
+            change(null, 'routes');
+        });
         function change(evt, cityName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");

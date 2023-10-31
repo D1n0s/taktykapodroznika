@@ -13,7 +13,7 @@ function addMarker(mark) {
     var newMarker = L.marker([mark.latitude, mark.longitude]).addTo(map);
     newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
 
-    addMarkerDiv(mark);
+    RefreshDivMarkers();
 }
 function editMarker(mark) {
 
