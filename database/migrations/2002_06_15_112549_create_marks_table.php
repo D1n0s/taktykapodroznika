@@ -16,7 +16,8 @@ class CreateMarksTable extends Migration
             $table->string('address', 255);
             $table->string('latitude', 255);
             $table->string('longitude', 255);
-            $table->integer('category_id');
+            $table->integer('queue')->nullable();
+            $table->integer('category_id')->nullable();
             $table->boolean('is_general');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');

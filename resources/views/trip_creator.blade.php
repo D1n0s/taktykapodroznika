@@ -64,9 +64,8 @@
         <div class="dash_content tabcontent" id="markers" >
                 @include('components.markerComponents')
         </div>
-        <div class="dash_content tabcontent" id="routes" >
-        TRASOWANIE
-            @include('components.routeComponents')
+        <div class="dash_content tabcontent" id="routes" style="float:left;" >
+                @include('components.routeComponents')
         </div>
         <div class="dash_content tabcontent" id="test" >
         cOŚ TAM
@@ -77,6 +76,10 @@
     </div>
 
     <script>
+
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             // Po załadowaniu strony wywołaj funkcję change z odpowiednim argumentem
             change(null, 'routes');

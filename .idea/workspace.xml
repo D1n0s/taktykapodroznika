@@ -5,11 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace">
-      <change afterPath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Events/AddQueueEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Events/DelQueueEvent.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/map_creator.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/map_creator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2002_06_15_112549_create_marks_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2002_06_15_112549_create_marks_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2023_06_15_112558_create_shared_trips_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2023_06_15_112558_create_shared_trips_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/components/markerComponents.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/components/markerComponents.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/map_creator.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/map_creator.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/ad44a2b76a5038e0936cce9d94d9f29e.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ad44a2b76a5038e0936cce9d94d9f29e.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
     </list>
@@ -175,25 +185,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/taktykapodroznika/resources/views/components",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "configurable.group.tools",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/taktykapodroznika/resources/views/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\taktykapodroznika\resources\views\components" />
@@ -228,6 +238,9 @@
       <workItem from="1696581093538" duration="22329000" />
       <workItem from="1696619127939" duration="376000" />
       <workItem from="1698777855980" duration="1576000" />
+      <workItem from="1698827045091" duration="1845000" />
+      <workItem from="1698929500970" duration="1660000" />
+      <workItem from="1698993598894" duration="23629000" />
     </task>
     <task id="LOCAL-00001" summary="prace">
       <option name="closed" value="true" />

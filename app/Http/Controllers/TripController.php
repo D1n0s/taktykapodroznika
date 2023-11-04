@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\DelQueueEvent;
 use App\Events\EditMarkEvent;
 use App\Events\PrivateEvent;
+use App\Events\AddQueueEvent;
 use App\Events\TripEvent;
 use App\Models\Trip;
 use App\Models\UserTrip;
@@ -86,7 +88,7 @@ class TripController extends Controller
     }
 // POBIERANIE MARKERÓW DO MAPY INICJOWANE NA SAMYM STARCIE
     public function getMarkers($trip_id) {
-        $markers = Mark::where('trip_id', $trip_id)->get();
+        $markers = Mark::where('trip_id', $trip_id)->orderByRaw("ISNULL(queue), queue ASC")->get();
 
         $markerData = [];
         if ($markers) {
@@ -98,6 +100,7 @@ class TripController extends Controller
                     'address' => $marker->address,
                     'latitude' => $marker->latitude,
                     'longitude' => $marker->longitude,
+                    'queue' => $marker->queue,
                     'category_id' => $marker->category_id,
                 ];
             }
@@ -221,6 +224,53 @@ class TripController extends Controller
         // Odpowiedź z sukcesem lub błędem
         return response()->json(['message' => 'Zaktualizowano dane pomyślnie'. $trip_id],200);
 
+    }
+
+    public function addQueue(Request $request){
+
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+        // Odczytaj dane z żądania POST
+        $mark_id = $request->input('productId');
+        $queue = $request->input('cartId');
+        // Przykład zapisu do bazy danych w Laravel Eloquent:
+        $mark = Mark::find($mark_id);
+        if ($mark) {
+            $mark->queue = $queue; // Ustaw wartość atrybutu 'queue' na wartość zmiennej $queue
+            $mark->save(); // Zapisz zmiany w bazie danych
+
+         AddQueueEvent::dispatch($trip_id,"JEST TO FUNKCJA EDIT MARKER", $mark);
+
+        }else {
+            // Obsłuż sytuację, gdy nie znaleziono obiektu Mark
+            return response()->json(['error' => 'Nie znaleziono produktu o podanym ID'], 200);
+        }
+
+        return response()->json(['message' => 'Zaktualizowano dane pomyślnie'. $trip_id],200);
+
+    }
+    public function delQueue(Request $request){
+
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+        $mark_id = $request->input('productId');
+        $mark = Mark::find($mark_id);
+
+        if ($mark) {
+            $mark->queue = null;
+            $mark->save();
+        } else {
+            // Obsłuż sytuację, gdy nie znaleziono obiektu Mark
+            return response()->json(['error' => 'Nie znaleziono produktu o podanym ID'], 200);
+        }
+
+        DelQueueEvent::dispatch($trip_id,"JEST TO FUNKCJA EDIT MARKER", $mark);
+        return response()->json(['message' => 'Zaktualizowano dane pomyślnie'. $trip_id],200);
     }
 
 

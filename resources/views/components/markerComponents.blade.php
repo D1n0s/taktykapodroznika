@@ -5,9 +5,20 @@
     <div class="first">
 
     </div>
+    <div class="secound" id="RefreshDivMarkers">
+
     @forelse($markerData as $mark)
-        <div class="secound" id="RefreshDivMarkers">
-            <div class="card box" id="box_{{$mark['id']}}">
+@if($mark['queue'] != null)
+                <div class="card box Queue" id="box_{{$mark['id']}}" >
+                    <div class="circle" id="circle_{{$mark['id']}}">
+                        <span class="number">{{$mark['queue']}}</span>
+                    </div>
+
+@else
+                <div class="card box" id="box_{{$mark['id']}}">
+
+@endif
+
                 <h2>LOKALIZACJA </h2>
                 <br><br>
                 <div class="txt" style="height:80%;width: 100%;">
@@ -41,11 +52,10 @@
 
                 </div>
             </div>
-        </div>
+
     @empty
 
 
-    <div class="secound">
             <div class="card box" id="RefreshDivMarkers">
                 <h2>LOKALIZACJA NR :</h2>
                 <br><br>
@@ -53,11 +63,35 @@
                     <h2>NIC TU NIE MA</h2>
                 </div>
             </div>
-        </div>
+
     @endforelse
+</div>
 </div>
 
     <script>
+        Echo.private('privateTrip.{{$trip->trip_id}}')
+            .listen('AddQueueEvent', (e) => {
+                const markId = e.mark.mark_id;
+                const markElement = document.getElementById(`box_${markId}`);
+                markElement.classList.add('Queue');
+
+                const circleElement = document.createElement("div");
+                circleElement.className = "circle";
+                circleElement.id = "circle_"+markId;
+                const numberElement = document.createElement("span");
+                numberElement.className = "number";
+                numberElement.textContent = e.mark.queue; // Zastąp "Tekst" odpowiednią zawartością
+                circleElement.appendChild(numberElement);
+                markElement.appendChild(circleElement);
+            });
+        Echo.private('privateTrip.{{$trip->trip_id}}')
+            .listen('DelQueueEvent', (e) => {
+                const markId = e.mark.mark_id;
+                const markElement = document.getElementById(`box_${markId}`);
+                const circle = document.getElementById(`circle_${markId}`);
+                markElement.classList.remove('Queue');
+                circle.remove();
+            });
         function RefreshDivMarkers() {
             $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
         }
@@ -133,6 +167,7 @@
                 });
 
         }
+
         Echo.private('privateTrip.{{$trip->trip_id}}')
             .listen('EditMarkEvent', (e) => {
                 const mark = e.mark;

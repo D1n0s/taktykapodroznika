@@ -63,9 +63,8 @@
         <div class="dash_content tabcontent" id="markers" >
                 <?php echo $__env->make('components.markerComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
-        <div class="dash_content tabcontent" id="routes" >
-        TRASOWANIE
-            <?php echo $__env->make('components.routeComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <div class="dash_content tabcontent" id="routes" style="float:left;" >
+                <?php echo $__env->make('components.routeComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
         <div class="dash_content tabcontent" id="test" >
         cOŚ TAM
@@ -76,6 +75,10 @@
     </div>
 
     <script>
+
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             // Po załadowaniu strony wywołaj funkcję change z odpowiednim argumentem
             change(null, 'routes');

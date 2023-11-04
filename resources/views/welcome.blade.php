@@ -417,19 +417,7 @@
     </div>
 </div>
 <script>
-    function sendpriv() {
-        let messagepriv = document.getElementById('txt_priv');
 
-        axios.post("{{route('fire.private.event')}}", {
-            message: messagepriv.value
-        }, {
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'X-CSRF-TOKEN': "{{csrf_token()}}"
-            }
-        })
-
-    }
 
     Echo.private('private.{{auth()->user()->user_id}}')
         .listen('PrivateEvent', (e) => {

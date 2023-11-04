@@ -1,22 +1,28 @@
 <style>
     #product-container {
-        position: relative;
+        flex-direction: row;
         float:left;
-        width: 30vh;
         padding: 10px;
         border: 1px solid #ccc;
-        background-color: #f0f0f0;
+        background-color: blue;
+        width:50%;
+        min-height:10%;
+
     }
     #cart-container {
-        position: relative;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
         float:left;
-        width: 50vh;
+        width: 50%;
+        min-height:10%;
         padding: 10px;
         border: 1px solid #ccc;
-        background-color: #f9f9f9;
-        margin-left: 20px;
+        background-color: red;
     }
     .draggable {
+        float: left;
+        width: 30vh;
         padding: 3vh;
         margin: 5px;
         background-color: #fff;
@@ -27,6 +33,7 @@
         background-color: #e0e0e0;
     }
     .cart {
+        width: 50vh;
         padding: 2vh;
         margin: 5px;
         background-color: #dff0d8;
@@ -53,29 +60,47 @@
         50% { transform: scale(0.9); }
         100% { transform: scale(1); }
     }
+    .center{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
 </style>
-<div class="box">
 <div id="product-container">
-    <div id="product1" class="draggable" draggable="true" data-cartid="">Product 1</div>
-    <div id="product2" class="draggable" draggable="true" data-cartid="">Product 2</div>
-<div id="product3" class="draggable" draggable="true" data-cartid="">Product 3</div>
+    @forelse($markerData as $mark)
+    <div id="{{$mark['id']}}" class="draggable" draggable="true" data_queue="{{$mark['queue']}}">{{$mark['name']}}</div>
+    @empty
+    @endforelse
+</div>
+<div id="cart-container">
+    @foreach($markerData as $index => $mark)
+    <div class="cart" data_queue="{{$index + 1}}">Punkt nr. {{$index + 1 }}</div>
+    @endforeach
 </div>
 
-<div id="cart-container">
-    <div id="cart1" class="cart" data-cartid="1">Cart 1</div>
-    <div id="cart2" class="cart" data-cartid="2">Cart 2</div>
-</div>
-</div>
 <script>
     const products = document.querySelectorAll('.draggable');
     const carts = document.querySelectorAll('.cart');
+
+// WSADZANIE NA POCZĄTKU PRODUKTÓW DO KOSZYKÓW
+    products.forEach(product => {
+        const cartId = product.getAttribute('data_queue');
+        if (cartId) {
+            const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
+            if (cart) {
+                cart.appendChild(product);
+                addRemoveButton(product);
+            }
+        }
+    });
 
     products.forEach(product => {
         product.addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', event.target.id);
         });
     });
-
     carts.forEach(cart => {
         cart.addEventListener('dragover', (event) => {
             event.preventDefault();
@@ -85,17 +110,31 @@
             event.preventDefault();
             const productId = event.dataTransfer.getData('text/plain');
             const product = document.getElementById(productId);
-            const cartId = cart.getAttribute('data-cartid');
+            const cartId = cart.getAttribute('data_queue');
 
             if (cartHasProduct(cartId)) {
                 return;
             }
 
-            product.setAttribute('data-cartid', cartId);
+            const data = {
+                productId: productId,
+                cartId: cartId
+            };
+
+            axios.post('{{route('addQueue')}}', data)
+                .then(response => {
+                    console.log(response.data);
+
+                })
+                .catch(error => {
+                    console.error(error);
+
+                });
+
+            product.setAttribute('data_queue', cartId);
             cart.appendChild(product);
             addRemoveButton(product);
 
-            // Dodanie klasy animacji po dodaniu do koszyka
             product.style.animation = 'addToCart 0.5s';
             product.addEventListener('animationend', () => {
                 product.style.animation = '';
@@ -103,18 +142,30 @@
         });
     });
 
+
+
     function addRemoveButton(product) {
         if (!product.querySelector('.remove-button')) {
+            const cartId = product.getAttribute('data_queue');
+            const productContainer = document.getElementById('product-container');
+            const productId = product.id;
             const removeButton = document.createElement('button');
             removeButton.className = 'remove-button';
             removeButton.innerText = 'Remove';
+            removeButton.id = `rmbtn_${productId}`;
             removeButton.addEventListener('click', () => {
-                const cartId = product.getAttribute('data-cartid');
-                const productContainer = document.getElementById('product-container');
-                product.removeAttribute('data-cartid');
+
+                axios.post('{{route('delQueue')}}', { productId: productId })
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+
+                product.setAttribute('data_queue', "");
                 productContainer.appendChild(product);
 
-                // Dodanie klasy animacji po usunięciu z koszyka
                 product.style.animation = 'removeFromCart 0.5s';
                 product.addEventListener('animationend', () => {
                     product.style.animation = '';
@@ -126,8 +177,52 @@
         }
     }
 
-    function cartHasProduct(cartId) {
-        const productsInCart = document.querySelectorAll(`.draggable[data-cartid="${cartId}"]`);
+    function cartHasProduct(queueId) {
+        const productsInCart = document.querySelectorAll(`.draggable[data_queue="${queueId}"]`);
         return productsInCart.length > 0;
     }
+    Echo.private('privateTrip.{{$trip->trip_id}}')
+        .listen('AddQueueEvent', (e) => {
+            const mark = e.mark;
+            const markId = e.mark.mark_id;
+            const markElement = document.getElementById(markId);
+            const cartId = mark.queue;
+
+            // Sprawdź, czy koszyk już ma produkt
+            if (cartHasProduct(cartId)) {
+                return;
+            }
+            // Jeśli nie, to możesz przenieść produkt do właściwego koszyka
+            const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
+            markElement.setAttribute('data_queue', cartId);
+            cart.appendChild(markElement);
+            addRemoveButton(markElement);
+            markElement.style.animation = 'addToCart 0.5s';
+            markElement.addEventListener('animationend', () => {
+                markElement.style.animation = '';
+            });
+        });
+
+    Echo.private('privateTrip.{{$trip->trip_id}}')
+        .listen('DelQueueEvent', (e) => {
+            const mark = e.mark;
+            const markId = e.mark.mark_id;
+            const markElement = document.getElementById(markId);
+            const MarkQueue = markElement.getAttribute('data_queue');
+            const RemoveButton = document.getElementById(`rmbtn_${markId}`);
+            const cartId = mark.queue;
+            const MarkContainer = document.getElementById('product-container');
+
+            if (MarkQueue > 0) {
+                markElement.setAttribute('data_queue', "");
+                MarkContainer.appendChild(markElement);
+                RemoveButton.remove();
+                markElement.style.animation = 'removeFromCart 0.5s';
+                markElement.addEventListener('animationend', () => {
+                    markElement.style.animation = '';
+                });
+            }
+        });
+
+
 </script>

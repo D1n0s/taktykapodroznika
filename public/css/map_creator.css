@@ -205,8 +205,8 @@ font-size: large;
     border: 2px solid rgba(34, 252, 16, 0.6);
 }
 .dash_bttn:hover {
-    box-shadow: 0px 0px 20px rgba(34, 252, 16, 0.6);
-    border: 2px solid rgba(34, 252, 16, 0.6);
+    box-shadow: 0px 0px 20px rgba(16, 67, 252, 0.79);
+    border: 2px solid rgba(16, 67, 252, 0.79);
 
 }
 #icon{
