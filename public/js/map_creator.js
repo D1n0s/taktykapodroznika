@@ -13,7 +13,8 @@ function addMarker(mark) {
     var newMarker = L.marker([mark.latitude, mark.longitude]).addTo(map);
     newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
 
-    RefreshDivMarkers();
+     // RefreshDivMarkers();
+    RefreshDivs(['markers', 'routes'])
 }
 function editMarker(mark) {
 
@@ -93,12 +94,6 @@ $(document).ready(function() {
 });
 
 
-
-
-
-
-
-
 // -------------------------------------------------------------
 
 var suggestInput = document.getElementById('address');
@@ -166,11 +161,6 @@ suggestInput.addEventListener('input', function() {
         }
     }, delay);
 });
-
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
     var locationInput = document.getElementById("address");

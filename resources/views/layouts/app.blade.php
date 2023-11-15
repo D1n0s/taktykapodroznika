@@ -109,6 +109,7 @@
     </div>
 
     @yield('scripts')
+
  <!-- <div style="height:100em;background-color: red;"> -->
 </body>
 </html>

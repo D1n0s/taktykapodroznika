@@ -1,12 +1,17 @@
 <style>
     #product-container {
+        position: sticky;
+        top:20px;
         flex-direction: row;
         float:left;
         padding: 10px;
         border: 1px solid #ccc;
-        background-color: blue;
         width:50%;
-        min-height:10%;
+        min-height:80vh;
+        max-height: 80vh;
+        overflow: auto;
+        border-left:none;
+        border-right:none;
 
     }
     #cart-container {
@@ -18,7 +23,9 @@
         min-height:10%;
         padding: 10px;
         border: 1px solid #ccc;
-        background-color: red;
+        min-height:80vh;
+        max-height: 80vh;
+        overflow: auto;
     }
     .draggable {
         float: left;
@@ -60,17 +67,23 @@
         50% { transform: scale(0.9); }
         100% { transform: scale(1); }
     }
-    .center{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+
+    div.stickyy {
+        position: sticky;
+        top: 0px;
+        background-color: yellow;
+        padding: 50px;
+        font-size: 20px;
     }
 
 </style>
-<div id="product-container">
+<div class="box">
+
+
+
+<div id="product-container" class="sticky-element">
     @forelse($markerData as $mark)
-    <div id="{{$mark['id']}}" class="draggable" draggable="true" data_queue="{{$mark['queue']}}">{{$mark['name']}}</div>
+    <div id="{{$mark['id']}}" class="draggable " draggable="true" data_queue="{{$mark['queue']}}">{{$mark['name']}}</div>
     @empty
     @endforelse
 </div>
@@ -79,22 +92,31 @@
     <div class="cart" data_queue="{{$index + 1}}">Punkt nr. {{$index + 1 }}</div>
     @endforeach
 </div>
+</div>
 
 <script>
+
+
+
+
+
     const products = document.querySelectorAll('.draggable');
     const carts = document.querySelectorAll('.cart');
+    move();
 
 // WSADZANIE NA POCZĄTKU PRODUKTÓW DO KOSZYKÓW
-    products.forEach(product => {
-        const cartId = product.getAttribute('data_queue');
-        if (cartId) {
-            const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
-            if (cart) {
-                cart.appendChild(product);
-                addRemoveButton(product);
+    function move() {
+        products.forEach(product => {
+            const cartId = product.getAttribute('data_queue');
+            if (cartId) {
+                const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
+                if (cart) {
+                    cart.appendChild(product);
+                    addRemoveButton(product);
+                }
             }
-        }
-    });
+        });
+    }
 
     products.forEach(product => {
         product.addEventListener('dragstart', (event) => {
@@ -141,8 +163,6 @@
             });
         });
     });
-
-
 
     function addRemoveButton(product) {
         if (!product.querySelector('.remove-button')) {
@@ -192,6 +212,7 @@
             if (cartHasProduct(cartId)) {
                 return;
             }
+
             // Jeśli nie, to możesz przenieść produkt do właściwego koszyka
             const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
             markElement.setAttribute('data_queue', cartId);

@@ -417,7 +417,7 @@
     </div>
 </div>
 <script>
-    
+
 
     Echo.private('private.<?php echo e(auth()->user()->user_id); ?>')
         .listen('PrivateEvent', (e) => {

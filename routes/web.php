@@ -49,6 +49,9 @@ Route::post('/markadd', [TripController::class, 'addMarker'])->name('addMarker')
 Route::post('/markedit', [TripController::class, 'editMarker'])->name('editMarker');
 Route::post('/queueadd', [TripController::class, 'addQueue'])->name('addQueue');
 Route::post('/queuedel', [TripController::class, 'delQueue'])->name('delQueue');
+Route::post('/makeroute', [TripController::class, 'getWaypoints'])->name('makeRoute');
+Route::post('/addpost', [TripController::class, 'addPost'])->name('addPost');
+
 
 Route::get('/', function () {
     return view('welcome');

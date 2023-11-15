@@ -7,9 +7,11 @@ use App\Events\PrivateEvent;
 use App\Events\AddQueueEvent;
 use App\Events\TripEvent;
 use App\Models\Trip;
+use App\Models\Post;
 use App\Models\UserTrip;
 use App\Models\SharedTrip;
 use App\Models\Mark;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use mysql_xdevapi\Exception;
@@ -138,8 +140,9 @@ class TripController extends Controller
           $trip = Trip::find($trip_id);
          session(['trip_id' => $trip_id]);
           $markerData = $this->getMarkers($trip_id);
+        $posts = $trip->posts;
 
-      return view('trip_creator', compact('markerData', 'trip'));
+      return view('trip_creator', compact('markerData', 'trip','posts'));
     }
 
     public function addMarker(Request $request)
@@ -271,6 +274,43 @@ class TripController extends Controller
 
         DelQueueEvent::dispatch($trip_id,"JEST TO FUNKCJA EDIT MARKER", $mark);
         return response()->json(['message' => 'Zaktualizowano dane pomyślnie'. $trip_id],200);
+    }
+
+    public function getWaypoints(){
+        $trip_id = session('trip_id');
+        $waypoints = Mark::where('trip_id', $trip_id)->get();
+
+        if ($waypoints) {
+            return response()->json(['waypoints' => $waypoints]);
+        } else {
+            return response()->json(['error' => 'Brak danych']);
+        }
+    }
+
+    public function addPost(Request $request){
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+        $title = $request->input('title');
+        $date = $request->input('date');
+        $day = null;
+        if($date != null){
+            $start_date = Carbon::create(Trip::find($trip_id)->start_date);
+            $day = $start_date->diffInDays(Carbon::create($request->input('date'))) + 1;
+        }
+
+        $post = new Post();
+        $post->trip_id = $trip_id;
+        $post->title = $title;
+        $post->date = $date;
+        $post->day = $day;
+        $post->save();
+
+
+
+        return redirect()->back()->with('success', 'DZIAŁA KURDE');
     }
 
 

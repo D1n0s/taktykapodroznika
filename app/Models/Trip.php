@@ -36,4 +36,8 @@ class Trip extends Model
     {
         return $this->hasOne(PublicTrip::class, 'trip_id');
     }
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'trip_id');
+    }
 }

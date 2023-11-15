@@ -170,7 +170,6 @@ font-size: large;
      /*border: 2px solid rgba(255,255,255,0.2);*/
      background: rgba(58, 58, 58, 0.4);
      border-radius: 10px;
-
      z-index: 2;
      overflow: hidden;
      backdrop-filter: blur(5px);
