@@ -34,4 +34,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Trip::class, 'user_trips', 'user_id', 'trip_id');
     }
+    // Relacja: zaproszenia wysłane przez użytkownika
+    public function invitesSent()
+    {
+        return $this->hasMany(UserInvite::class, 'invited_by');
+    }
+
+    // Relacja: zaproszenia otrzymane przez użytkownika
+    public function invitesReceived()
+    {
+        return $this->hasMany(UserInvite::class, 'user_id');
+    }
 }

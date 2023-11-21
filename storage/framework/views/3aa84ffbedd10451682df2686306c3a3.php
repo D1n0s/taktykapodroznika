@@ -1,5 +1,4 @@
 
-<div class="container">
     <div class="row justify-content-center">
         <div id="button1-form" style="display: none;" class="form-overlay">
 
@@ -34,36 +33,20 @@
                 </div>
                 </div>
 
-            <div class="row">
-                <div class="col">
+                <div class="col-md-6 mt-3" style="">
                     <div class="form-container-sugestion" >
                         <div id="suggestions" ></div>
                     </div>
                 </div>
-            </div>
 
         </div>
     </div>
-</div>
 
 
 
 
 
-<div id="button1-form" style="display: none;" class="form-overlay">
-    <div class="form-container">
-        <h4>Formularz</h4>
-        <form>
-            <div style="margin-top: 20%;">
-                <label for="location">Lokalizacja:</label>
-                <input type="text" id="location" name="location" class="form-control">
-                <div id="suggestions"></div>
-            </div>
-            <button type="button" class="btn btn-primary" onclick="saveForm()">Zapisz</button>
-            <button type="button" class="btn btn-secondary" onclick="hideForm('button1-form')">Anuluj</button>
-        </form>
-    </div>
-</div>
+
 
 <?php if(session('success')): ?>
     <div class="alert alert-success mt-3">

@@ -19,7 +19,7 @@ Broadcast::channel('App.Models.User.{user_id}', function ($user, $user_id) {
     return (int) $user->user_id === (int) $user_id;
 });
 
-Broadcast::channel('public', function () {
+    Broadcast::channel('public', function () {
     return true;
 });
 

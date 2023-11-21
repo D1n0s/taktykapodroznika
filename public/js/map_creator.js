@@ -14,7 +14,7 @@ function addMarker(mark) {
     newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
 
      // RefreshDivMarkers();
-    RefreshDivs(['markers', 'routes'])
+    RefreshDivs(['markers', 'test']);
 }
 function editMarker(mark) {
 

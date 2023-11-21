@@ -408,23 +408,25 @@
 
 
 
-<div style="background-color: white">
-    <h3> TO JEST WIADOMOŚĆ PRYWATNA ! </h3>
-    <input id="txt_priv" type="text">
-    <button class="button-perspective" onclick="sendpriv()">WYŚLIJ PRYWATNIE</button>
-    <div id="response_priv" class="p-6 bg-white border-b border-gray-200">
-        ----------NOTHING----------
-    </div>
-</div>
-<script>
 
 
-    Echo.private('private.<?php echo e(auth()->user()->user_id); ?>')
-        .listen('PrivateEvent', (e) => {
-            document.getElementById('response_priv').innerText = e.message;
 
-        });
-</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <br><br><br>
 
@@ -458,7 +460,6 @@
     Echo.channel('public')
         .listen('PublicEvent', (e) => {
             document.getElementById('response_pub').innerText = e.color;
-
         });
 </script>
 

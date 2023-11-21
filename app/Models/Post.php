@@ -22,4 +22,8 @@ class Post extends Model
     {
         return $this->belongsTo(Trip::class, 'trip_id', 'trip_id');
     }
+    public function attractions()
+    {
+        return $this->hasMany(Attraction::class, 'post_id', 'post_id');
+    }
 }

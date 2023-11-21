@@ -2,13 +2,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 text-center" style="background-color: red;">
-                <button class="button-perspective" onclick="showForm('start')">Utwórz podróż</button>
+                <button class="button-perspective" onclick="showForms('start')">Utwórz podróż</button>
             <a href="/mytrips"><button class="button-perspective">Moje podróże</button></a>
             </div>
 
             
-            <?php $__env->startSection('modal.name', 'start'); ?>
-            <?php $__env->startSection('modal.title'); ?>Utwórz podróż <?php $__env->stopSection(); ?>
             <?php $__env->startSection('modal.content'); ?>
                 <style>
                     [type="date"] {
@@ -36,7 +34,6 @@
                         <input class="form-control" type="date" name="enddate" id="enddate" min="<?php echo e(date('Y-m-d')); ?>">
                     </div>
 
-                        <?php $__env->startSection('buttonText', 'Inny tekst'); ?>
 
 
 
@@ -77,5 +74,5 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('components/modalWindow', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('components/modalWindow', ['name'=>'start' , 'title'=>'Utwórz podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\taktykapodroznika\resources\views/home.blade.php ENDPATH**/ ?>

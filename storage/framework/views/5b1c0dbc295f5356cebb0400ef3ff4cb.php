@@ -1,4 +1,4 @@
-<!doctype html data-bs-theme="dark" >
+<!doctype html  >
 <html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8">
@@ -6,13 +6,14 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title><?php echo e(config('app.name', 'Taktyka Podróżnika')); ?></title>
-    <img >
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <link href="<?php echo e(asset('css/layout.css')); ?>" rel="stylesheet">
 
     <?php echo $__env->yieldContent('styles'); ?>
@@ -73,12 +74,104 @@
                             <?php endif; ?>
                         <?php else: ?>
 
+                            <div class="btn-group dropup">
+                                <button type="button" class="btn btn-primary" id="notificationButton">NOTIFICATION</button>
+                                <div class="dropdown" id="test">
+                                    <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
+                                        <?php $__currentLoopData = Auth::user()->invitesReceived; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <div class="dropdown-item" id="<?php echo e($invite->invite_id); ?>">
+                                            <p class="mb-0">Dostałeś zaproszenie od <?php echo e($invite->invitedBy->name); ?></p>
+                                            <p class="mb-0">do podróży <?php echo e($invite->invitedTrip->title); ?></p>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" onclick="inviteaccept('<?php echo e($invite->invite_id); ?>')" class="btn btn-secondary btn-success mx-2">Akceptuj</button>
+                                                <button type="button" onclick="invitedecline('<?php echo e($invite->invite_id); ?>')" class="btn btn-secondary btn-danger">Anuluj</button>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                </div>
+                            </div>
+                            </div>
+
+                            <script>
+                                function inviteaccept(invite_id){
+
+                                    axios.post("<?php echo e(route('AcceptInvite')); ?>", {
+                                            'invite_id' : invite_id,
+                                    }, {
+                                        headers: {
+                                            'Content-Type': 'application/json;charset=utf-8',
+                                            'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
+                                        }
+                                    })
+                                        .then(response => {
+                                            document.getElementById(response.data.id).innerHTML = '<div class="alert alert-success">' + response.data.success + '</div>';
+                                        })
+                                        .catch(error => {
+                                            console.error(error); // Wyświetlanie błędu w konsoli
+                                            if (error.response && error.response.data) {
+                                                console.log(error.response.data);
+                                            } else if (error.request) {
+                                                console.log(error.request);
+                                            } else {
+                                                console.log('Error', error.message);
+                                            }
+                                        });
+
+                                }
+                                function invitedecline(invite_id){
+
+                                    alert('Czy na pewno chcesz usunąć zaproszenie ? ');
+                                    axios.post("<?php echo e(route('DeclineInvite')); ?>", {
+                                            'invite_id' : invite_id,
+                                    }, {
+                                        headers: {
+                                            'Content-Type': 'application/json;charset=utf-8',
+                                            'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
+                                        }
+                                    })
+                                        .then(response => {
+                                            // console.log(response.data);
+                                            // console.log(response.data.id);
+                                            document.getElementById(response.data.id).innerHTML = '<div class="alert alert-danger">' + response.data.success + '</div>';
+                                        })
+                                        .catch(error => {
+                                            console.error(error); // Wyświetlanie błędu w konsoli
+                                            if (error.response && error.response.data) {
+                                                console.log(error.response.data);
+                                            } else if (error.request) {
+                                                console.log(error.request);
+                                            } else {
+                                                console.log('Error', error.message);
+                                            }
+                                        });
+
+                                }
+
+
+                                $(document).ready(function () {
+                                    $('#notificationButton').on('click', function (event) {
+                                        $('#notificationDropdown').toggle();
+                                        event.stopPropagation();
+                                    });
+
+                                    // Dodaj event mousedown, aby sprawdzić kliknięcie wewnątrz #notificationDropdown
+                                    $('#notificationDropdown').on('mousedown', function (event) {
+                                        event.stopPropagation();
+                                    });
+
+                                    $(document).on('mousedown', function () {
+                                        $('#notificationDropdown').hide();
+                                    });
+                                });
+
+
+                            </script>
+
             <li class="nav-item dropdown-item">
                 <a class="nav-link"   href="<?php echo e(url('/profile')); ?>"><?php echo e(Auth::user()->name); ?></a>
             </li>
                                 <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <?php echo e(Auth::user()->name); ?>
-
                                 </a> -->
 
                                 <!-- tutaj są logouty -->

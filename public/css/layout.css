@@ -1,4 +1,15 @@
 
+
+#notificationDropdown {
+    display: none;
+    right: 0; /* Zamiast left użyj right */
+}
+
+/* Dodaj styl do renderowania dropdown z dołu */
+.dropdown-menu {
+    top: 100%;
+    bottom: auto;
+}
 /* Styl dla telefonów komórkowych */
 @media screen and (max-width: 767px) {
     #logo{

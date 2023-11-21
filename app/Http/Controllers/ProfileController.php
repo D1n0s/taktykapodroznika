@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Trip;
 use App\Models\SharedTrip;
+use App\Models\UserInvite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -70,14 +71,40 @@ class ProfileController extends Controller{
        return view('profile_edit');
     }
 
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function cancel()
     {
         return redirect()->route('profile')->with('info', 'Operacja anulowana');
         return view('profile');
+    }
+
+    public function  AcceptInvite(Request $request){
+
+        $invite_id = $request->input('invite_id');
+        $invite = UserInvite::find($request->input('invite_id'));
+
+        if($invite->user_id == Auth::user()->user_id){
+            $shareTrip = new SharedTrip();
+            $shareTrip->trip_id =  $invite->invitedTrip->trip_id;
+            $shareTrip->user_id = Auth::user()->user_id;
+
+            if($shareTrip->save()){
+                $invite->delete();
+                return response()->json(['success' =>  'Zaproszenie zaakceptowane','id' => $invite_id], 200 );
+            }
+
+        }
+        return response()->json(['succcess' =>  'działa'], 200 );
+
+    }
+    public function  DeclineInvite(Request $request){
+
+        $invite_id = $request->input('invite_id');
+        $invite = UserInvite::find($request->input('invite_id'));
+
+        if($invite->user_id == Auth::user()->user_id){
+            $invite->delete();
+            return response()->json(['success' =>  'Usunięto zaproszenie','id' => $invite_id], 200 );
+        }
+
     }
 }

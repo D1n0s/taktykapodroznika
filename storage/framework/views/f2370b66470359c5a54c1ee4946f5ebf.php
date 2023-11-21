@@ -13,11 +13,7 @@
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <style>
-        main{
-            height: 10500px;
-        }
-    </style>
+
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?>
     <?php echo \Illuminate\View\Factory::parentPlaceholder('scripts'); ?>
@@ -111,9 +107,6 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 
-
-
-
     <?php if(session('message')): ?>
         <div class="alert alert-success">
             <?php echo e(session('message')); ?>
@@ -121,48 +114,45 @@
         </div>
     <?php endif; ?>
 
-
-
     <div id="map"></div>
-        <div class="map_bar">
-                        <div>
-                            <button class="button-perspective" onclick="showForm('button1-form')">DODAJ PUNKT</button>
-                        </div>
-                        <div id="koniec_" >
-                            <button class="button-perspective"  onclick="showForm()">Punkt Końcowy</button>
-                        </div>
+<?php if($trip->owner_id === Auth::user()->user_id): ?>
+        <div class="map_bar container">
 
+                        <div id="" >
+
+                            <button class="button-perspective"  onclick="showForm('tactic')">Dodaj Taktyka</button>
+                        </div>
+            <?php echo $__env->make('components.AddUserComponents', ['name' => 'tactic','title' => 'powpow'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
+<?php endif; ?>
+    <?php echo $__env->make('components.AddPostComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <?php echo $__env->make('components/creatorComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <div class="dashboard">
         <div class="dash_menu">
             <div class="outer">
-            <button class="dash_bttn tablinks" onclick="change(event, 'markers')"><i class="material-icons">location_on</i> Markery</button>
-            <button class="dash_bttn tablinks" onclick="change(event, 'routes')"><i class="material-icons">location_on</i> Trasowanie</button>
-            <button class="dash_bttn tablinks" onclick="change(event, 'posts')"><i class="material-icons">location_on</i> Wpisy</button>
+            <button class="dash_bttn tablinks active"  data-tab="markers" onclick="change(event, 'markers')"><i class="material-icons">location_on</i> Markery</button>
+            <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class="material-icons">location_on</i> Trasowanie</button>
+            <button class="dash_bttn tablinks active" data-tab="posts" onclick="change(event, 'posts')"><i class="material-icons">location_on</i> Wpisy</button>
 
             </div>
         </div>
+
         <div class="dash_content tabcontent" id="markers" >
+
                 <?php echo $__env->make('components.markerComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
-        <div class="dash_content tabcontent" id="routes" style="float:left;height: 1500px;" >
+        <div class="dash_content tabcontent" id="routes" >
                 <?php echo $__env->make('components.routeComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
-        <div class="dash_content tabcontent" id="posts" style="float:left;height: 1500px;" >
+        <div class="dash_content tabcontent" id="posts"  >
             <?php echo $__env->make('components.postComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
         <div class="dash_content tabcontent" id="test1" >
          POW POW POW
         </div>
     </div>
-
-
-
-
-
 
 <script>
 
@@ -178,7 +168,7 @@
                             const newContent = newDocument.getElementById(divId);
                             if (newContent) {
                                 divToRefresh.innerHTML = newContent.innerHTML;
-                                move();
+                                   // move();
                                 console.info(`udał się zaktualizować zawartość ${divId}`);
                             } else {
                                 console.error(`Brak div o id "${divId}" w nowej zawartości.`);
@@ -194,12 +184,14 @@
         }
 
 
-
         document.addEventListener("DOMContentLoaded", function() {
-            // Po załadowaniu strony wywołaj funkcję change z odpowiednim argumentem
-            change(null, 'posts');
+            // Po załadowaniu strony wywołaj funkcję change
+            var urlParams = new URLSearchParams(window.location.search);
+            var tabType = urlParams.get('tab') || 'markers';
+            change(null, tabType);
         });
-        function change(evt, cityName) {
+
+        function change(evt, tabType) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
@@ -207,14 +199,24 @@
             }
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                tablinks[i].classList.remove("active"); // Usuń klasę "active" ze wszystkich przycisków
             }
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " active";
+            var activeButton = document.querySelector('button[data-tab="' + tabType + '"]');
+            if (activeButton) {
+                activeButton.classList.add("active");
+            }
+            document.getElementById(tabType).style.display = "block";
+            if (evt) {
+                evt.currentTarget.classList.add("active");
+            }
+
+            history.pushState(null, null, '?tab=' + tabType);
         }
 
 
-    </script>
+
+
+</script>
 
 
 

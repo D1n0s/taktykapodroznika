@@ -27,9 +27,14 @@ class Mark extends Model
     {
         return $this->belongsTo(Trip::class, 'trip_id');
     }
+    public function attractions()
+    {
+        return $this->hasMany(Attraction::class, 'mark_id', 'mark_id');
+    }
 
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'categorie_marks', 'mark_id', 'category_id');
     }
+
 }

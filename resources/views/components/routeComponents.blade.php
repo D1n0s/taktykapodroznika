@@ -79,8 +79,6 @@
 </style>
 <div class="box">
 
-
-
 <div id="product-container" class="sticky-element">
     @forelse($markerData as $mark)
     <div id="{{$mark['id']}}" class="draggable " draggable="true" data_queue="{{$mark['queue']}}">{{$mark['name']}}</div>
@@ -95,16 +93,32 @@
 </div>
 
 <script>
-
-
-
-
-
     const products = document.querySelectorAll('.draggable');
     const carts = document.querySelectorAll('.cart');
-    move();
 
-// WSADZANIE NA POCZĄTKU PRODUKTÓW DO KOSZYKÓW
+    Echo.private('privateTrip.{{$trip->trip_id}}')
+        .listen('TripEvent', (e) => {
+
+            const productContainer = document.getElementById('product-container');
+            const cartContainer = document.getElementById('cart-container');
+
+            fetch(location.href)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.productContainer) {
+                        productContainer.innerHTML = data.productContainer;
+                    }
+                    if (data.cartContainer) {
+                        cartContainer.innerHTML = data.cartContainer;
+                    }
+                    console.info('Divs refreshed successfully.');
+                })
+                .catch(error => {
+                    console.error('Error fetching updated divs:', error);
+                });
+        });
+
+    move();
     function move() {
         products.forEach(product => {
             const cartId = product.getAttribute('data_queue');

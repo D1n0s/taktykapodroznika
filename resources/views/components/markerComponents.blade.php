@@ -3,6 +3,9 @@
 
 <div class="box" style="">
     <div class="first">
+        <div>
+            <button class="button-perspective" onclick="showForm('button1-form')">DODAJ PUNKT</button>
+        </div>
 
     </div>
 
@@ -173,12 +176,9 @@
             .listen('EditMarkEvent', (e) => {
                 const mark = e.mark;
                 const markId = e.mark.mark_id;
-                // Wyświetl dane z e.mark w konsoli
                 console.log("Dane z e.mark:", e.mark.name);
 
-                // Pobierz formularz (zmień to na odpowiedni selektor, jeśli jest inny)
                 const form = document.getElementById(`form_${markId}`);
-                // Zaktualizuj pola formularza nowymi danymi
                 form.querySelector(`#name_${markId}`).value = mark.name;
                 form.querySelector(`#desc_${markId}`).value = mark.desc;
                 form.querySelector(`#address_${markId}`).value = mark.address;

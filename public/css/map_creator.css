@@ -10,16 +10,14 @@
     margin-bottom: 10vh;
     /*background-color: white;*/
     width: 70%;
-
 }
 
 .container {
     height: 10vh;
-    /*background-color: white;*/
     width: 80%;
 }
 #title{
-font-size: large;
+    font-size: large;
     text-align: center;
     color:white;
     font-size: 30px;
@@ -97,7 +95,6 @@ font-size: large;
 
 .map_bar{
     width:80%;
-    background-color: white;
     margin: auto;
 }
 

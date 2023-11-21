@@ -4,13 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 text-center" style="background-color: red;">
-                <button class="button-perspective" onclick="showForm('start')">Utwórz podróż</button>
+                <button class="button-perspective" onclick="showForms('start')">Utwórz podróż</button>
             <a href="/mytrips"><button class="button-perspective">Moje podróże</button></a>
             </div>
 
-            @extends('components/modalWindow')
-            @section('modal.name', 'start')
-            @section('modal.title')Utwórz podróż @endsection
+            @extends('components/modalWindow', ['name'=>'start' , 'title'=>'Utwórz podróż'])
             @section('modal.content')
                 <style>
                     [type="date"] {
@@ -38,7 +36,6 @@
                         <input class="form-control" type="date" name="enddate" id="enddate" min="{{ date('Y-m-d') }}">
                     </div>
 
-                        @section('buttonText', 'Inny tekst')
 
 
 

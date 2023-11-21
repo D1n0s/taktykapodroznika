@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SharedTrip extends Model
 {
     protected $primaryKey = 'shared_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'trip_id',

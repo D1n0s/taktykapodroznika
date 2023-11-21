@@ -40,4 +40,9 @@ class Trip extends Model
     {
         return $this->hasMany(Post::class, 'trip_id');
     }
+    // Relacja: zaproszenia związane z wyjazdem
+    public function invites()
+    {
+        return $this->hasMany(UserInvite::class, 'invited_trip');
+    }
 }

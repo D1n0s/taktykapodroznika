@@ -1,9 +1,9 @@
-function showForm(formId) {
+function showForms(formId) {
 	var form = document.getElementById(formId);
 	form.style.display = "block";
 }
 
-function hideForm(formId) {
+function hideForms(formId) {
 	var form = document.getElementById(formId);
 	form.style.display = "none";
 }

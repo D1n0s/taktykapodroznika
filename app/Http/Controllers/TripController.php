@@ -5,16 +5,23 @@ use App\Events\DelQueueEvent;
 use App\Events\EditMarkEvent;
 use App\Events\PrivateEvent;
 use App\Events\AddQueueEvent;
+use App\Events\RefreshMarkersEvent;
 use App\Events\TripEvent;
+use App\Models\Attraction;
 use App\Models\Trip;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\UserInvite;
 use App\Models\UserTrip;
 use App\Models\SharedTrip;
 use App\Models\Mark;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
+use Validator;
+
 
 class TripController extends Controller
 {
@@ -90,6 +97,11 @@ class TripController extends Controller
     }
 // POBIERANIE MARKERÓW DO MAPY INICJOWANE NA SAMYM STARCIE
     public function getMarkers($trip_id) {
+
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
         $markers = Mark::where('trip_id', $trip_id)->orderByRaw("ISNULL(queue), queue ASC")->get();
 
         $markerData = [];
@@ -140,9 +152,21 @@ class TripController extends Controller
           $trip = Trip::find($trip_id);
          session(['trip_id' => $trip_id]);
           $markerData = $this->getMarkers($trip_id);
-        $posts = $trip->posts;
+        $posts = $trip->posts->sortBy('date');
+       $attractions = $trip->posts->pluck('attractions')->flatten()->sortBy('time_start');
+                            $attractionsWithTime = $attractions->filter(function ($attraction) {
+                                return isset($attraction->time_start);
+                            })->sortBy('time_start');
+                            $attractionsWithoutTime = $attractions->reject(function ($attraction) {
+                                return isset($attraction->time_start);
+                            });
+                             $attractions = $attractionsWithTime->merge($attractionsWithoutTime);
 
-      return view('trip_creator', compact('markerData', 'trip','posts'));
+
+
+
+
+      return view('trip_creator', compact('markerData', 'trip','posts','attractions'));
     }
 
     public function addMarker(Request $request)
@@ -312,7 +336,147 @@ class TripController extends Controller
 
         return redirect()->back()->with('success', 'DZIAŁA KURDE');
     }
+    public function Attraction(Request $request){
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
 
+        $markers = $this->getMarkers($trip_id);
+
+        $post_id = $request->input('post_id');
+        $post = Post::find($post_id);
+        $att = null;
+        return view('components.addAttractionComponents', compact('att','post', 'markers', 'trip_id'));
+    }
+    public function editAttraction(Request $request){
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+        $att_id = $request->input('attractionId');
+        $att = Attraction::find($att_id);
+        $markers = $this->getMarkers($trip_id);
+        $post = $att->post;
+        echo $post;
+
+        return view('components.addAttractionComponents', compact('att','post', 'markers', 'trip_id'));
+    }
+
+    public function addAttraction(Request $request){
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+        $existingAttraction = Attraction::where('post_id', $request->input('post'))
+            ->where('attraction_id', $request->input('attraction_id'))
+            ->first();
+
+        if ($existingAttraction) {
+            $duration = null;
+
+            if($request->input('start_time') != null && $request->input('end_time') != null) {
+                $start_time = Carbon::createFromFormat('H:i', $request->input('start_time'));
+                $end_time = Carbon::createFromFormat('H:i', $request->input('end_time'));
+                $duration = ($start_time && $end_time) ? $end_time->diff($start_time) : null;
+            }
+            $existingAttraction->title = $request->input('name');
+            $existingAttraction->desc = $request->input('desc');
+            $existingAttraction->cost = $request->input('price') ?? '0.00';
+            $existingAttraction->time_start = $request->input('start_time');
+            $existingAttraction->time_end = $request->input('end_time');
+            $existingAttraction->mark_id = $request->input('location');
+            $existingAttraction->duration = ($duration) ? $duration->format('%H:%I') : null;
+
+            $existingAttraction->save();
+        } else {
+            $duration = null;
+
+            if($request->input('start_time') != null && $request->input('end_time') != null) {
+                $start_time = Carbon::createFromFormat('H:i', $request->input('start_time'));
+                $end_time = Carbon::createFromFormat('H:i', $request->input('end_time'));
+                $duration = ($start_time && $end_time) ? $end_time->diff($start_time) : null;
+            }
+            $attraction = new Attraction();
+            $attraction->post_id = $request->input('post');
+            $attraction->title = $request->input('name');
+            $attraction->desc = $request->input('desc');
+            $attraction->cost = $request->input('price') ?? '0.00';
+            $attraction->time_start = $request->input('start_time');
+            $attraction->time_end = $request->input('end_time');
+
+            $attraction->mark_id = $request->input('location');
+
+            $attraction->duration = ($duration) ? $duration->format('%H:%I') : null;
+            $attraction->save();
+        }
+
+        return  redirect("/map/$trip_id?tab=posts")->with('success', 'Utworzono pomyślnie atrakcje');
+    }
+
+    public function delAttraction(Request $request){
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+        if($request){
+        // Odczytaj dane z żądania POST
+        $att_id = $request->input('attractionId');
+        $att = Attraction::find($att_id)->delete();
+
+        }else {
+            return response()->json(['error' => 'Nie znaleziono produktu o podanym ID'], 200);
+        }
+        return response()->json(['message' => 'Zaktualizowano dane pomyślnie'],200);
+    }
+
+    public function addTactic(Request $request){
+        $trip_id = session('trip_id');
+        if(!$this->checkPermissions($trip_id)){
+            return abort(404);
+        }
+
+        $user_id = $request->input('user_id');
+        $trip_id = $request->input('trip_id');
+        $email = $request->input('email');
+
+        $invited_user = User::where('email', $email)->first();
+        if ($invited_user === null) {
+            return response()->json(['error' => 'Nie znaleziono użytkownika'], 400);
+        }
+
+        $trip = Trip::where('trip_id',$trip_id)->where('owner_id',$invited_user->user_id)->first();
+
+        if($trip != null){
+            return response()->json(['error' => 'To Twój wyjazd przyjacielu !'], 400);
+        }
+
+        $existingInvite = UserInvite::where('user_id', $invited_user->user_id)->where('invited_trip', $trip_id)->first();
+        if ($existingInvite != null) {
+            return response()->json(['error' => 'Zaproszenie już istnieje'], 400);
+        }
+
+        $shared = SharedTrip::where('user_id',$invited_user->user_id)->where('trip_id',$trip_id)->first();
+
+        if($shared != null){
+            return response()->json(['error' => 'Użytkownik został już dodany ! '], 400);
+        }
+
+        if ($invited_user ) {
+            $invite = new UserInvite();
+            $invite->user_id = $invited_user->user_id;
+            $invite->invited_by = $user_id;
+            $invite->invited_trip = $trip_id;
+            $invite->save();
+
+            return response()->json(['success' => 'Wysłano zaproszenie użytkownikowi'], 200);
+        }
+            return response()->json(['error' => 'Nie znaleziono użytkownika'], 400);
+
+    }
 
 
 }
