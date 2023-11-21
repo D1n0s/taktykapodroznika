@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\AttractionEvent;
+use App\Events\AddPostEvent;
+use App\Events\DelAttractionEvent;
+use App\Events\DelPostEvent;
 use App\Events\DelQueueEvent;
 use App\Events\EditMarkEvent;
+use App\Events\MarkEvent;
 use App\Events\PrivateEvent;
 use App\Events\AddQueueEvent;
-use App\Events\RefreshMarkersEvent;
 use App\Events\TripEvent;
 use App\Models\Attraction;
 use App\Models\Trip;
@@ -19,7 +23,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Exception;
 use Validator;
 
 
@@ -67,8 +70,7 @@ class TripController extends Controller
 
     }
 
-    public function checkPermissions($trip_id){
-
+    public function Gate($trip_id){
             $user = null;
             if(Auth::user() != null){
                 $user = Auth::user();
@@ -79,7 +81,7 @@ class TripController extends Controller
         $trip = Trip::find($trip_id);
 
             if (!$trip) {
-                return abort(404); // Możesz przekierować użytkownika lub wyświetlić inny komunikat błędu
+                return abort(404);
             }
 
             $sharedTrip = SharedTrip::where('trip_id', $trip->trip_id)->where('user_id', $user->user_id)->first();
@@ -91,16 +93,30 @@ class TripController extends Controller
             }else{
                return abort(403);
             }
-
-
-
     }
-// POBIERANIE MARKERÓW DO MAPY INICJOWANE NA SAMYM STARCIE
-    public function getMarkers($trip_id) {
-
-        if(!$this->checkPermissions($trip_id)){
+    public function checkPermission(){
+        $trip_id = session('trip_id');
+        if(!$this->Gate($trip_id)){
             return abort(404);
         }
+
+        $trip = Trip::find($trip_id);
+        $sharedusers = $trip->sharedusers;
+
+        if(auth()->user()->user_id === $trip->owner_id){
+            return true;
+        }
+        $permission = $sharedusers->where('user_id', auth()->user()->user_id)->first()->pivot->permission_id;
+        if($permission === 1 ){
+            return true;
+        }else if($permission === 2 ){
+            return false;
+        }
+        return false;
+    }
+
+// POBIERANIE MARKERÓW DO MAPY INICJOWANE NA SAMYM STARCIE
+    public function getMarkers($trip_id) {
 
         $markers = Mark::where('trip_id', $trip_id)->orderByRaw("ISNULL(queue), queue ASC")->get();
 
@@ -142,39 +158,57 @@ class TripController extends Controller
         return $markerData;
     }
 
+   public function delMarker(Request $request){
+       $trip_id = session('trip_id');
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
+
+        $mark_id = $request->input('mark_id');
+       $trip = Trip::find($trip_id);
+       $mark = $trip->marks->find($mark_id);
+       $mark->delete();
+        MarkEvent::dispatch($trip_id);
+       return response()->json(['message' => 'Zaktualizowano dane pomyślnie'],200);
+}
+
 
     public function index($trip_id)
     {
-
-            if(!$this->checkPermissions($trip_id)){
+            if(!$this->Gate($trip_id)){
                      return abort(404);
              }
-          $trip = Trip::find($trip_id);
-         session(['trip_id' => $trip_id]);
+
+        session(['trip_id' => $trip_id]);
+        $trip = Trip::find($trip_id);
+        $sharedusers = $trip->sharedusers;
           $markerData = $this->getMarkers($trip_id);
         $posts = $trip->posts->sortBy('date');
        $attractions = $trip->posts->pluck('attractions')->flatten()->sortBy('time_start');
-                            $attractionsWithTime = $attractions->filter(function ($attraction) {
-                                return isset($attraction->time_start);
-                            })->sortBy('time_start');
-                            $attractionsWithoutTime = $attractions->reject(function ($attraction) {
-                                return isset($attraction->time_start);
-                            });
-                             $attractions = $attractionsWithTime->merge($attractionsWithoutTime);
+
+        $attractionsWithTime = $attractions->filter(function ($attraction) {
+            return isset($attraction->time_start);
+        })->sortBy('time_start');
+
+        $attractionsWithoutTime = $attractions->reject(function ($attraction) {
+            return isset($attraction->time_start);
+        });
+
+         $attractions = $attractionsWithTime->merge($attractionsWithoutTime);
+
+        $permission = $sharedusers->where('user_id', auth()->user()->user_id)->first()->pivot->permission_id;
 
 
 
-
-
-      return view('trip_creator', compact('markerData', 'trip','posts','attractions'));
+      return view('trip_creator', compact('markerData', 'trip','posts','attractions','sharedusers','permission'));
     }
 
     public function addMarker(Request $request)
     {
         $trip_id = $request->trip_id;
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
 /*
                 try {
@@ -221,9 +255,9 @@ class TripController extends Controller
     public function editMarker(Request $request){
 
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
 
 
@@ -256,9 +290,9 @@ class TripController extends Controller
     public function addQueue(Request $request){
 
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         // Odczytaj dane z żądania POST
         $mark_id = $request->input('productId');
@@ -282,9 +316,9 @@ class TripController extends Controller
     public function delQueue(Request $request){
 
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
         $mark_id = $request->input('productId');
         $mark = Mark::find($mark_id);
 
@@ -313,9 +347,9 @@ class TripController extends Controller
 
     public function addPost(Request $request){
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         $title = $request->input('title');
         $date = $request->input('date');
@@ -330,17 +364,42 @@ class TripController extends Controller
         $post->title = $title;
         $post->date = $date;
         $post->day = $day;
-        $post->save();
+        if($post->save()){
+            AddPostEvent::dispatch($trip_id,"Dodano nowy post", $post);
+            return response()->json(['success' => 'Udało się utworzyć Post ! '], 200);
+
+        }else{
+            return response()->json(['error' => 'Nie udało się utworzyć Posta'], 200);
+        }
+
+    }
+    public function delPost(Request $request){
+        $trip_id = session('trip_id');
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
+
+        $post_id = $request->input('postid');
+        $post = Post::where('post_id', $post_id)->where('trip_id', $trip_id)->first();
+
+        if($post){
+                $post->attractions()->delete();
+                $post->delete();
+                DelPostEvent::dispatch($trip_id);
+
+            return response()->json(['success' => 'Udało się usunąć Post ! ' ], 200);
+        }else{
+            return response()->json(['error' => 'NIE Udało się usunąć Post ! ' ], 400);
+        }
 
 
 
-        return redirect()->back()->with('success', 'DZIAŁA KURDE');
     }
     public function Attraction(Request $request){
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         $markers = $this->getMarkers($trip_id);
 
@@ -351,9 +410,9 @@ class TripController extends Controller
     }
     public function editAttraction(Request $request){
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         $att_id = $request->input('attractionId');
         $att = Attraction::find($att_id);
@@ -366,17 +425,14 @@ class TripController extends Controller
 
     public function addAttraction(Request $request){
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         $existingAttraction = Attraction::where('post_id', $request->input('post'))
-            ->where('attraction_id', $request->input('attraction_id'))
-            ->first();
-
+            ->where('attraction_id', $request->input('attraction_id'))->first();
         if ($existingAttraction) {
             $duration = null;
-
             if($request->input('start_time') != null && $request->input('end_time') != null) {
                 $start_time = Carbon::createFromFormat('H:i', $request->input('start_time'));
                 $end_time = Carbon::createFromFormat('H:i', $request->input('end_time'));
@@ -389,11 +445,12 @@ class TripController extends Controller
             $existingAttraction->time_end = $request->input('end_time');
             $existingAttraction->mark_id = $request->input('location');
             $existingAttraction->duration = ($duration) ? $duration->format('%H:%I') : null;
-
             $existingAttraction->save();
+            AttractionEvent::dispatch($trip_id);
+            return  redirect("/map/$trip_id?tab=posts")->with('success', 'Utworzono pomyślnie atrakcje');
+
         } else {
             $duration = null;
-
             if($request->input('start_time') != null && $request->input('end_time') != null) {
                 $start_time = Carbon::createFromFormat('H:i', $request->input('start_time'));
                 $end_time = Carbon::createFromFormat('H:i', $request->input('end_time'));
@@ -406,42 +463,59 @@ class TripController extends Controller
             $attraction->cost = $request->input('price') ?? '0.00';
             $attraction->time_start = $request->input('start_time');
             $attraction->time_end = $request->input('end_time');
-
             $attraction->mark_id = $request->input('location');
-
-            $attraction->duration = ($duration) ? $duration->format('%H:%I') : null;
+            $attraction->setDurationAttribute($duration);
             $attraction->save();
-        }
+            AttractionEvent::dispatch($trip_id);
+            return  redirect("/map/$trip_id?tab=posts")->with('success', 'Utworzono pomyślnie atrakcje');
 
-        return  redirect("/map/$trip_id?tab=posts")->with('success', 'Utworzono pomyślnie atrakcje');
+        }
     }
 
     public function delAttraction(Request $request){
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         if($request){
-        // Odczytaj dane z żądania POST
         $att_id = $request->input('attractionId');
         $att = Attraction::find($att_id)->delete();
-
+        AttractionEvent::dispatch($trip_id);
         }else {
             return response()->json(['error' => 'Nie znaleziono produktu o podanym ID'], 200);
         }
         return response()->json(['message' => 'Zaktualizowano dane pomyślnie'],200);
     }
+    public function moveAttraction(Request $request){
+        $trip_id = session('trip_id');
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
+            $att_id = $request->input('attraction_id');
+            $post_id = $request->input('post_id');
+            $attraction = Attraction::find($att_id);
+            $post = Post::find($post_id);
+
+            $attraction->post_id = $post->post_id;
+            $attraction->save();
+
+            AttractionEvent::dispatch($trip_id);
+
+            return response()->json(['error' => 'Nie znaleziono produktu o podanym ID'], 200);
+        return response()->json(['message' => 'Zaktualizowano dane pomyślnie'],200);
+    }
 
     public function addTactic(Request $request){
         $trip_id = session('trip_id');
-        if(!$this->checkPermissions($trip_id)){
-            return abort(404);
-        }
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
 
         $user_id = $request->input('user_id');
         $trip_id = $request->input('trip_id');
         $email = $request->input('email');
+        $permission = $request->input('permission');
 
         $invited_user = User::where('email', $email)->first();
         if ($invited_user === null) {
@@ -465,16 +539,53 @@ class TripController extends Controller
             return response()->json(['error' => 'Użytkownik został już dodany ! '], 400);
         }
 
-        if ($invited_user ) {
+        if ($invited_user) {
             $invite = new UserInvite();
             $invite->user_id = $invited_user->user_id;
             $invite->invited_by = $user_id;
             $invite->invited_trip = $trip_id;
+            $invite->permission = $permission;
             $invite->save();
 
-            return response()->json(['success' => 'Wysłano zaproszenie użytkownikowi'], 200);
+            return response()->json(['success' => 'Wysłano zaproszenie użytkownikowi' . $email], 200);
         }
             return response()->json(['error' => 'Nie znaleziono użytkownika'], 400);
+
+    }
+
+   public function delTactic(Request $request){
+       $trip_id = session('trip_id');
+       if(!$this->Gate($trip_id)){
+           return abort(404);
+       }
+
+       $user_email = $request->input('email');
+
+       $user_id = User::where('email', $user_email)->first()->user_id;
+       $shared = SharedTrip::where('trip_id',$trip_id)->where('user_id',$user_id)->first();
+       $shared->delete();
+       return response()->json(['success' => 'Pomyślnie usunięto użytkownika !'], 200);
+   }
+
+    public function SavePermissions(Request $request){
+        $trip_id = session('trip_id');
+       if(!$this->checkPermission()){
+           return response()->json(['message' => 'Nie masz uprawnień'],400);
+       }
+
+        $user_email = $request->input('email');
+        $permission_id = $request->input('permission_id');
+        $user_id = User::where('email', $user_email)->first()->user_id;
+        $shared = SharedTrip::where('trip_id',$trip_id)->where('user_id',$user_id)->first();
+
+        if($shared->permission_id == $permission_id){
+            return response()->json(['success' => 'Użytkownik posiada już takie uprawnienia'], 200);
+        }
+
+        $shared->permission_id = $permission_id;
+        $shared->save();
+
+        return response()->json(['success' => 'Pomyślnie zmieniono uprawnienia'], 200);
 
     }
 

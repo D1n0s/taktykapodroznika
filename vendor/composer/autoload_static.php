@@ -670,7 +670,7 @@ class ComposerStaticInitf77daa862a6763906d9d2cf4be101e40
         'App\\Models\\SharedTrip' => __DIR__ . '/../..' . '/app/Models/SharedTrip.php',
         'App\\Models\\Trip' => __DIR__ . '/../..' . '/app/Models/Trip.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
-        'App\\Models\\UserSetting' => __DIR__ . '/../..' . '/app/Models/UserSetting.php',
+        'App\\Models\\UserInvite' => __DIR__ . '/../..' . '/app/Models/UserInvite.php',
         'App\\Models\\UserTrip' => __DIR__ . '/../..' . '/app/Models/UserTrip.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

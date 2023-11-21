@@ -274,46 +274,33 @@ color: var(--uia-card-time-color, currentColor);
 </style>
 <div class="box">
 <div class="first">
-    <button type="button" onclick="showForms('addpost')">ADD POST</button>
-
-
-{{--@extends('components/modalWindow')--}}
-{{--@section('modal.name', 'pow')--}}
-{{--@section('modal.title')--}}
-{{--UTWÓRZ NOWY POST--}}
-{{--@endsection--}}
-{{--@section('modal.content')--}}
-{{--<form method="post" id="xxx" action="{{ route('addPost') }}">--}}
-{{--@csrf--}}
-{{--<div class="form-group">--}}
-{{--<label for="title">Tytuł*:</label>--}}
-{{--<input type="text" id="tile" name="title" class="form-control" maxlength="30"--}}
-{{--placeholder="np. Dzień 1 || Lokalizacja" required>--}}
-{{--<br>--}}
-{{--<label for="date">Wybierz dzień:</label>--}}
-{{--<input class="form-control" type="date" name="date" id="date" min="{{$trip->start_date}}"--}}
-{{--max="{{$trip->end_date}}">--}}
-
-{{--</div>--}}
-{{--@endsection--}}
+    @if($permission == 1)
+    <button type="button" class="button-perspective" onclick="showForm('addpost')">Dodaj Post</button>
+    @endif
 </div>
 
 <br><br>
 
-    @foreach( $posts as $post)
-<div class="page " id="test" data-uia-timeline-skin="3" data-uia-timeline-adapter-skin-3="ui-card-skin-#1">
 
+<div class="page " id="postlist" data-uia-timeline-skin="3" data-uia-timeline-adapter-skin-3="ui-card-skin-#1">
+    @foreach( $posts as $post)
 <div class="uia-timeline ">
 <div class="uia-timeline__container">
 <div class="uia-timeline__line"></div>
 <div class="uia-timeline__annual-sections">
 <span class="uia-timeline__year " aria-hidden="true">
 @if($post->date != null)
-Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post->title}}
+Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id="post_title_{{$post->post_id}}">{{$post->title}}</span>
 @endif
 @if($post->date == null && $post->day == null)
-{{$post->title}}
+        <span id="post_title_{{$post->post_id}}">{{$post->title}}</span>
 @endif
+    @if($permission == 1)
+
+    <button style="font-size: 2.5vh;" class="btn btn-close-white" type="button" onclick="delPost({{$post->post_id}})" >
+        <i class="far fa-trash-alt "></i>
+    </button>
+    @endif
 </span>
 
 
@@ -323,7 +310,7 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post-
 @if($att->post_id == $post->post_id)
 
     <!--         POST TU SIE ZACZYNA -->
-    <section class="uia-timeline__group">
+    <section class="uia-timeline__group" id="attraction_{{$att->attraction_id}}">
         <div class="uia-timeline__point uia-card" data-uia-card-skin="1">
             <div class="uia-card__container">
                 <div class="uia-card__intro">
@@ -377,6 +364,7 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post-
     </div>
     @endif
 </div>
+                @if($permission == 1)
 
                 <!-- BUTTONY <3 -->
                 <div class="text-center">
@@ -387,30 +375,17 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post-
                             <i class="far fa-edit mx-3"></i>
                         </button>
                     </form>
-                    <button style="font-size: 3vh;color:black;" class="btn btn-danger  " type="button" onclick="handleAction({{ $att->attraction_id }})">
+
+                    <button style="font-size: 3vh;color:black;" class="btn btn-danger  " type="button" onclick="delAttraction({{ $att->attraction_id }})">
                         <i class="far fa-trash-alt mx-3"></i>
                     </button>
+                    <button style="font-size: 3vh;color:black;" class="btn btn-warning  " type="button" onclick="moveAttractionForm({{ $att->attraction_id }})">
+                        <i class="fas fa-list mx-3"></i>
+                    </button>
+                        @include('components.moveAttractionComponents', ['name' => $att->attraction_id,'post_id'=> $post->post_id,'attraction_id'=>$att->attraction_id])
+
                 </div>
-
-                    <script>
-                        function handleAction(attractionId) {
-                            axios.post('{{ route("delAttraction") }}', {
-                                attractionId: attractionId,
-                            })
-                                .then(response => {
-                                    console.log(response.data);
-                                    // Dodaj kod obsługi sukcesu, jeśli jest wymagany
-                                })
-                                .catch(error => {
-                                    console.error(error);
-                                    // Dodaj kod obsługi błędu, jeśli jest wymagany
-                                });
-                        }
-                    </script>
-
-
-
-
+                @endif
 
 </div>
         </div>
@@ -418,6 +393,7 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post-
 @endif
 @endforeach
 
+    @if($permission == 1)
 
 <!--         POST TU SIE ZACZYNA -->
 <section class="uia-timeline__group">
@@ -429,7 +405,7 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post-
     </form>
 </div>
 </section>
-
+    @endif
 <!--         POST TU SIE KOŃCZY  -->
 
 
@@ -438,8 +414,62 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || {{$post-
 
 </div>
 </div>
-</div>
     @endforeach
 
+</div>
 
+    <script>
+
+        function moveAttractionForm(name){
+            showForm('attraction_move_'+name);
+        }
+
+        function delAttraction(attractionId) {
+            var potwierdzenie = confirm('Czy na pewno chcesz usunąć te atrakcję ?');
+            if(potwierdzenie){
+                axios.post('{{ route("delAttraction") }}', {
+                    attractionId: attractionId,
+                })
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+        }
+
+        function delPost(postId) {
+            var potwierdzenie = confirm('Czy na pewno chcesz usunać post wraz z jego atrakcjami ? ');
+            if(potwierdzenie){
+                axios.post('{{ route("delPost") }}', {
+                    postid : postId,
+                })
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+        }
+
+        Echo.private('privateTrip.{{$trip->trip_id}}')
+            .listen('AttractionEvent', (e) => {
+                $("#postlist").load(location.href + " #postlist");
+            });
+
+        Echo.private('privateTrip.{{$trip->trip_id}}')
+            .listen('DelPostEvent', (e) => {
+                console.log('Usunięto Post ');
+                $("#postlist").load(location.href + " #postlist");
+            });
+        Echo.private('privateTrip.{{$trip->trip_id}}')
+            .listen('AddPostEvent', (e) => {
+              console.log('DODANOW NOWY POST ! ');
+                $("#postlist").load(location.href + " #postlist");
+            });
+    </script>
 </div>

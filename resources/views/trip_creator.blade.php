@@ -119,14 +119,16 @@
         <div class="map_bar container">
 
                         <div id="" >
-
                             <button class="button-perspective"  onclick="showForm('tactic')">Dodaj Taktyka</button>
+                            <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
                         </div>
             @include('components.AddUserComponents', ['name' => 'tactic','title' => 'powpow'])
+            @include('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków!'])
+
+
         </div>
 @endif
     @include('components.AddPostComponents')
-
     @include('components/creatorComponents')
 
     <div class="dashboard">
@@ -149,13 +151,10 @@
         <div class="dash_content tabcontent" id="posts"  >
             @include('components.postComponents')
         </div>
-        <div class="dash_content tabcontent" id="test1" >
-         POW POW POW
-        </div>
+
     </div>
 
 <script>
-
         function RefreshDivs(divIds) {
             divIds.forEach(divId => {
                 const divToRefresh = document.getElementById(divId);
@@ -167,8 +166,9 @@
                             const newDocument = parser.parseFromString(data, 'text/html');
                             const newContent = newDocument.getElementById(divId);
                             if (newContent) {
+                                divToRefresh.innerHTML = '';
                                 divToRefresh.innerHTML = newContent.innerHTML;
-                                   // move();
+                                start();
                                 console.info(`udał się zaktualizować zawartość ${divId}`);
                             } else {
                                 console.error(`Brak div o id "${divId}" w nowej zawartości.`);
@@ -212,10 +212,6 @@
 
             history.pushState(null, null, '?tab=' + tabType);
         }
-
-
-
-
 </script>
 
 

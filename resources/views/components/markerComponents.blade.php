@@ -3,16 +3,18 @@
 
 <div class="box" style="">
     <div class="first">
+
         <div>
+            @if($permission == 1)
             <button class="button-perspective" onclick="showForm('button1-form')">DODAJ PUNKT</button>
+            @endif
         </div>
 
     </div>
 
     <div class="secound" id="RefreshDivMarkers">
-
     @forelse($markerData as $mark)
-@if($mark['queue'] != null)
+@if($mark['queue'] != null && $mark['queue'] <= count($markerData))
                 <div class="card box Queue" id="box_{{$mark['id']}}" >
                     <div class="circle" id="circle_{{$mark['id']}}">
                         <span class="number">{{$mark['queue']}}</span>
@@ -46,12 +48,14 @@
                             <span class="bar"></span>
                             <label class="label_read_only label_card">Adres</label>
                         </div>
-
+@if($permission == 1)
                         <div class="group editControls">
-                            <button type="button" id="edit-button_{{$mark['id']}}" onclick="toggleEditMode('{{$mark['id']}}')">Przełącz Tryb Edycji</button>
+                            <button class="btn " type="button" id="del-button_{{$mark['id']}}" onclick="delMarker('{{$mark['id']}}')"><i class='fas fa-trash-alt' style='font-size:30px;'></i></button>
+                            <button class="btn " type="button" id="edit-button_{{$mark['id']}}" onclick="toggleEditMode('{{$mark['id']}}')"><i class='fas fa-edit' style='font-size:30px;'></i></button>
                             <button type="submit" id="save-button_{{$mark['id']}}" style="display: none;" onclick="saveChanges('{{$mark['id']}}')">Zapisz</button>
                             <button type="button" id="cancel-button_{{$mark['id']}}" style="display: none;" onclick="cancelEdit('{{$mark['id']}}')">Anuluj</button>
                         </div>
+@endif
                     </form>
 
                 </div>
@@ -71,7 +75,6 @@
     @endforelse
 </div>
 </div>
-
     <script>
         Echo.private('privateTrip.{{$trip->trip_id}}')
             .listen('AddQueueEvent', (e) => {
@@ -84,7 +87,7 @@
                 circleElement.id = "circle_"+markId;
                 const numberElement = document.createElement("span");
                 numberElement.className = "number";
-                numberElement.textContent = e.mark.queue; // Zastąp "Tekst" odpowiednią zawartością
+                numberElement.textContent = e.mark.queue;
                 circleElement.appendChild(numberElement);
                 markElement.appendChild(circleElement);
             });
@@ -99,12 +102,29 @@
         function RefreshDivMarkers() {
             $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
         }
+        function delMarker(Mark_id){
+            var potwierdzenie = confirm('czy na pewno chcesz usunąc marker ? ');
+            if(potwierdzenie){
+                axios.post('{{ route("delMarker") }}', {
+                    mark_id : Mark_id,
+                })
+            }
+        }
+
+        Echo.private('privateTrip.{{$trip->trip_id}}')
+            .listen('MarkEvent', (e) => {
+                console.log('usunięto marker');
+                $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
+                RefreshDivs(['routes']);
+
+            });
 
 
         function toggleEditMode(id) {
             const inputFields = document.querySelectorAll(`#box_${id} .group input[type="text"]`);
             const saveButton = document.getElementById(`save-button_${id}`);
             const editButton = document.getElementById(`edit-button_${id}`);
+            const delButton = document.getElementById(`del-button_${id}`);
             const cancelButton = document.getElementById(`cancel-button_${id}`);
 
             inputFields.forEach(input => {
@@ -115,6 +135,7 @@
             saveButton.style.display = 'inline-block';
             cancelButton.style.display = 'inline-block';
             editButton.style.display = 'none';
+            delButton.style.display = 'none';
         }
 
         function saveChanges(id) {
@@ -127,6 +148,7 @@
 
             const saveButton = document.getElementById(`save-button_${id}`);
             const editButton = document.getElementById(`edit-button_${id}`);
+            const delButton = document.getElementById(`del-button_${id}`);
             const cancelButton = document.getElementById(`cancel-button_${id}`);
 
             const data = {
@@ -155,6 +177,7 @@
                     saveButton.style.display = 'none';
                     cancelButton.style.display = 'none';
                     editButton.style.display = 'inline-block';
+                    delButton.style.display = 'inline-block';
                 })
                 .catch(error => {
                     // Ustaw pola wejściowe na tylko do odczytu
@@ -166,6 +189,7 @@
                     saveButton.style.display = 'none';
                     cancelButton.style.display = 'none';
                     editButton.style.display = 'inline-block';
+                    delButton.style.display = 'inline-block';
                     // Tutaj możesz obsłużyć błędy (np. wyświetlić komunikat o błędzie)
                     console.error(error);
                 });
@@ -182,9 +206,9 @@
                 form.querySelector(`#name_${markId}`).value = mark.name;
                 form.querySelector(`#desc_${markId}`).value = mark.desc;
                 form.querySelector(`#address_${markId}`).value = mark.address;
-
-
                 editMarker(mark);
+                RefreshDivs(['routes']);
+
             });
 
 
@@ -194,6 +218,7 @@
             const inputFields = document.querySelectorAll(`#box_${id} .group input[type="text"]`);
             const saveButton = document.getElementById(`save-button_${id}`);
             const editButton = document.getElementById(`edit-button_${id}`);
+            const delButton = document.getElementById(`del-button_${id}`);
             const cancelButton = document.getElementById(`cancel-button_${id}`);
 
             inputFields.forEach(input => {
@@ -212,6 +237,7 @@
             saveButton.style.display = 'none';
             cancelButton.style.display = 'none';
             editButton.style.display = 'inline-block';
+            delButton.style.display = 'inline-block';
         }
 
 

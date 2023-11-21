@@ -75,10 +75,10 @@
                         <?php else: ?>
 
                             <div class="btn-group dropup">
-                                <button type="button" class="btn btn-primary" id="notificationButton">NOTIFICATION</button>
-                                <div class="dropdown" id="test">
+                                <button type="button" class="btn btn-primary" id="notificationButton">Zaproszenia</button>
+                                <div class="dropdown">
                                     <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
-                                        <?php $__currentLoopData = Auth::user()->invitesReceived; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__empty_1 = true; $__currentLoopData = Auth::user()->invitesReceived; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <div class="dropdown-item" id="<?php echo e($invite->invite_id); ?>">
                                             <p class="mb-0">Dostałeś zaproszenie od <?php echo e($invite->invitedBy->name); ?></p>
                                             <p class="mb-0">do podróży <?php echo e($invite->invitedTrip->title); ?></p>
@@ -87,7 +87,12 @@
                                                 <button type="button" onclick="invitedecline('<?php echo e($invite->invite_id); ?>')" class="btn btn-secondary btn-danger">Anuluj</button>
                                             </div>
                                         </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                            <div class="dropdown-item">
+                                                <p class="mb-0">Nie ma żadnych zaproszeń</p>
+                                            </div>
+                                        <?php endif; ?>
+
 
                                 </div>
                             </div>
@@ -95,7 +100,6 @@
 
                             <script>
                                 function inviteaccept(invite_id){
-
                                     axios.post("<?php echo e(route('AcceptInvite')); ?>", {
                                             'invite_id' : invite_id,
                                     }, {
@@ -121,7 +125,7 @@
                                 }
                                 function invitedecline(invite_id){
 
-                                    alert('Czy na pewno chcesz usunąć zaproszenie ? ');
+                                    confirm('Czy na pewno chcesz usunąć zaproszenie ? ');
                                     axios.post("<?php echo e(route('DeclineInvite')); ?>", {
                                             'invite_id' : invite_id,
                                     }, {
@@ -155,7 +159,6 @@
                                         event.stopPropagation();
                                     });
 
-                                    // Dodaj event mousedown, aby sprawdzić kliknięcie wewnątrz #notificationDropdown
                                     $('#notificationDropdown').on('mousedown', function (event) {
                                         event.stopPropagation();
                                     });

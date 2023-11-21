@@ -166,7 +166,7 @@
                             @csrf
                             <input type="hidden" name="post" value="{{$post->post_id}}">
                             @if($att != null)
-                            <input type="hidden" name="post" value="{{$att->attraction_id}}">
+                            <input type="hidden" name="attraction_id" value="{{$att->attraction_id}}">
                             @endif
                             <div class="col-md-12">
                                 <input class="form-control" type="text" name="name" placeholder="Nazwa atrakcji" value="{{ $att ? $att->title : '' }}" required>

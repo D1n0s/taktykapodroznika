@@ -22,14 +22,19 @@ class Trip extends Model
         return $this->hasMany(Mark::class, 'trip_id');
     }
 
-    public function users()
+    public function owner()
     {
-        return $this->belongsToMany(User::class, 'user_trips', 'trip_id', 'user_id');
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function sharedWithUsers()
+    public function sharedusers()
     {
-        return $this->belongsToMany(User::class, 'shared_trips', 'trip_id', 'shared_with_user_id');
+        return $this->belongsToMany(User::class, 'shared_trips', 'trip_id', 'user_id')->withPivot('permission_id');
+    }
+    public function sharedUsersPermissions()
+    {
+        return $this->belongsToMany(User::class, 'shared_trips', 'trip_id', 'user_id')
+            ->withPivot('permission_id');
     }
 
     public function publicTrip()

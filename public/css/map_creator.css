@@ -45,9 +45,7 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
     align-items: center;
-    justify-content: center;
     z-index: 9999;
 }
 
@@ -59,25 +57,15 @@
     width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     position: fixed;
-    top: 25%;
+    top: 5%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0%);
 }
 .form-container-sugestion {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    height: 250px;
-    min-height: 250px;
-    max-height: 250px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     display: none;
-    position: fixed;
-    top: 56%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 5%;
 }
 /* Stylowanie podświetlania rekordów */
 .suggestion:hover {

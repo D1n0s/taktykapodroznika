@@ -13,6 +13,7 @@ class SharedTrip extends Model
     protected $fillable = [
         'trip_id',
         'user_id',
+        'permission_id',
     ];
 
     public function trip()
@@ -20,8 +21,12 @@ class SharedTrip extends Model
         return $this->belongsTo(Trip::class, 'trip_id');
     }
 
-    public function sharedWithUser()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'shared_with_user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function permission()
+    {
+        return $this->belongsTo(TripsPermissions::class, 'permission_id');
     }
 }

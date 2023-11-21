@@ -1,8 +1,7 @@
 
     <div class="row justify-content-center">
         <div id="button1-form" style="display: none;" class="form-overlay">
-
-            <div class="form-container">
+            <div class="form-container" >
                 <div class="text-center">
                     <h4>Formularz</h4>
                     <form method="POST" id="tripForm" action="{{ route('addMarker') }}">
@@ -30,14 +29,13 @@
                         <button type="submit" class="btn btn-primary">Zapisz</button>
                         <button type="button" class="btn btn-secondary" onclick="hideForm('button1-form')">Anuluj</button>
                     </form>
-                </div>
-                </div>
-
-                <div class="col-md-6 mt-3" style="">
-                    <div class="form-container-sugestion" >
+                    <div class="form-container-sugestion" style="position: relative;">
                         <div id="suggestions" ></div>
                     </div>
                 </div>
+
+                </div>
+
 
         </div>
     </div>

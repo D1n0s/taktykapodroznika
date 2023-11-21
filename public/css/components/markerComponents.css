@@ -34,8 +34,15 @@
     font-size: 1.5em;
     color: white;
 }
+.card.Queue::before {
+    background-image:none;
+}
 .card.Queue {
-    border:10px solid green;
+    padding: 2.0vh;
+
+    background-image:none;
+    border: 1vh solid green;
+    border-radius: 8px;
 }
 
 .card::before {

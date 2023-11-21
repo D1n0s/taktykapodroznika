@@ -25,11 +25,6 @@ class User extends Authenticatable
     ];
 
     // Relationships
-    public function settings()
-    {
-        return $this->hasOne(UserSettings::class, 'user_id');
-    }
-
     public function trips()
     {
         return $this->belongsToMany(Trip::class, 'user_trips', 'user_id', 'trip_id');
@@ -44,5 +39,9 @@ class User extends Authenticatable
     public function invitesReceived()
     {
         return $this->hasMany(UserInvite::class, 'user_id');
+    }
+    public function sharedTrips()
+    {
+        return $this->hasMany(SharedTrip::class, 'user_id');
     }
 }

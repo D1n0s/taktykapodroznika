@@ -6,6 +6,15 @@
             <div class="form-group">
                 <label for="title">Podaj email Taktyka:</label>
                 <input type="text" id="email" class="form-control" maxlength="30" placeholder="Taktyk@tactics.tcs" required>
+                <div class="form-group mb-1">
+                    <label for="permissionsDropdown">Uprawnienia:</label>
+
+                    <select class="form-control" id="permission">
+                        <option value="1" >odczyt</option>
+                        <option value="2" >odczyt/zapis</option>
+                    </select>
+
+                </div>
                 <br />
                 <button type="button" class="btn btn-primary" onclick="addTactic()">Dodaj</button>
                 <button type="button" class="btn btn-secondary" onclick="cancel()">Anuluj</button>
@@ -21,23 +30,28 @@
         const infoMessage = document.getElementById('infoMessage');
         const emailInput = document.getElementById('email');
         infoMessage.style.display = 'none';
-        emailInput.value = ''; // Ustawianie wartości na pustą
-        hideForms('{{$name}}');
+        emailInput.value = '';
+        hideForm('{{$name}}');
+    }
+    function hideForm(formId) {
+        var form = document.getElementById(formId);
+        form.style.display = "none";
     }
     function addTactic() {
         const emailInput = document.getElementById('email');
         const email = emailInput.value;
+        const permission = document.getElementById('permission').value;
         const infoMessage = document.getElementById('infoMessage');
         infoMessage.style.display = 'none';
         axios.post("{{ route('addTactic') }}", {
             user_id: {{$trip->owner_id}},
             trip_id: {{$trip->trip_id}},
             email: email,
+            permission: permission,
         }, {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
                 'X-CSRF-TOKEN': "{{ csrf_token() }}",
-
             }
         })
             .then(response => {
@@ -48,10 +62,32 @@
 
             })
             .catch(error => {
-                document.getElementById('infoMessage').innerHTML = '<br/><div class="alert alert-danger">' + error.response.data.error + '</div>';
+                if (error.response) {
+                    // Błąd odpowiedzi z serwera
+                    if (error.response.status === 422) {
+                        // Przypadek błędnych danych wejściowych (Unprocessable Entity)
+                        const validationErrors = error.response.data.errors;
+                        let errorMessage = '<ul>';
+                        Object.values(validationErrors).forEach(errors => {
+                            errors.forEach(error => {
+                                errorMessage += '<li>' + error + '</li>';
+                            });
+                        });
+                        errorMessage += '</ul>';
+                        document.getElementById('infoMessage').innerHTML = '<br/><div class="alert alert-danger">' + errorMessage + '</div>';
+                    } else {
+                        // Inne błędy odpowiedzi z serwera
+                        document.getElementById('infoMessage').innerHTML = '<br/><div class="alert alert-danger">' + error.response.data.error + '</div>';
+                    }
+                } else if (error.request) {
+                    // Błąd requestu (np. brak odpowiedzi od serwera)
+                    document.getElementById('infoMessage').innerHTML = '<br/><div class="alert alert-danger">Request error</div>';
+                } else {
+                    // Inne błędy
+                    document.getElementById('infoMessage').innerHTML = '<br/><div class="alert alert-danger">Error: ' + error.message + '</div>';
+                }
                 document.getElementById('infoMessage').style.display = 'block';
                 emailInput.value = '';
-
             });
     }
 </script>

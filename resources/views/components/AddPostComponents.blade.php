@@ -15,9 +15,39 @@
                 </div>
             <br />
             <button type="submit" class="btn btn-primary">zapisz</button>
-            <button type="button" class="btn btn-secondary" onclick="hideForms('addpost')">Anuluj</button>
+            <button type="button" class="btn btn-secondary" onclick="hideForm('addpost')">Anuluj</button>
             </form>
         </div>
     </div>
 </div>
+<script>
+    $('#xxx').submit(function(event) {
+        event.preventDefault();
+
+        var formData = {
+            title: document.getElementById('tile').value,
+            date: document.getElementById('date').value,
+        };
+
+        console.log(formData);
+        var form = document.getElementById('xxx');
+        axios.post(form.action, formData)
+            .then(function(response) {
+                console.log(response.data);
+                form.reset(); // reset() jest metodą Vanilla JavaScript do resetowania formularza
+                hideForm('addpost');
+                alert('Post dodany!');
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+
+    });
+
+
+
+
+
+
+</script>
 

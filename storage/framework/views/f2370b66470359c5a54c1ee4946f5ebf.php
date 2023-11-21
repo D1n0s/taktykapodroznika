@@ -119,14 +119,16 @@
         <div class="map_bar container">
 
                         <div id="" >
-
                             <button class="button-perspective"  onclick="showForm('tactic')">Dodaj Taktyka</button>
+                            <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
                         </div>
             <?php echo $__env->make('components.AddUserComponents', ['name' => 'tactic','title' => 'powpow'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków!'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+
         </div>
 <?php endif; ?>
     <?php echo $__env->make('components.AddPostComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
     <?php echo $__env->make('components/creatorComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <div class="dashboard">
@@ -149,13 +151,10 @@
         <div class="dash_content tabcontent" id="posts"  >
             <?php echo $__env->make('components.postComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
-        <div class="dash_content tabcontent" id="test1" >
-         POW POW POW
-        </div>
+
     </div>
 
 <script>
-
         function RefreshDivs(divIds) {
             divIds.forEach(divId => {
                 const divToRefresh = document.getElementById(divId);
@@ -167,8 +166,9 @@
                             const newDocument = parser.parseFromString(data, 'text/html');
                             const newContent = newDocument.getElementById(divId);
                             if (newContent) {
+                                divToRefresh.innerHTML = '';
                                 divToRefresh.innerHTML = newContent.innerHTML;
-                                   // move();
+                                start();
                                 console.info(`udał się zaktualizować zawartość ${divId}`);
                             } else {
                                 console.error(`Brak div o id "${divId}" w nowej zawartości.`);
@@ -212,10 +212,6 @@
 
             history.pushState(null, null, '?tab=' + tabType);
         }
-
-
-
-
 </script>
 
 

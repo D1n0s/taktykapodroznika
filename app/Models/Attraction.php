@@ -36,8 +36,8 @@ class Attraction extends Model
             // Obsługa błędu, jeśli przekazano nieprawidłową nazwę kolumny
             throw new \InvalidArgumentException('Invalid column name');
         }
-
-        return Carbon::parse($this->attributes[$columnName])->format('H:i');
+        $columnValue = $this->attributes[$columnName];
+        return $columnValue !== null ? Carbon::parse($columnValue)->format('H:i') : null;
     }
 
     public function post()

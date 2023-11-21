@@ -13,6 +13,7 @@ class UserInvite extends Model
         'user_id',
         'invited_by',
         'invited_trip',
+        'permission',
     ];
 
     public function user()

@@ -74,10 +74,10 @@
                         @else
 
                             <div class="btn-group dropup">
-                                <button type="button" class="btn btn-primary" id="notificationButton">NOTIFICATION</button>
-                                <div class="dropdown" id="test">
+                                <button type="button" class="btn btn-primary" id="notificationButton">Zaproszenia</button>
+                                <div class="dropdown">
                                     <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
-                                        @foreach(Auth::user()->invitesReceived as $invite)
+                                        @forelse(Auth::user()->invitesReceived as $invite)
                                         <div class="dropdown-item" id="{{$invite->invite_id}}">
                                             <p class="mb-0">Dostałeś zaproszenie od {{$invite->invitedBy->name}}</p>
                                             <p class="mb-0">do podróży {{$invite->invitedTrip->title}}</p>
@@ -86,7 +86,12 @@
                                                 <button type="button" onclick="invitedecline('{{$invite->invite_id}}')" class="btn btn-secondary btn-danger">Anuluj</button>
                                             </div>
                                         </div>
-                                        @endforeach
+                                        @empty
+                                            <div class="dropdown-item">
+                                                <p class="mb-0">Nie ma żadnych zaproszeń</p>
+                                            </div>
+                                        @endforelse
+
 
                                 </div>
                             </div>
@@ -94,7 +99,6 @@
 
                             <script>
                                 function inviteaccept(invite_id){
-
                                     axios.post("{{ route('AcceptInvite') }}", {
                                             'invite_id' : invite_id,
                                     }, {
@@ -120,7 +124,7 @@
                                 }
                                 function invitedecline(invite_id){
 
-                                    alert('Czy na pewno chcesz usunąć zaproszenie ? ');
+                                    confirm('Czy na pewno chcesz usunąć zaproszenie ? ');
                                     axios.post("{{ route('DeclineInvite') }}", {
                                             'invite_id' : invite_id,
                                     }, {
@@ -154,7 +158,6 @@
                                         event.stopPropagation();
                                     });
 
-                                    // Dodaj event mousedown, aby sprawdzić kliknięcie wewnątrz #notificationDropdown
                                     $('#notificationDropdown').on('mousedown', function (event) {
                                         event.stopPropagation();
                                     });

@@ -30,6 +30,12 @@ class ProfileController extends Controller{
 
         return view('myTrips', compact('trips'));
     }
+    public function sharedtrips(){
+
+        $trips = SharedTrip::where('user_id', auth()->user()->user_id)->with('trip')->paginate(4);
+
+        return view('sharedTrips', ['trips' => $trips]);
+    }
 
 
 
@@ -86,6 +92,7 @@ class ProfileController extends Controller{
             $shareTrip = new SharedTrip();
             $shareTrip->trip_id =  $invite->invitedTrip->trip_id;
             $shareTrip->user_id = Auth::user()->user_id;
+            $shareTrip->permission_id =  $invite->permission;
 
             if($shareTrip->save()){
                 $invite->delete();

@@ -44,7 +44,7 @@ return array(
     'App\\Models\\SharedTrip' => $baseDir . '/app/Models/SharedTrip.php',
     'App\\Models\\Trip' => $baseDir . '/app/Models/Trip.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
-    'App\\Models\\UserSetting' => $baseDir . '/app/Models/UserSetting.php',
+    'App\\Models\\UserInvite' => $baseDir . '/app/Models/UserInvite.php',
     'App\\Models\\UserTrip' => $baseDir . '/app/Models/UserTrip.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

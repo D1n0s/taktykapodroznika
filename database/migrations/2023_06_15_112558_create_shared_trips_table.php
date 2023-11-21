@@ -12,11 +12,13 @@ class CreateSharedTripsTable extends Migration
             $table->increments('shared_id');
             $table->integer('trip_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
         });
 
         Schema::table('shared_trips', function (Blueprint $table) {
             $table->foreign('trip_id')->references('trip_id')->on('trips');
             $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('permission_id')->references('permission_id')->on('trips_permissions');
         });
     }
 

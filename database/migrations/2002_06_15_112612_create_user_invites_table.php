@@ -13,6 +13,7 @@ class CreateUserinvitesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('invited_by')->unsigned();
             $table->integer('invited_trip')->unsigned();
+            $table->integer('permission');
         });
 
         Schema::table('user_invites', function (Blueprint $table) {

@@ -77,11 +77,11 @@
     }
 
 </style>
-<div class="box">
+<div class="box" id="refresh">
 
 <div id="product-container" class="sticky-element">
     @forelse($markerData as $mark)
-    <div id="{{$mark['id']}}" class="draggable " draggable="true" data_queue="{{$mark['queue']}}">{{$mark['name']}}</div>
+    <div id="{{$mark['id']}}" class="draggable "      @if($permission == 1) draggable="true" @endif data_queue="{{$mark['queue']}}">{{$mark['name']}}</div>
     @empty
     @endforelse
 </div>
@@ -90,48 +90,39 @@
     <div class="cart" data_queue="{{$index + 1}}">Punkt nr. {{$index + 1 }}</div>
     @endforeach
 </div>
+
 </div>
 
+
 <script>
-    const products = document.querySelectorAll('.draggable');
-    const carts = document.querySelectorAll('.cart');
+    var products = document.querySelectorAll('.draggable');
+    var carts = document.querySelectorAll('.cart');
+    start();
 
-    Echo.private('privateTrip.{{$trip->trip_id}}')
-        .listen('TripEvent', (e) => {
 
-            const productContainer = document.getElementById('product-container');
-            const cartContainer = document.getElementById('cart-container');
+function start() {
+    var products = document.querySelectorAll('.draggable');
+    var carts = document.querySelectorAll('.cart');
 
-            fetch(location.href)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.productContainer) {
-                        productContainer.innerHTML = data.productContainer;
-                    }
-                    if (data.cartContainer) {
-                        cartContainer.innerHTML = data.cartContainer;
-                    }
-                    console.info('Divs refreshed successfully.');
-                })
-                .catch(error => {
-                    console.error('Error fetching updated divs:', error);
-                });
-        });
-
-    move();
-    function move() {
-        products.forEach(product => {
-            const cartId = product.getAttribute('data_queue');
-            if (cartId) {
-                const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
-                if (cart) {
-                    cart.appendChild(product);
+    var products = document.querySelectorAll('.draggable');
+    var carts = document.querySelectorAll('.cart');
+    var products = document.querySelectorAll('.draggable');
+    var carts = document.querySelectorAll('.cart');
+    products.forEach(product => {
+        const cartId = product.getAttribute('data_queue');
+        if (cartId) {
+            const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
+            if (cart) {
+                cart.appendChild(product);
+                if({{$permission}} ==1){
                     addRemoveButton(product);
                 }
             }
-        });
-    }
+        }
+    });
 
+
+if({{$permission}} ==1) {
     products.forEach(product => {
         product.addEventListener('dragstart', (event) => {
             event.dataTransfer.setData('text/plain', event.target.id);
@@ -160,11 +151,9 @@
             axios.post('{{route('addQueue')}}', data)
                 .then(response => {
                     console.log(response.data);
-
                 })
                 .catch(error => {
                     console.error(error);
-
                 });
 
             product.setAttribute('data_queue', cartId);
@@ -175,8 +164,14 @@
             product.addEventListener('animationend', () => {
                 product.style.animation = '';
             });
+
         });
     });
+}
+
+}
+
+
 
     function addRemoveButton(product) {
         if (!product.querySelector('.remove-button')) {
@@ -189,7 +184,7 @@
             removeButton.id = `rmbtn_${productId}`;
             removeButton.addEventListener('click', () => {
 
-                axios.post('{{route('delQueue')}}', { productId: productId })
+                axios.post('{{route('delQueue')}}', {productId: productId})
                     .then(response => {
                         console.log(response.data);
                     })
@@ -221,17 +216,15 @@
             const markId = e.mark.mark_id;
             const markElement = document.getElementById(markId);
             const cartId = mark.queue;
-
-            // Sprawdź, czy koszyk już ma produkt
             if (cartHasProduct(cartId)) {
                 return;
             }
-
-            // Jeśli nie, to możesz przenieść produkt do właściwego koszyka
             const cart = document.querySelector(`.cart[data_queue="${cartId}"]`);
             markElement.setAttribute('data_queue', cartId);
             cart.appendChild(markElement);
-            addRemoveButton(markElement);
+            if({{$permission}} ==1) {
+                addRemoveButton(markElement);
+            }
             markElement.style.animation = 'addToCart 0.5s';
             markElement.addEventListener('animationend', () => {
                 markElement.style.animation = '';
@@ -251,7 +244,9 @@
             if (MarkQueue > 0) {
                 markElement.setAttribute('data_queue', "");
                 MarkContainer.appendChild(markElement);
-                RemoveButton.remove();
+                if({{$permission}} ==1) {
+                    RemoveButton.remove()
+                }
                 markElement.style.animation = 'removeFromCart 0.5s';
                 markElement.addEventListener('animationend', () => {
                     markElement.style.animation = '';
