@@ -1,7 +1,7 @@
 <script src="{{ asset('js/modalWindow.js') }}" ></script>
 <div class="row justify-content-center" >
     <div id="{{$name}}" style="display: none;" class="form-overlay" >
-        <div class="form-container text-center mx-auto" style="width:60%;max-width: none;top:45%;">
+        <div class="form-container text-center mx-auto" style="width:60%;max-width: none;">
             <h4>{{$title}}</h4>
             <div class="form-group  " style="">
                 <h3 for="title">Taktycy i ich uprawnienia:</h3>
@@ -49,12 +49,10 @@
 function reload(){
     $("#listoftactics").load(location.href + " #listoftactics");
     const messageElement = document.getElementById('Message');
-    if(messageElement) {
         messageElement.innerHTML = '<span class="alert alert-success text-center">Pomyślnie odświeżono!</span>';
         setTimeout(() => {
             messageElement.innerHTML = '';
-        }, 1000);
-    }
+        }, 500);
 }
 
     function saveperm(id){
@@ -76,6 +74,9 @@ function reload(){
         })
             .then(response => {
                 document.getElementById('Message_'+id).innerHTML = '<div class="alert alert-success text-center">' + response.data.success + '</div>';
+                setTimeout(() => {
+                    document.getElementById('Message_'+id).innerHTML = '';
+                }, 1000);
             })
             .catch(error => {
                 console.error(error);
@@ -105,7 +106,6 @@ function reload(){
             }
         })
             .then(response => {
-                // document.getElementById('tactic_'+id);
                 document.getElementById('tactic_'+id).innerHTML = '<div class="alert alert-success">' + response.data.success + '</div>';
             })
             .catch(error => {

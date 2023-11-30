@@ -11,11 +11,16 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="<?php echo e(asset('js/app.js')); ?>"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+<style>
+    .leaflet-routing-alt table {
+        display: none; /* lub użyj 'visibility: hidden;' jeśli chcesz zachować miejsce dla tego elementu, ale go ukryć */
+    }
+</style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <?php echo \Illuminate\View\Factory::parentPlaceholder('scripts'); ?>
     <!-- Skrypt Leaflet -->
     <script src="<?php echo e(asset('leaflet/dist/leaflet.js')); ?>"></script>
@@ -26,12 +31,16 @@
     <!-- MAPA -->
     <script>
         var map = L.map('map', {
-            zoomControl: false // Wyłącz domyślną kontrolę przybliżania
+            zoomControl: false, // Wyłącz domyślną kontrolę przybliżania
+            attributionControl: false,
+            doubleClickZoom: false,
+            addWaypointsMode: 'Disabled',
         }).setView([52.237049, 21.017532], 6);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             zoomControl: false,
         }).addTo(map);
+
 
         // MARKERY Z BAZY DANYCH
         var markersData = <?php echo json_encode($markerData); ?>; // Konwertuje dane PHP na dane JavaScript
@@ -43,13 +52,23 @@
                 waypoints.push(waypoint);
             }
         });
-        var routingControl =  L.Routing.control({
-            waypoints: waypoints,
-            routeWhileDragging: false,
-            addWaypointsMode: 'Disabled',
-            show: false,
 
+        var routingControl = L.Routing.control({
+            waypoints: waypoints,
+            routeWhileDragging: true,
+            draggableWaypoints: false,
+            addWaypoints: false,
+            showAlternatives: true,
+            altLineOptions: {
+            show: true,
+                styles: [{ color: 'gray', opacity: 1, weight: 5 }] // Dostosuj szerokość linii
+            },
+            lineOptions: {
+                styles: [{ color: 'blue', opacity: 1, weight: 3 }]
+            },
+            formatter: new L.Routing.Formatter({ units: 'metric', language: 'pl' }),
         }).addTo(map);
+
 
         for(i=0; i < waypoints.length + 1;i++){
             console.log(waypoints[i] + " POZYCJA " + i );
@@ -78,6 +97,55 @@
             }
         }
 
+        routingControl.on('routeselected', function (e) {
+            var route = e.route;
+            var totalDistance = route.summary.totalDistance / 1000;
+            var totalDuration = route.summary.totalTime;
+
+            var totalDurationHours = totalDuration / 3600;
+
+            // Convert totalDuration to hours and minutes
+            var hours = Math.floor(totalDurationHours);
+            var minutes = Math.floor((totalDurationHours - hours) * 60);
+
+            // Przykładowe dane o samochodzie
+            var fuelConsumption = 5; // spalanie w litrach na 100 km
+            var fuelCostPerLiter = 6.70; // koszt paliwa za litr
+
+            // Obliczenia dotyczące paliwa
+            var fuelConsumed = (totalDistance / 100) * fuelConsumption; // ilość zużytego paliwa w litrach
+            var fuelCost = fuelConsumed * fuelCostPerLiter; // koszt podróży związany z paliwem
+
+            // Obliczenia dodatkowe
+            var averageSpeed = totalDistance / totalDurationHours; // średnia prędkość podróży
+            var carbonEmission = fuelConsumed * 2.3; // przyjęte przybliżone emitowanie CO2 w kg na litr paliwa
+
+            // Szacowany czas przyjazdu (ETA)
+            var now = new Date();
+            var eta = new Date(now.getTime() + totalDuration * 1000); // czas przyjazdu w milisekundach od początku epoki
+
+            // Ilość przystanków
+            var stopsCount = waypoints.length ; // odejmujemy start i cel, ponieważ są one również uwzględnione jako punkty
+
+            // Obliczenia odległości między waypointami
+            var distancesBetweenWaypoints = [];
+            for (var i = 0; i < waypoints.length - 1; i++) {
+                var distanceBetweenPoints = waypoints[i].distanceTo(waypoints[i + 1]) / 1000; // distanceTo zwraca odległość w metrach
+                distancesBetweenWaypoints.push(distanceBetweenPoints);
+            }
+
+            // Wyświetl informacje w konsoli
+            console.log('Sumaryczny dystans: ' + totalDistance.toFixed(2) + ' km');
+            console.log('Sumaryczny czas: ' + hours + ' godzin ' + minutes + ' minut');
+            console.log('Średnia prędkość podróży: ' + averageSpeed.toFixed(2) + ' km/h');
+            console.log('Ilość zużytego paliwa: ' + fuelConsumed.toFixed(2) + ' litrów');
+            console.log('Koszt podróży (paliwo): ' + fuelCost.toFixed(2) + ' PLN');
+            console.log('Ilość emisji CO2: ' + carbonEmission.toFixed(2) + ' kg');
+            console.log('Szacowany czas przyjazdu (ETA): ' + eta.toLocaleTimeString());
+            console.log('Ilość przystanków: ' + stopsCount);
+            console.log('Odległości między waypointami: ' + distancesBetweenWaypoints.join(' km, ') + ' km');
+        });
+
         //dodawnaie markerów do mapy <3
         var markers = markersData.map(function(marker) {
             var newMarker = L.marker([marker.latitude, marker.longitude]).addTo(map);
@@ -101,7 +169,6 @@
                 delWaypoint(mark)
             });
     </script>
-
     <script src="<?php echo e(asset('js/map_creator.js')); ?>" ></script>
 
 <?php $__env->stopSection(); ?>
@@ -137,6 +204,7 @@
             <button class="dash_bttn tablinks active"  data-tab="markers" onclick="change(event, 'markers')"><i class="material-icons">location_on</i> Markery</button>
             <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class="material-icons">location_on</i> Trasowanie</button>
             <button class="dash_bttn tablinks active" data-tab="posts" onclick="change(event, 'posts')"><i class="material-icons">location_on</i> Wpisy</button>
+            <button class="dash_bttn tablinks active" data-tab="posts" onclick="change(event, 'info')"><i class="material-icons">location_on</i> Podsumowanie</button>
 
             </div>
         </div>
@@ -150,6 +218,9 @@
         </div>
         <div class="dash_content tabcontent" id="posts"  >
             <?php echo $__env->make('components.postComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        </div>
+        <div class="dash_content tabcontent" id="info"  >
+            <?php echo $__env->make('components.infoComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
 
     </div>

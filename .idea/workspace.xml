@@ -5,22 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace">
-      <change afterPath="$PROJECT_DIR$/resources/views/sharedTrips.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/components/infoComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/map_creator.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/map_creator.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/AddPostComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddPostComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/hot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/AddUserComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddUserComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/UserListComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/UserListComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/creatorComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/creatorComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/postComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/postComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/moveAttractionComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/moveAttractionComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/3aa84ffbedd10451682df2686306c3a3.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/3aa84ffbedd10451682df2686306c3a3.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5b1c0dbc295f5356cebb0400ef3ff4cb.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/5b1c0dbc295f5356cebb0400ef3ff4cb.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac75ee06d7b10679423983acdb7a1111.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ac75ee06d7b10679423983acdb7a1111.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
     </list>
@@ -202,30 +195,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/taktykapodroznika/resources/views",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/taktykapodroznika/resources/views/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2023.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\taktykapodroznika\resources\views" />
       <recent name="C:\taktykapodroznika\resources\views\components" />
+      <recent name="C:\taktykapodroznika\resources\views" />
       <recent name="C:\taktykapodroznika\database\migrations" />
       <recent name="C:\taktykapodroznika\public\js" />
       <recent name="C:\taktykapodroznika\public\css\components" />
@@ -282,7 +275,9 @@
       <workItem from="1700593795843" duration="6679000" />
       <workItem from="1700833334447" duration="34413000" />
       <workItem from="1701112345259" duration="35000" />
-      <workItem from="1701159627356" duration="17108000" />
+      <workItem from="1701159627356" duration="17862000" />
+      <workItem from="1701258344023" duration="4283000" />
+      <workItem from="1701265275590" duration="9097000" />
     </task>
     <task id="LOCAL-00001" summary="prace">
       <option name="closed" value="true" />

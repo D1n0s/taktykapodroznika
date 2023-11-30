@@ -4,6 +4,7 @@
         <div class="col-md-8 text-center" style="background-color: red;">
                 <button class="button-perspective" onclick="showForms('start')">Utwórz podróż</button>
             <a href="/mytrips"><button class="button-perspective">Moje podróże</button></a>
+            <a href="/sharedtrips"><button class="button-perspective">Udostępnione podróże</button></a>
             </div>
 
             

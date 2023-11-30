@@ -10,8 +10,8 @@
                     <label for="permissionsDropdown">Uprawnienia:</label>
 
                     <select class="form-control" id="permission">
-                        <option value="1" >odczyt</option>
-                        <option value="2" >odczyt/zapis</option>
+                        <option value="1" >odczyt/zapis</option>
+                        <option value="2" >odczyt</option>
                     </select>
 
                 </div>

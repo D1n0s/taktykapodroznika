@@ -20,20 +20,19 @@
 
 
     function moveAttraction(post_id,attraction_id){
-         alert('czy na pewno chcesz przeniść atrakcję ? ');
-
-        axios.post('{{ route("moveAttraction") }}', {
-            post_id : post_id,
-            attraction_id : attraction_id,
+         var potwierdzenie = confirm('czy na pewno chcesz przeniść atrakcję ? ');
+if(potwierdzenie){
+    axios.post('{{ route("moveAttraction") }}', {
+        post_id : post_id,
+        attraction_id : attraction_id,
+    })
+        .then(response => {
+            console.log(response.data);
         })
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-
+        .catch(error => {
+            console.error(error);
+        });
+}
 
     }
 
