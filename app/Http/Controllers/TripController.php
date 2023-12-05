@@ -167,8 +167,11 @@ class TripController extends Controller
         $mark_id = $request->input('mark_id');
        $trip = Trip::find($trip_id);
        $mark = $trip->marks->find($mark_id);
+       DelQueueEvent::dispatch($trip_id,"", $mark);
+       MarkEvent::dispatch($trip_id,$mark);
        $mark->delete();
-        MarkEvent::dispatch($trip_id);
+
+
        return response()->json(['message' => 'Zaktualizowano dane pomyślnie'],200);
 }
 
@@ -196,7 +199,12 @@ class TripController extends Controller
 
          $attractions = $attractionsWithTime->merge($attractionsWithoutTime);
 
-        $permission = $sharedusers->where('user_id', auth()->user()->user_id)->first()->pivot->permission_id;
+         if($trip->owner_id == Auth::user()->user_id){
+             $permission = 1;
+         }else{
+             $permission = $sharedusers->where('user_id', auth()->user()->user_id)->first()->pivot->permission_id;
+         }
+
 
 
 
@@ -236,21 +244,41 @@ class TripController extends Controller
         // Odczytaj identyfikator tripa z żądania
 
 
+        $existingMark = Mark::where('trip_id', $trip_id)
+            ->where('latitude', $request->latitude)
+            ->where('longitude', $request->longitude)
+            ->first();
 
-        $mark = new Mark();
-        $mark->trip_id = $trip_id;
-        $mark->is_general = 0;
-        $mark->name = $request->name;
-        $mark->desc = $request->desc;
-        $mark->address = $request->address;
-        $mark->latitude = $request->latitude;
-        $mark->longitude = $request->longitude;
-        $mark->save();
+        if ($existingMark) {
+            $existingMark->update([
+                'trip_id' => $trip_id,
+                'is_general' => 0,
+                'name' => $request->name,
+                'desc' => $request->desc,
+                'address' => $request->address,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+            ]);
+            TripEvent::dispatch($trip_id,"JEST TO FUNKCJA ADD MARKER", $existingMark);
+             return response()->json(['message' => 'Marker zaktualizowany pomyślnie'], 200);
+        } else {
+            // Marker nie istnieje, więc możesz utworzyć nowy
+            $mark = new Mark();
+            $mark->trip_id = $trip_id;
+            $mark->is_general = 0;
+            $mark->name = $request->name;
+            $mark->desc = $request->desc;
+            $mark->address = $request->address;
+            $mark->latitude = $request->latitude;
+            $mark->longitude = $request->longitude;
+            $mark->save();
+            TripEvent::dispatch($trip_id,"JEST TO FUNKCJA ADD MARKER", $mark);
+             return response()->json(['message' => 'Marker utworzony pomyślnie'], 201);
+        }
 
-        TripEvent::dispatch($trip_id,"JEST TO FUNKCJA ADD MARKER", $mark);
 //        return redirect()->back()->with('message', 'Operacja zakończona pomyślnie.'. $mark->trip_id);
+        TripEvent::dispatch($trip_id,"JEST TO FUNKCJA ADD MARKER", $mark);
 
-        return response()->json(['message' => 'Dane zapisane pomyślnie']);
     }
     public function editMarker(Request $request){
 

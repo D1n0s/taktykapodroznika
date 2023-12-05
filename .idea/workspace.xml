@@ -5,17 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace">
-      <change afterPath="$PROJECT_DIR$/resources/views/components/infoComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/hot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/AddUserComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddUserComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/UserListComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/UserListComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/moveAttractionComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/moveAttractionComponents.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Events/MarkEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/MarkEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/vue_dist_vue__esm-bundler__js.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/vue_dist_vue__esm-bundler__js.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/map_creator.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/map_creator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/ac75ee06d7b10679423983acdb7a1111.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ac75ee06d7b10679423983acdb7a1111.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/65732876d1d518a91926724a4e0d516e.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/65732876d1d518a91926724a4e0d516e.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uruchom_taktyke.bat" beforeDir="false" afterPath="$PROJECT_DIR$/uruchom_taktyke.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +210,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/taktykapodroznika/resources/views/components&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/taktykapodroznika&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -278,6 +284,8 @@
       <workItem from="1701159627356" duration="17862000" />
       <workItem from="1701258344023" duration="4283000" />
       <workItem from="1701265275590" duration="9097000" />
+      <workItem from="1701425696085" duration="13488000" />
+      <workItem from="1701773668966" duration="1376000" />
     </task>
     <task id="LOCAL-00001" summary="prace">
       <option name="closed" value="true" />
@@ -308,6 +316,12 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:vite" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:vue" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="RECENT_FILTERS">

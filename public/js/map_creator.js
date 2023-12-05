@@ -12,26 +12,36 @@ function addMarker(mark) {
     // Tworzymy marker
     var newMarker = L.marker([mark.latitude, mark.longitude]).addTo(map);
     newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
+    markers.push(newMarker);
      // RefreshDivMarkers();
     RefreshDivs(['markers','routes']); // tutaj było test ale nie wiem po co :)
 }
-function delmapMarkerByName(markerName) {
-    // Pobierz wszystkie markery z mapy
-    var allMarkers = mapLayerGroup.getLayers();
 
-    // Iteruj przez markery
-    allMarkers.forEach(function (marker) {
-        // Sprawdź, czy marker ma właściwość name i czy jest równa markerName
-        if (marker.options.name && marker.options.name === markerName) {
-            // Usuń marker z mapy
-            map.removeLayer(marker);
+
+function removeMarker(mark) {
+
+    for (var i = 0; i < markers.length; i++) {
+        var marker = markers[i].getLatLng();
+        if(marker.lat == mark.latitude && marker.lng == mark.longitude){
+            //map.removeLayer(marker);
+            map.removeLayer(markers[i]);
+            markers.splice(i, 1);
         }
-    });
+    }
 }
+
+
+// function removeMarker(mark) {
+//     var newMarker =  L.marker([51.505, -0.09]);
+//     newMarker.bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
+//     markers.push(newMarker);
+// }
+
+
+
 function editMarker(mark) {
 
     var existingMarker = L.marker([mark.latitude, mark.longitude]);
-
     existingMarker.addTo(map)
         .bindPopup("<b>" + mark.name + "</b><br>" + mark.address);
 }

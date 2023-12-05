@@ -48,10 +48,12 @@
 
         markersData.forEach(function (marker) {
             if(marker.queue != null){
-                var waypoint = L.latLng(marker.latitude, marker.longitude);
+                var waypoint = L.latLng(marker.latitude, marker.longitude, marker.queue);
                 waypoints.push(waypoint);
             }
         });
+
+
 
         var routingControl = L.Routing.control({
             waypoints: waypoints,
@@ -70,15 +72,39 @@
         }).addTo(map);
 
 
-        for(i=0; i < waypoints.length + 1;i++){
-            console.log(waypoints[i] + " POZYCJA " + i );
-        }
+
+
 
         function addWaypoint(mark) {
-            var latLng = L.latLng(mark.latitude, mark.longitude);
-            waypoints.push(latLng);
+            var latLng = L.latLng(mark.latitude, mark.longitude, mark.queue);
+
+            // Sprawdź, czy waypoint już istnieje w tablicy
+            var existingWaypoint = waypoints.find(function (wp) {
+                return wp.lat === latLng.lat && wp.lng === latLng.lng;
+            });
+
+            if (existingWaypoint) {
+                // Aktualizuj wartość queue dla istniejącego waypointa
+                existingWaypoint.alt = mark.queue;
+
+                // Posortuj tablicę po aktualizacji alt
+                waypoints.sort((a, b) => a.alt - b.alt);
+
+            } else {
+                // Dodaj nowy waypoint, jeśli nie istnieje
+                waypoints.push(latLng);
+
+                // Posortuj tablicę po dodaniu nowego waypointa
+                waypoints.sort((a, b) => a.alt - b.alt);
+                console.log('Dodano nowy waypoint:', waypoints);
+            }
+
+            // Aktualizuj trasę po zmianie waypointów
             routingControl.setWaypoints(waypoints);
         }
+
+        // ... (reszta twojego kodu)
+
 
         function delWaypoint(mark) {
             var indexToRemove = -1;
@@ -94,8 +120,11 @@
                 waypoints.splice(indexToRemove, 1); // Usuń waypoint z tablicy
                 routingControl.setWaypoints(waypoints); // Zaktualizuj trasę
                 console.info('AKTUALIZACJA TRASY <3 ');
+                console.log(waypoints);
+
             }
         }
+
 
         routingControl.on('routeselected', function (e) {
             var route = e.route;
@@ -133,17 +162,17 @@
                 var distanceBetweenPoints = waypoints[i].distanceTo(waypoints[i + 1]) / 1000; // distanceTo zwraca odległość w metrach
                 distancesBetweenWaypoints.push(distanceBetweenPoints);
             }
-
-            // Wyświetl informacje w konsoli
-            console.log('Sumaryczny dystans: ' + totalDistance.toFixed(2) + ' km');
-            console.log('Sumaryczny czas: ' + hours + ' godzin ' + minutes + ' minut');
-            console.log('Średnia prędkość podróży: ' + averageSpeed.toFixed(2) + ' km/h');
-            console.log('Ilość zużytego paliwa: ' + fuelConsumed.toFixed(2) + ' litrów');
-            console.log('Koszt podróży (paliwo): ' + fuelCost.toFixed(2) + ' PLN');
-            console.log('Ilość emisji CO2: ' + carbonEmission.toFixed(2) + ' kg');
-            console.log('Szacowany czas przyjazdu (ETA): ' + eta.toLocaleTimeString());
-            console.log('Ilość przystanków: ' + stopsCount);
-            console.log('Odległości między waypointami: ' + distancesBetweenWaypoints.join(' km, ') + ' km');
+            //
+            // // Wyświetl informacje w konsoli
+            // console.log('Sumaryczny dystans: ' + totalDistance.toFixed(2) + ' km');
+            // console.log('Sumaryczny czas: ' + hours + ' godzin ' + minutes + ' minut');
+            // console.log('Średnia prędkość podróży: ' + averageSpeed.toFixed(2) + ' km/h');
+            // console.log('Ilość zużytego paliwa: ' + fuelConsumed.toFixed(2) + ' litrów');
+            // console.log('Koszt podróży (paliwo): ' + fuelCost.toFixed(2) + ' PLN');
+            // console.log('Ilość emisji CO2: ' + carbonEmission.toFixed(2) + ' kg');
+            // console.log('Szacowany czas przyjazdu (ETA): ' + eta.toLocaleTimeString());
+            // console.log('Ilość przystanków: ' + stopsCount);
+            // console.log('Odległości między waypointami: ' + distancesBetweenWaypoints.join(' km, ') + ' km');
         });
 
         //dodawnaie markerów do mapy <3
@@ -152,6 +181,7 @@
             newMarker.bindPopup("<b>" + marker.name + "</b><br>" + marker.address);
             return newMarker;
         });
+
 
         Echo.private('privateTrip.<?php echo e($trip->trip_id); ?>')
             .listen('TripEvent', (e) => {

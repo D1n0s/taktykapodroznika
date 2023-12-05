@@ -6,7 +6,7 @@
 
         <div>
             @if($permission == 1)
-            <button class="button-perspective" onclick="showForm('button1-form')">DODAJ PUNKT</button>
+            <button class="button-perspective" onclick="showForm('button1-form')">Dodaj Punkt</button>
             @endif
         </div>
 
@@ -80,6 +80,10 @@
             .listen('AddQueueEvent', (e) => {
                 const markId = e.mark.mark_id;
                 const markElement = document.getElementById(`box_${markId}`);
+                const circle = document.getElementById(`circle_${markId}`);
+                if(circle != null){
+                    circle.remove();
+                }
                 markElement.classList.add('Queue');
 
                 const circleElement = document.createElement("div");
@@ -96,8 +100,10 @@
                 const markId = e.mark.mark_id;
                 const markElement = document.getElementById(`box_${markId}`);
                 const circle = document.getElementById(`circle_${markId}`);
+                if(circle != null){
+                    circle.remove();
+                }
                 markElement.classList.remove('Queue');
-                circle.remove();
             });
         function RefreshDivMarkers() {
             $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
@@ -111,12 +117,13 @@
             }
         }
 
+
         Echo.private('privateTrip.{{$trip->trip_id}}')
             .listen('MarkEvent', (e) => {
-                console.log('usunięto marker');
+                //console.log('usunięto marker');
                 $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
                 RefreshDivs(['routes']);
-
+                removeMarker(e.mark);
             });
 
 

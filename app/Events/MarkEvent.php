@@ -17,14 +17,16 @@ class MarkEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private int $trip_id;
+    public Mark $mark;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(int $trip_id)
+    public function __construct(int $trip_id,Mark $mark = null)
     {
         $this->trip_id = $trip_id;
+        $this->mark = $mark;
     }
 
 
