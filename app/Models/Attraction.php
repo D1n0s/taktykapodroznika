@@ -26,9 +26,19 @@ class Attraction extends Model
         'cost' => 'decimal:2',
     ];
 
-    public function setDurationAttribute($value)
-    {
-        $this->attributes['duration'] = Carbon::parse($value)->format('H:i');
+    public function setDurationAttribute($value){
+        if ($value instanceof \DateInterval) {
+            $hours = $value->h;
+            $minutes = $value->i;
+
+            // Utwórz ciąg w formacie 'H:i'
+            $formattedDuration = sprintf('%02d:%02d', $hours, $minutes);
+
+            $this->attributes['duration'] = $formattedDuration;
+        } else {
+            // Jeśli $value nie jest obiektem DateInterval, załóż, że jest już w formie ciągu znaków
+            $this->attributes['duration'] = Carbon::parse($value)->format('H:i');
+        }
     }
     public function getTime($columnName)
     {

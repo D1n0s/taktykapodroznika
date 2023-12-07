@@ -155,7 +155,7 @@
             var eta = new Date(now.getTime() + totalDuration * 1000); // czas przyjazdu w milisekundach od początku epoki
 
             // Ilość przystanków
-            var stopsCount = waypoints.length ; // odejmujemy start i cel, ponieważ są one również uwzględnione jako punkty
+            var stopsCount = waypoints.length - 2; // odejmujemy start i cel, ponieważ są one również uwzględnione jako punkty
 
             // Obliczenia odległości między waypointami
             var distancesBetweenWaypoints = [];
@@ -163,17 +163,22 @@
                 var distanceBetweenPoints = waypoints[i].distanceTo(waypoints[i + 1]) / 1000; // distanceTo zwraca odległość w metrach
                 distancesBetweenWaypoints.push(distanceBetweenPoints);
             }
-            //
-            // // Wyświetl informacje w konsoli
-            // console.log('Sumaryczny dystans: ' + totalDistance.toFixed(2) + ' km');
-            // console.log('Sumaryczny czas: ' + hours + ' godzin ' + minutes + ' minut');
-            // console.log('Średnia prędkość podróży: ' + averageSpeed.toFixed(2) + ' km/h');
-            // console.log('Ilość zużytego paliwa: ' + fuelConsumed.toFixed(2) + ' litrów');
-            // console.log('Koszt podróży (paliwo): ' + fuelCost.toFixed(2) + ' PLN');
-            // console.log('Ilość emisji CO2: ' + carbonEmission.toFixed(2) + ' kg');
-            // console.log('Szacowany czas przyjazdu (ETA): ' + eta.toLocaleTimeString());
-            // console.log('Ilość przystanków: ' + stopsCount);
-            // console.log('Odległości między waypointami: ' + distancesBetweenWaypoints.join(' km, ') + ' km');
+
+
+            console.log('Sumaryczny dystans: ' + totalDistance.toFixed(2) + ' km');
+            console.log('Sumaryczny czas: ' + hours + ' godzin ' + minutes + ' minut');
+            console.log('Średnia prędkość podróży: ' + averageSpeed.toFixed(2) + ' km/h');
+            console.log('Ilość zużytego paliwa: ' + fuelConsumed.toFixed(2) + ' litrów');
+            console.log('Koszt podróży (paliwo): ' + fuelCost.toFixed(2) + ' PLN');
+            console.log('Ilość emisji CO2: ' + carbonEmission.toFixed(2) + ' kg');
+            console.log('Szacowany czas przyjazdu (ETA): ' + eta.toLocaleTimeString());
+            console.log('Ilość przystanków: ' + stopsCount);
+            console.log('Odległości między waypointami: ' + distancesBetweenWaypoints.join(' km, ') + ' km');
+
+
+
+
+
         });
 
         //dodawnaie markerów do mapy <3

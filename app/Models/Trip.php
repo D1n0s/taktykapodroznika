@@ -15,6 +15,11 @@ class Trip extends Model
         'desc',
         'start_date',
         'end_date',
+        'travel_time',
+        'distance',
+        'avg_speed',
+        'fuel_used',
+        'travel_cost',
     ];
 
     public function marks()
