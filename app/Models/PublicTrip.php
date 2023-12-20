@@ -11,6 +11,7 @@ class PublicTrip extends Model
 
     protected $fillable = [
         'trip_id',
+        'copied',
         'created_at',
         'updated_at',
     ];

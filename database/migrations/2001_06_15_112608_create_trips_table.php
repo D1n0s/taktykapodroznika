@@ -11,16 +11,20 @@ class CreateTripsTable extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->increments('trip_id');
             $table->integer('owner_id')->unsigned();
-            $table->string('title', 255);
-            $table->text('desc');
+            $table->string('title',30);
             $table->date('start_date');
             $table->date('end_date');
             //szczegóły dojazdu
             $table->time('travel_time')->nullable();
             $table->decimal('distance',10,2)->default(0.00)->nullable();
             $table->integer('avg_speed')->default(0)->nullable();
-            $table->integer('fuel used')->default(0)->nullable();
+            $table->integer('fuel_consumed')->default(0)->nullable();
             $table->decimal('travel_cost',10,2)->default(0.00);
+            $table->integer('persons')->default(1);
+            $table->decimal('petrol_cost',4,2)->nullable();
+            $table->decimal('diesel_cost',4,2)->nullable();
+            $table->decimal('gas_cost',4,2)->nullable();
+
         });
         Schema::table('trips', function (Blueprint $table) {
             $table->foreign('owner_id')->references('user_id')->on('users');

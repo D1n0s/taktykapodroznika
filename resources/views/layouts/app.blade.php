@@ -73,8 +73,8 @@
                             @endif
                         @else
 
-                            <div class="btn-group dropup">
-                                <button type="button" class="btn btn-primary" id="notificationButton">Zaproszenia</button>
+                            <div class="btn-group dropup" style="border:none;">
+                                <button type="button" class="btn btn-primary" style="border:none;" id="notificationButton">Zaproszenia</button>
                                 <div class="dropdown">
                                     <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
                                         @forelse(Auth::user()->invitesReceived as $invite)

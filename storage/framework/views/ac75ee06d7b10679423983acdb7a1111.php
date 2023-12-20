@@ -5,6 +5,7 @@
                 <button class="button-perspective" onclick="showForms('start')">Utwórz podróż</button>
             <a href="/mytrips"><button class="button-perspective">Moje podróże</button></a>
             <a href="/sharedtrips"><button class="button-perspective">Udostępnione podróże</button></a>
+            <a href="/publictrips"><button class="button-perspective">Publiczne podróże</button></a>
             </div>
 
             
@@ -25,9 +26,6 @@
                         <input type="hidden" name="user_id" value="<?php echo e(Auth::user()->user_id); ?>">
                         <label for="title">Tytuł:</label>
                         <input type="text" id="ttile" name="title" class="form-control"  maxlength="30">
-                        <label for="desc">Opis:</label>
-                        <input type="text" id="desc" name="desc" class="form-control" maxlength="250">
-
                         <label for="startdate">Data startu</label>
                         <input class="form-control" type="date" name="startdate" id="startdate" min="<?php echo e(date('Y-m-d')); ?>" onchange="updateEndDateMin()">
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\TripEvent;
+use App\Http\Controllers\PublicTripsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -30,6 +31,7 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/mytrips',[ProfileController::class,'mytrips']);
     Route::get('/sharedtrips',[ProfileController::class,'sharedtrips']);
+    Route::get('/publictrips',[PublicTripsController::class,'index'])->name('publictrips');
     Route::get('/map/{trip}', [TripController::class, 'index']);
 });
 
@@ -52,7 +54,7 @@ Route::post('/inviteaccept', [ProfileController::class, 'AcceptInvite'])->name('
 Route::post('/invitedeceline', [ProfileController::class, 'DeclineInvite'])->name('DeclineInvite');
 Route::post('/savepermissions', [TripController::class, 'SavePermissions'])->name('SavePermissions');
 
-
+//TRIP AKCJE
 Route::post('/markadd', [TripController::class, 'addMarker'])->name('addMarker');
 Route::post('/markedit', [TripController::class, 'editMarker'])->name('editMarker');
 Route::post('/markdel', [TripController::class, 'delMarker'])->name('delMarker');
@@ -65,7 +67,16 @@ Route::post('/addattraction', [TripController::class, 'addAttraction'])->name('a
 Route::post('/editattraction', [TripController::class, 'editAttraction'])->name('editAttraction');
 Route::post('/attractiondel', [TripController::class, 'delAttraction'])->name('delAttraction');
 Route::post('/moveattraction', [TripController::class, 'moveAttraction'])->name('moveAttraction');
+Route::post('/addroutedata', [TripController::class, 'AddRouteData'])->name('AddRouteData');
+Route::post('/addvehicle', [TripController::class, 'AddVehicle'])->name('AddVehicle');
+Route::post('/delvehicle', [TripController::class, 'DelVehicle'])->name('DelVehicle');
+Route::post('/fuelPrice', [TripController::class, 'FuelPrice'])->name('FuelPrice');
+Route::post('/PersonNumber', [TripController::class, 'PersonNumber'])->name('PersonNumber');
 
+//Udostępnianie podróży
+Route::post('/addpublictrip',[PublicTripsController::class,'AddPublicTrip'])->name('AddPublicTrip');
+Route::post('/delpublictrip',[PublicTripsController::class,'DelPublicTrip'])->name('DelPublicTrip');
+Route::post('/copypublictrip/{trip_id}',[PublicTripsController::class,'CopyPublicTrip'])->name('CopyPublicTrip');
 
 
 Route::get('/', function () {

@@ -17,7 +17,8 @@
                 </div>
                 <br />
                 <button type="button" class="btn btn-primary" onclick="addTactic()">Dodaj</button>
-                <button type="button" class="btn btn-secondary" onclick="cancel()">Anuluj</button>
+
+                <button type="button" class="btn btn-secondary" onclick="cancel();hideForm('{{$name}}');">Anuluj</button>
             </div>
 
             <div id="infoMessage" style="display: none;"></div>
@@ -31,7 +32,6 @@
         const emailInput = document.getElementById('email');
         infoMessage.style.display = 'none';
         emailInput.value = '';
-        hideForm('{{$name}}');
     }
     function hideForm(formId) {
         var form = document.getElementById(formId);

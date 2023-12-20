@@ -60,11 +60,7 @@
             routeWhileDragging: true,
             draggableWaypoints: false,
             addWaypoints: false,
-            showAlternatives: true,
-            altLineOptions: {
-            show: true,
-                styles: [{ color: 'gray', opacity: 1, weight: 5 }] // Dostosuj szerokość linii
-            },
+            showAlternatives: false,
             lineOptions: {
                 styles: [{ color: 'blue', opacity: 1, weight: 3 }]
             },
@@ -136,6 +132,7 @@
             // Convert totalDuration to hours and minutes
             var hours = Math.floor(totalDurationHours);
             var minutes = Math.floor((totalDurationHours - hours) * 60);
+            var formattedTime = hours + ":" + (minutes < 10 ? '0' : '') + minutes;
 
             // Przykładowe dane o samochodzie
             var fuelConsumption = 5; // spalanie w litrach na 100 km
@@ -167,6 +164,7 @@
             console.log('Sumaryczny dystans: ' + totalDistance.toFixed(2) + ' km');
             console.log('Sumaryczny czas: ' + hours + ' godzin ' + minutes + ' minut');
             console.log('Średnia prędkość podróży: ' + averageSpeed.toFixed(2) + ' km/h');
+            console.log('Średnia prędkość podróży: ' +  Math.ceil(averageSpeed) + ' km/h');
             console.log('Ilość zużytego paliwa: ' + fuelConsumed.toFixed(2) + ' litrów');
             console.log('Koszt podróży (paliwo): ' + fuelCost.toFixed(2) + ' PLN');
             console.log('Ilość emisji CO2: ' + carbonEmission.toFixed(2) + ' kg');
@@ -176,7 +174,30 @@
 
 
 
-
+            axios.post("<?php echo e(route('AddRouteData')); ?>", {
+                'travel_time' : formattedTime,
+                'distance' : totalDistance.toFixed(2),
+                'avg_speed' :  Math.ceil(averageSpeed),
+                'fuel_consumed' :  Math.ceil(fuelConsumed),
+            }, {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    if (error.response && error.response.data) {
+                        console.log(error.response.data);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                });
 
         });
 
@@ -217,29 +238,45 @@
     <?php endif; ?>
 
     <div id="map"></div>
+    
+
 <?php if($trip->owner_id === Auth::user()->user_id): ?>
         <div class="map_bar container">
-
                         <div id="" >
                             <button class="button-perspective"  onclick="showForm('tactic')">Dodaj Taktyka</button>
                             <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
+                            <button class="button-perspective"  onclick="showForm('shareTrip')">Udostępnij</button>
                         </div>
             <?php echo $__env->make('components.AddUserComponents', ['name' => 'tactic','title' => 'powpow'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <?php echo $__env->make('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków!'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
         </div>
 <?php endif; ?>
+
+    <div class="map_bar container d-flex justify-content-center align-items-center mb-4" >
+        <div class="text-center">
+            <button class="button-perspective" style="width: 90%" onclick="showForm('copy')">Skopiuj Niezapomniane Chwile</button>
+        </div>
+    </div>
+    <?php echo $__env->make('components.CopyTripComponents', ['name' => 'copy','title' => 'Skopiuj podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+
+
     <?php echo $__env->make('components.AddPostComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    <?php echo $__env->make('components/creatorComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('components.AddVehicleComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('components.AddPersonsNumberComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('components.AddFuelComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php echo $__env->make('components.creatorComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <div class="dashboard">
         <div class="dash_menu">
             <div class="outer">
-            <button class="dash_bttn tablinks active"  data-tab="markers" onclick="change(event, 'markers')"><i class="material-icons">location_on</i> Markery</button>
-            <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class="material-icons">location_on</i> Trasowanie</button>
-            <button class="dash_bttn tablinks active" data-tab="posts" onclick="change(event, 'posts')"><i class="material-icons">location_on</i> Wpisy</button>
-            <button class="dash_bttn tablinks active" data-tab="posts" onclick="change(event, 'info')"><i class="material-icons">location_on</i> Podsumowanie</button>
+            <button class="dash_bttn tablinks active"   data-tab="markers" onclick="change(event, 'markers')"><i class='fas fa-map-marker-alt' ></i> Markery</button>
+            <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class='fas fa-route' ></i> Trasowanie</button>
+            <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'posts')"><i class='fas fa-clipboard-list' ></i> Wpisy</button>
+            <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'info')"><i class='fas fa-flag-checkered'></i> Podsumowanie</button>
 
             </div>
         </div>

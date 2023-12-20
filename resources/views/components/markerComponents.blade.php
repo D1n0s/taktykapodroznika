@@ -12,16 +12,16 @@
 
     </div>
 
-    <div class="secound" id="RefreshDivMarkers">
+    <div class="secound" id="RefreshDivMarkers" style="margin: 5vh;">
     @forelse($markerData as $mark)
 @if($mark['queue'] != null && $mark['queue'] <= count($markerData))
-                <div class="card box Queue" id="box_{{$mark['id']}}" >
+                <div class="card box Queue"  style="margin: 3vh;" id="box_{{$mark['id']}}" >
                     <div class="circle" id="circle_{{$mark['id']}}">
                         <span class="number">{{$mark['queue']}}</span>
                     </div>
 
 @else
-                <div class="card box" id="box_{{$mark['id']}}">
+                <div class="card box " style="margin: 3vh;"  id="box_{{$mark['id']}}">
 
 @endif
 

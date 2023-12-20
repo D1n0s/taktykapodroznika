@@ -11,6 +11,7 @@ class CreatePublicTripsTable extends Migration
         Schema::create('public_trips', function (Blueprint $table) {
             $table->increments('public_id');
             $table->integer('trip_id', )->unsigned();
+            $table->integer('copied')->default(0);
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });

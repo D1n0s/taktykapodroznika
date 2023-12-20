@@ -160,9 +160,9 @@
                 <div class="form-content">
                     <div class="form-items">
                         <h3>Nową atrakcją na dziś jest :</h3>
-                        <p>Dodajesz atrakcję do {{$post->post_id}}</p>
+                        <p>Dodajesz atrakcję do {{$post->title}} </p>
 
-                        <form class="requires-validation" method="post" action="{{route('addAttraction')}}">
+                        <form class="requires-validation" method="POST" action="{{route('addAttraction')}}">
                             @csrf
                             <input type="hidden" name="post" value="{{$post->post_id}}">
                             @if($att != null)
@@ -173,7 +173,7 @@
 
                             </div>
                             <div class="col-md-12">
-                                <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base">{{$att ? $att->desc : '' }}</textarea>
+                                <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base">{{$att ? $att->desc : '' }} </textarea>
                             </div>
 
                                     <div class="col-md-12 ">
@@ -188,6 +188,30 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var startTimeInput = document.querySelector('input[name="start_time"]');
+                                    var endTimeInput = document.querySelector('input[name="end_time"]');
+
+                                    function validateEndTime() {
+                                        var startTimeParts = startTimeInput.value.split(':');
+                                        var endTimeParts = endTimeInput.value.split(':');
+
+                                        var startHour = parseInt(startTimeParts[0]);
+                                        var startMinute = parseInt(startTimeParts[1]);
+                                        var endHour = parseInt(endTimeParts[0]);
+                                        var endMinute = parseInt(endTimeParts[1]);
+
+                                        if (endHour < startHour || (endHour === startHour && endMinute < startMinute)) {
+                                            alert('Godzina zakończenia nie może być wcześniejsza niż godzina rozpoczęcia.');
+                                            endTimeInput.value = null;
+                                        }
+                                    }
+                                    endTimeInput.addEventListener('change', validateEndTime);
+                                });
+                            </script>
                             <br>
 
                             <div class="col-md-12">
@@ -195,7 +219,7 @@
                                 <div class="col-md-5 mx-auto">
                                     <div class="input-group">
                                             <label  for="price" class="bg-transparent  ">Całkowity koszt atrakcji</label>
-                                        <input  type="number" name="price" value="{{$att ? $att->cost : '' }}" class="form-control  rounded " min="0" value="0" step="0.01" oninput="validity.valid||(value='');">
+                                        <input  type="number" name="price" value="{{$att ? $att->cost : '' }}" class="form-control  rounded " min="0"  step="0.01" oninput="validity.valid||(value='');">
                                         <div class="input-group-append">
                                             <span class="input-group-text bg-transparent border-0" style="color: white; font-weight: bold;">zł</span>
                                         </div>
@@ -207,28 +231,32 @@
                                 <select id="markerSelect" name="location" class="form-select mt-3">
 
                                     @if($att == null)
-                                        <option disabled value="" selected>Lokalizacja (nie wymagane)</option>
+                                        <option  value="" selected>Lokalizacja (nie wymagane)</option>
+                                        <span id="refresh_markers">
                                         @foreach($markers as $marker)
                                             <option value="{{$marker['id']}}" >
                                                 {{$marker['name']}} || {{ substr($marker['desc'], 0, 23) }}
                                             </option>
                                         @endforeach
+                                        </span>
                                     @endif
 
                                     @if($att != null)
                                     <option  value="">Lokalizacja (nie wymagane)</option>
+                                        <span id="refresh_markers">
                                     @foreach($markers as $marker)
                                         <option value="{{$marker['id']}}" @if($att->mark && $att->mark->mark_id == $marker['id']) selected @endif>
                                             {{$marker['name']}} || {{ substr($marker['desc'], 0, 23) }}
                                         </option>
                                         @endforeach
+                                        </span>
                                     @endif
 
 
                                 </select>
                             </div>
                             <div class="col-md-12 mt-3">
-                                <a class="form-check-label" >Kliknij mnie aby odświeżyć lokalizacje</a>
+                                <button type="button" class="form-check-label" onclick="refresh_marker()" >Kliknij aby odświeżyć lokalizacje</button>
                             </div>
 
 
@@ -247,7 +275,9 @@
 
 
     <script>
-
+function refresh_marker(){
+    $("#refresh_markers").load(location.href + " #refresh_markers");
+}
 
 
     </script>

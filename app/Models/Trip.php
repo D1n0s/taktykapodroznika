@@ -12,19 +12,26 @@ class Trip extends Model
     protected $fillable = [
         'owner_id',
         'title',
-        'desc',
         'start_date',
         'end_date',
         'travel_time',
         'distance',
         'avg_speed',
-        'fuel_used',
+        'fuel_consumed',
         'travel_cost',
+        'persons',
+        'petrol_cost',
+        'diesel_cost',
+        'gas_cost',
     ];
 
     public function marks()
     {
         return $this->hasMany(Mark::class, 'trip_id');
+    }
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'trip_id');
     }
 
     public function owner()

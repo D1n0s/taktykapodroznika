@@ -74,8 +74,8 @@
                             <?php endif; ?>
                         <?php else: ?>
 
-                            <div class="btn-group dropup">
-                                <button type="button" class="btn btn-primary" id="notificationButton">Zaproszenia</button>
+                            <div class="btn-group dropup" style="border:none;">
+                                <button type="button" class="btn btn-primary" style="border:none;" id="notificationButton">Zaproszenia</button>
                                 <div class="dropdown">
                                     <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
                                         <?php $__empty_1 = true; $__currentLoopData = Auth::user()->invitesReceived; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>

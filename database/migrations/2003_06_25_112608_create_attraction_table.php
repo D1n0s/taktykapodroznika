@@ -11,8 +11,8 @@ class CreateAttractionTable extends Migration
         Schema::create('attractions', function (Blueprint $table) {
             $table->increments('attraction_id');
             $table->integer('post_id')->unsigned();
-            $table->string('title', 255);
-            $table->text('desc');
+            $table->string('title', 20);
+            $table->text('desc', 255)->nullable();
             $table->decimal('cost',10,2)->default(0.00);
             $table->time('duration')->nullable();
             $table->time('time_start')->nullable();
