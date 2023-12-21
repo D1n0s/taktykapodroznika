@@ -5,38 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e97fca6-7eb1-4d13-8f7f-646aa7df94a1" name="Changes" comment="prace">
-      <change afterPath="$PROJECT_DIR$/app/Events/InfoUpdateEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/PersonsUpdateEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Events/fuelUpdateEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PublicTripsController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Vehicle.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2001_06_15_112608_create_vehicle_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/info_script.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/AddFuelComponents.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/AddPersonsNumberComponents.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/AddPublicComponents.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/AddVehicleComponents.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/components/CopyTripComponents.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/publicTrips.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PublicTripsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PublicTripsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TripController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/PublicTrip.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/PublicTrip.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Trip.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Trip.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2001_06_15_112608_create_trips_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2001_06_15_112608_create_trips_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2001_07_15_112552_create_public_trips_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2001_07_15_112552_create_public_trips_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2003_06_25_112608_create_attraction_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2003_06_25_112608_create_attraction_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/buttons.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/buttons.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/components/markerComponents.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/components/markerComponents.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/map_creator.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/map_creator.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/AddPostComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddPostComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/AddPublicComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddPublicComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/AddUserComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddUserComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/AddVehicleComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/AddVehicleComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/UserListComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/UserListComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/addAttractionComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/addAttractionComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/infoComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/infoComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/markerComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/postComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/postComponents.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/routeComponents.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/myTrips.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/myTrips.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/publicTrips.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/publicTrips.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/sharedTrips.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sharedTrips.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/trip_creator.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/59442849b21cce02671a2f1cd2acebd4.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/59442849b21cce02671a2f1cd2acebd4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/framework/views/5b1c0dbc295f5356cebb0400ef3ff4cb.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/5b1c0dbc295f5356cebb0400ef3ff4cb.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/framework/views/a799202a33853e34863e9754c49e7a0a.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/a799202a33853e34863e9754c49e7a0a.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/ac75ee06d7b10679423983acdb7a1111.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/ac75ee06d7b10679423983acdb7a1111.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" beforeDir="false" afterPath="$PROJECT_DIR$/storage/framework/views/f2370b66470359c5a54c1ee4946f5ebf.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage/logs/laravel.log" beforeDir="false" afterPath="$PROJECT_DIR$/storage/logs/laravel.log" afterDir="false" />
@@ -318,7 +309,8 @@
       <workItem from="1702379001461" duration="7240000" />
       <workItem from="1702642229208" duration="4844000" />
       <workItem from="1702897301756" duration="15617000" />
-      <workItem from="1703076466437" duration="5555000" />
+      <workItem from="1703076466437" duration="6065000" />
+      <workItem from="1703151692056" duration="13682000" />
     </task>
     <task id="LOCAL-00001" summary="prace">
       <option name="closed" value="true" />

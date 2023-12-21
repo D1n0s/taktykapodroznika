@@ -34,12 +34,21 @@
         axios.post(form.action, formData)
             .then(function(response) {
                 console.log(response.data);
-                form.reset(); // reset() jest metodą Vanilla JavaScript do resetowania formularza
-                hideForm('addpost');
-                alert('Post dodany!');
+                form.reset();
+
+                if (response.data && response.data.success) {
+                    alert(response.data.success);
+                } else {
+                    alert('Post dodany!');
+                }
             })
             .catch(function(error) {
                 console.error(error);
+                if (error.response && error.response.status === 400 && error.response.data && error.response.data.error) {
+                    alert('Błąd: ' + error.response.data.error);
+                } else {
+                    alert('Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.');
+                }
             });
 
     });

@@ -10,11 +10,11 @@
             padding: 2vh;
             border-radius: 8px;
             background-color: rgba(21, 33, 72, 0.85);
-            width: 50%;
             justify-content: center; /* Wyśrodkowanie w poziomie */
-            align-items: center; /* Wyśrodkowanie w pionie */
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-
+            width: 30%;
+            position: absolute;
+            bottom: 1vh;
         }
 
 
@@ -28,7 +28,6 @@
             color: #fff;
             text-decoration: #0cde17;
             border-radius: 5px;
-            background: $white;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
         }
 
@@ -65,11 +64,11 @@
             border-right-width: 8vh;
             border-top-width: 5vh;
             display: grid;
-            row-gap: 2rem;
             min-height: 80vh;
             max-height: 120vh;
 
             margin: 0 auto;
+            margin-left: 27vh;
 
 
 
@@ -81,7 +80,6 @@
     @if(!empty($trips))
         <div class=" framed container_content " style="padding: 0;">
             <div class="text-center pow"  >
-
                 <!-- resources/views/mytrips.blade.php -->
                 <h1>Moje podróże</h1>
                 <br> <br><BR>
@@ -92,29 +90,39 @@
                         <th>Data wyjazdu</th>
                         <th>Data przyjazdu</th>
                         <th>AKCJE</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($trips as $trip)
-                        <form action="map/{{ $trip->trip_id }}?" method="get">
                             <tr >
                                 <td>{{ $trip->title }}</td>
-
                                 <td>{{ $trip->start_date }}</td>
                                 <td>{{ $trip->end_date }}</td>
-                                <td class="panel green"><button type="submit" style="margin-right: 5vh;" >Wejdź</button>
-                                    <span class="panel pink">  <button>Usuń</button> </span>
+                                <td class="panel green">
+                                    <form action="map/{{ $trip->trip_id }}?" method="get">
+                                        @csrf
+                                        <button type="submit"  >Wejdź</button>
+                                    </form>
+                                </td >
+                                <td class="panel pink">
+                                    <form action="{{ route('delTrip', ['trip_id' => $trip->trip_id]) }}" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć tego tripa?');">
+                                        @csrf
+                                        <span class="panel pink">
+                                        <button type="submit" class="panel pink">Usuń</button>
+                                        </span>
+                                    </form>
                                 </td>
 
+
+
                             </tr>
-                        </form>
                     @endforeach
                     </tbody>
                 </table>
-
                 <!-- Paginacja -->
-                <div class="center">
-                    <div class="pagination">
+                <div class="center ">
+                    <div class="pagination ">
                         @if ($trips->currentPage() > 1)
                             <a href="{{ $trips->previousPageUrl() }}">POPRZEDNIE</a>
                         @endif
@@ -144,14 +152,14 @@
                         @if ($trips->currentPage() < $trips->lastPage())
                             <a href="{{ $trips->nextPageUrl() }}">DALEJ</a>
                         @endif
-                    </div>
-                </div>
+                    </div></div>
+
             </div>
+
 
         </div>
 
     @else
-        <h1>WITTTOOOOOOM</h1>
     @endif
 
 

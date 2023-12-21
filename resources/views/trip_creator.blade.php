@@ -236,6 +236,13 @@
             {{ session('message') }}
         </div>
     @endif
+
+   <p id="trip_title">{{$trip->title}}</p>
+
+
+
+
+
 {{--    NIE DOTYKAĆ BO TO JEST MOJA MAPA <!---->--}}
     <div id="map"></div>
     {{--    NIE DOTYKAĆ BO TO JEST MOJA MAPA <!---->--}}
@@ -247,21 +254,22 @@
                             <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
                             <button class="button-perspective"  onclick="showForm('shareTrip')">Udostępnij</button>
                         </div>
-            @include('components.AddUserComponents', ['name' => 'tactic','title' => 'powpow'])
-            @include('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków!'])
+            @include('components.AddUserComponents', ['name' => 'tactic','title' => 'Dodaj Taktyka'])
+            @include('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków'])
             @include('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij podróż'])
 
 
         </div>
 @endif
 
+@if($trip->publicTrip != null && $trip->owner_id != Auth::user()->user_id)
     <div class="map_bar container d-flex justify-content-center align-items-center mb-4" >
         <div class="text-center">
             <button class="button-perspective" style="width: 90%" onclick="showForm('copy')">Skopiuj Niezapomniane Chwile</button>
         </div>
     </div>
     @include('components.CopyTripComponents', ['name' => 'copy','title' => 'Skopiuj podróż'])
-
+@endif
 
 
     @include('components.AddPostComponents')

@@ -2,9 +2,8 @@
 <div class="row justify-content-center" >
     <div id="{{$name}}" style="display: none;" class="form-overlay" >
         <div class="form-container text-center mx-auto" style="width:60%;max-width: none;">
-            <h4>{{$title}}</h4>
             <div class="form-group  " style="">
-                <h3 for="title">Taktycy i ich uprawnienia:</h3>
+                <h3 for="title">{{$title}}</h3>
     <div style="overflow-y: auto; max-height: 50vh;">
                 <ul class="list-group" id="listoftactics">
                     @foreach($sharedusers as $suser)

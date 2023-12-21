@@ -120,14 +120,13 @@
 
 </style>
 <div class="box">
-<div class="first">
     @if($permission == 1)
-
+<div class="first">
     <button class="button-perspective" onclick="showForm('addVehicle')">Dodaj Pojazd</button>
     <button class="button-perspective" onclick="refreshFuel(),showForm('addFuelPrice')">Ceny Paliwa</button>
     <button class="button-perspective" onclick="refreshPersons(),showForm('PeronsNumberForm')">Liczba Osób</button>
-    @endif
 </div>
+    @endif
 
 <div class="secound text-center " style="background-color: white;" >
 

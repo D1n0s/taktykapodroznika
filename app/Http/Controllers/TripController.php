@@ -25,26 +25,79 @@ use App\Models\SharedTrip;
 use App\Models\Mark;
 use App\Models\Vehicle;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Validator;
 
 
 class TripController extends Controller
 {
 
-    public function init(Request $request)
+    function leaveTrip($trip_id){
+        $trip = Trip::with(['sharedusers'])->where('trip_id', $trip_id)->first();
+        if ($trip) {
+            $sharedUser = $trip->sharedusers->where('user_id', Auth::user()->user_id)->first();
+            if ($sharedUser) {
+                // Detach the relationship (remove the user from the trip)
+                $trip->sharedusers()->detach(Auth::user()->user_id);
+
+                return redirect()->back()->with('success', ' Udało się odejść z podróży');
+            } else {
+                return redirect()->back()->with('error', 'Użytkownik nie jest już częścią podróży');
+
+            }
+        } else {
+            return redirect()->back()->with('error', 'Takiej podróży już nie ma ');
+        }
+    }
+
+    public function delTrip($trip_id)
+    {
+        // Pobierz trip wraz z powiązaniami
+        $trip = Trip::with(['marks', 'vehicles', 'sharedusers', 'publicTrip', 'posts', 'invites'])->where('trip_id',$trip_id)->where('owner_id',Auth::user()->user_id)->first();
+        if (!$trip) {
+            return redirect()->back()->with('error', 'Nie można znaleźć tripa do usunięcia.');
+        }
+        DB::beginTransaction();
+        try {
+            $trip->invites()->delete();
+            $trip->sharedusers()->detach();
+
+            $trip->marks()->delete();
+            $trip->vehicles()->delete();
+            $trip->publicTrip()->delete();
+            $trip->posts()->each(function ($post) {
+                $post->attractions()->delete();
+            });
+            $trip->posts()->delete();
+
+            $trip->delete();
+
+            DB::commit();
+
+            dd('UDAŁO SIĘ ');
+
+            return redirect()->back()->with('success', 'Trip został pomyślnie usunięty wraz z powiązaniami.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd('nie udało się !  ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Wystąpił błąd podczas usuwania tripa: ' . $e->getMessage());
+        }
+    }
+
+    function init(Request $request)
     {
         try {
             $validatedData = $request->validate([
-                'user_id' => 'required',
                 'title' => 'required|max:30',
                 'startdate' => 'required|date|date_format:Y-m-d',
                 'enddate' => 'required|date|date_format:Y-m-d|after_or_equal:startdate',
             ], [
-                'user_id.required' => 'PROBLEM W POBRANIU Użytkownika.',
                 'title.required' => 'Pole Tytuł jest wymagane.',
                 'title.max' => 'Maksymalnie 30 znaków !',
                 'startdate.required' => 'Pole Data rozpoczęcia jest wymagane.',
@@ -57,16 +110,12 @@ class TripController extends Controller
             ]);
 
             $trip = new Trip();
-            $trip->owner_id = $request->user_id;
+            $trip->owner_id = Auth::user()->user_id;
             $trip->title = $request->title;
             $trip->start_date = $request->startdate;
             $trip->end_date = $request->enddate;
 
-
-
             $trip->save();
-
-
             // return redirect()->back()->with('success', 'Dane zostały pomyślnie zapisane.');
             return redirect('/map/' . $trip->trip_id);
         } catch (\Exception $e) {
@@ -419,19 +468,37 @@ class TripController extends Controller
             $day = $start_date->diffInDays(Carbon::create($request->input('date'))) + 1;
         }
 
-        $post = new Post();
-        $post->trip_id = $trip_id;
-        $post->title = $title;
-        $post->date = $date;
-        $post->day = $day;
-        if ($post->save()) {
-            AddPostEvent::dispatch($trip_id, "Dodano nowy post", $post);
-            return response()->json(['success' => 'Udało się utworzyć Post ! '], 200);
+        $existpost = Post::where('date',$date)->first();
 
-        } else {
-            return response()->json(['error' => 'Nie udało się utworzyć Posta'], 200);
+        if( $existpost == null){
+            $post = new Post();
+            $post->trip_id = $trip_id;
+            $post->title = $title;
+            $post->date = $date;
+            $post->day = $day;
+
+            if ($post->save()) {
+                AddPostEvent::dispatch($trip_id, "Dodano nowy post", $post);
+                return response()->json(['success' => 'Udało się utworzyć Post ! '], 200);
+
+            } else {
+                return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
+            }
+        }else if($existpost != null){
+            $existpost->trip_id = $trip_id;
+            $existpost->title = $title;
+            $existpost->date = $date;
+            $existpost->day = $day;
+            if ($existpost->update()) {
+                AddPostEvent::dispatch($trip_id, "Dodano nowy post", $existpost);
+                return response()->json(['success' => 'Udało się Zaaktualizować Post ! '], 200);
+
+            } else {
+                return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
+            }
         }
 
+        return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
     }
 
     public function delPost(Request $request)
@@ -606,45 +673,53 @@ class TripController extends Controller
             return response()->json(['message' => 'Nie masz uprawnień'], 400);
         }
 
-        $user_id = $request->input('user_id');
-        $trip_id = $request->input('trip_id');
-        $email = $request->input('email');
-        $permission = $request->input('permission');
+        try {
+            $validatedData = $request->validate([
+                'email' => 'required|email',
+                'permission' => 'required|in:0,1',
+            ], [
+                'email.required' => 'Pole email jest wymagane.',
+                'email.email' => 'Nieprawidłowy format adresu email.',
+                'permission.required' => 'Pole uprawnień jest wymagane.',
+                'permission.in' => 'Wartość pola uprawnień jest nieprawidłowy.',
+            ]);
 
-        $invited_user = User::where('email', $email)->first();
-        if ($invited_user === null) {
-            return response()->json(['error' => 'Nie znaleziono użytkownika'], 400);
-        }
+            $invited_user = User::where('email', $validatedData['email'])->firstOrFail();
+            $permission = $validatedData['permission'];
 
-        $trip = Trip::where('trip_id', $trip_id)->where('owner_id', $invited_user->user_id)->first();
+            $trip = Trip::where('trip_id', $trip_id)->where('owner_id', Auth::user()->user_id)->first();
+            if ($trip === null) {
+                return response()->json(['error' => 'Nie ma takiej podróży!'], 400);
+            }
 
-        if ($trip != null) {
-            return response()->json(['error' => 'To Twój wyjazd przyjacielu !'], 400);
-        }
+            if ($invited_user->user_id === $trip->owner_id) {
+                return response()->json(['error' => 'To Twój wyjazd przyjacielu!'], 400);
+            }
 
-        $existingInvite = UserInvite::where('user_id', $invited_user->user_id)->where('invited_trip', $trip_id)->first();
-        if ($existingInvite != null) {
-            return response()->json(['error' => 'Zaproszenie już istnieje'], 400);
-        }
+            $existingInvite = UserInvite::where('user_id', $invited_user->user_id)->where('invited_trip', $trip_id)->first();
+            if ($existingInvite !== null) {
+                return response()->json(['error' => 'Zaproszenie już istnieje'], 400);
+            }
 
-        $shared = SharedTrip::where('user_id', $invited_user->user_id)->where('trip_id', $trip_id)->first();
+            // Check if the user is already added to the trip
+            $shared = SharedTrip::where('user_id', $invited_user->user_id)->where('trip_id', $trip_id)->first();
+            if ($shared !== null) {
+                return response()->json(['error' => 'Użytkownik został już dodany!'], 400);
+            }
 
-        if ($shared != null) {
-            return response()->json(['error' => 'Użytkownik został już dodany ! '], 400);
-        }
-
-        if ($invited_user) {
             $invite = new UserInvite();
             $invite->user_id = $invited_user->user_id;
-            $invite->invited_by = $user_id;
+            $invite->invited_by = Auth::user()->user_id;
             $invite->invited_trip = $trip_id;
             $invite->permission = $permission;
             $invite->save();
 
-            return response()->json(['success' => 'Wysłano zaproszenie użytkownikowi' . $email], 200);
+            return response()->json(['success' => 'Wysłano zaproszenie użytkownikowi ' . $validatedData['email']], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Nie znaleziono użytkownika'], 400);
         }
-        return response()->json(['error' => 'Nie znaleziono użytkownika'], 400);
-
     }
 
     public function delTactic(Request $request)

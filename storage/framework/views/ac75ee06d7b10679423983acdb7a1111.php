@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 text-center" style="background-color: red;">
+        <div class="col-md-8 text-center" >
                 <button class="button-perspective" onclick="showForms('start')">Utwórz podróż</button>
             <a href="/mytrips"><button class="button-perspective">Moje podróże</button></a>
             <a href="/sharedtrips"><button class="button-perspective">Udostępnione podróże</button></a>
@@ -22,8 +22,8 @@
                     }
                 </style>
                 <form method="post" id="tripstartForm" action="<?php echo e(route('init')); ?>">
+                    <?php echo csrf_field(); ?>
                     <div class="form-group">
-                        <input type="hidden" name="user_id" value="<?php echo e(Auth::user()->user_id); ?>">
                         <label for="title">Tytuł:</label>
                         <input type="text" id="ttile" name="title" class="form-control"  maxlength="30">
                         <label for="startdate">Data startu</label>
@@ -32,7 +32,6 @@
                         <label for="enddate">Data zakończenia</label>
                         <input class="form-control" type="date" name="enddate" id="enddate" min="<?php echo e(date('Y-m-d')); ?>">
                     </div>
-
 
 
 

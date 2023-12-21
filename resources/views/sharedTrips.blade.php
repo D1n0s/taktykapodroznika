@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('styles')
+    <link href="{{ asset('css/buttons.css') }}" rel="stylesheet">
+@endsection
 @section('content')
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap");
@@ -8,11 +10,11 @@
             padding: 2vh;
             border-radius: 8px;
             background-color: rgba(21, 33, 72, 0.85);
-            width: 50%;
             justify-content: center; /* Wyśrodkowanie w poziomie */
-            align-items: center; /* Wyśrodkowanie w pionie */
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
-
+            width: 30%;
+            position: absolute;
+            bottom: 1vh;
         }
 
 
@@ -26,7 +28,6 @@
             color: #fff;
             text-decoration: #0cde17;
             border-radius: 5px;
-            background: $white;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
         }
 
@@ -63,11 +64,11 @@
             border-right-width: 8vh;
             border-top-width: 5vh;
             display: grid;
-            row-gap: 2rem;
             min-height: 80vh;
             max-height: 120vh;
 
             margin: 0 auto;
+            margin-left: 27vh;
 
 
 
@@ -76,12 +77,11 @@
         }
 
     </style>
-        <link href="{{ asset('css/buttons.css') }}" rel="stylesheet">
     @if(!empty($trips))
         <div class=" framed container_content " style="padding: 0;">
             <div class="text-center pow"  >
-                <h1>Udostępnione podróże</h1>
-                <br>
+                <h1>WSPÓŁDZIELONE PODRÓŻE </h1>
+                <br> <br><BR>
                 <table class="table  text-center text-white" style="vertical-align: middle;">
                     <thead>
                     <tr>
@@ -89,28 +89,37 @@
                         <th>Data wyjazdu</th>
                         <th>Data przyjazdu</th>
                         <th>AKCJE</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($trips as $trip)
-                        <form action="map/{{ $trip->trip_id }}?" method="get">
-                            <tr >
-                                <td>{{ $trip->trip->title }}</td>
-                                <td>{{ $trip->trip->start_date }}</td>
-                                <td>{{ $trip->trip->end_date }}</td>
-                                <td class="panel green"><button type="submit" style="margin-right: 5vh;" >Wejdź</button>
-                                    <span class="panel pink">  <button>Usuń</button> </span>
-                                </td>
+                        <tr >
+                            <td>{{ $trip->trip->title }}</td>
 
-                            </tr>
-                        </form>
+                            <td>{{ $trip->trip->start_date }}</td>
+                            <td>{{ $trip->trip->end_date }}</td>
+                            <td class="panel green">
+                                <form action="map/{{ $trip->trip->trip_id }}?" method="get">
+                                    <button type="submit"  >Wejdź</button>
+                                </form>
+                            </td >
+                            <td class="panel pink">
+                                <form action="{{route('leaveTrip',['trip_id'=>$trip->trip_id])}}" method="post">
+                                    @csrf
+                                    <span class="panel pink">  <button type="submit" class="panel pink">Usuń</button> </span>
+                                </form>
+                            </td>
+
+
+
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
-
                 <!-- Paginacja -->
-                <div class="center " >
-                    <div class="pagination">
+                <div class="center ">
+                    <div class="pagination ">
                         @if ($trips->currentPage() > 1)
                             <a href="{{ $trips->previousPageUrl() }}">POPRZEDNIE</a>
                         @endif
@@ -140,14 +149,14 @@
                         @if ($trips->currentPage() < $trips->lastPage())
                             <a href="{{ $trips->nextPageUrl() }}">DALEJ</a>
                         @endif
-                    </div>
-                </div>
+                    </div></div>
+
             </div>
+
 
         </div>
 
     @else
-        <h1>WITTTOOOOOOM</h1>
     @endif
 
 

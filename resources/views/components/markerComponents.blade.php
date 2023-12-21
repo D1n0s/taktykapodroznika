@@ -2,15 +2,16 @@
 
 
 <div class="box" style="">
+
+    @if($permission == 1)
+
     <div class="first">
-
         <div>
-            @if($permission == 1)
             <button class="button-perspective" onclick="showForm('button1-form')">Dodaj Punkt</button>
-            @endif
+            <button class="button-perspective" onclick="RefreshDivMarkers()">Odśwież i posortuj</button>
         </div>
-
     </div>
+    @endif
 
     <div class="secound" id="RefreshDivMarkers" style="margin: 5vh;">
     @forelse($markerData as $mark)
@@ -105,8 +106,9 @@
                 }
                 markElement.classList.remove('Queue');
             });
+
         function RefreshDivMarkers() {
-            $("#RefreshDivMarkers").load(location.href + " #RefreshDivMarkers");
+            RefreshDivs(['markers']);
         }
         function delMarker(Mark_id){
             var potwierdzenie = confirm('czy na pewno chcesz usunąc marker ? ');
@@ -135,7 +137,7 @@
             const cancelButton = document.getElementById(`cancel-button_${id}`);
 
             inputFields.forEach(input => {
-                input.readOnly = false; // Ustawiamy na false, aby umożliwić edycję
+                input.readOnly = false;
             });
 
             // Toggle button visibility

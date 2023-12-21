@@ -1,32 +1,76 @@
 <style>
     #product-container {
         position: sticky;
-        top:20px;
+        top: 20px;
         flex-direction: row;
-        float:left;
+        float: left;
         padding: 10px;
         border: 1px solid #ccc;
-        width:50%;
-        min-height:80vh;
+        width: 50%;
+        min-height: 80vh;
         max-height: 80vh;
         overflow: auto;
-        border-left:none;
-        border-right:none;
-
+        border-left: none;
+        border-right: none;
+        transition: overflow-y 0.3s;
     }
+
+    #product-container:hover {
+        overflow-y: auto;
+    }
+
     #cart-container {
         display: flex;
         align-items: center;
         flex-direction: column;
-        float:left;
+        float: left;
         width: 50%;
-        min-height:10%;
+        min-height: 10%;
         padding: 10px;
         border: 1px solid #ccc;
-        min-height:80vh;
+        border-right: none;
+        min-height: 80vh;
         max-height: 80vh;
         overflow: auto;
+        transition: overflow-y 0.3s;
     }
+
+    #cart-container:hover {
+        overflow-y: auto;
+    }
+
+    #product-container::-webkit-scrollbar,
+    #cart-container::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    #product-container::-webkit-scrollbar-thumb,
+    #cart-container::-webkit-scrollbar-thumb {
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+        transition: background 0.3s;
+    }
+
+    #product-container:hover::-webkit-scrollbar-thumb,
+    #cart-container:hover::-webkit-scrollbar-thumb {
+        background: linear-gradient(rgb(255, 252, 252), rgb(255, 252, 252));
+    }
+
+
+
+    /* Styl paska przewijania */
+    #product-container::-webkit-scrollbar,
+    #cart-container::-webkit-scrollbar {
+        width: 0.8vh; /* Szerokość paska przewijania */
+    }
+
+    /* Styl toru paska przewijania */
+    #product-container::-webkit-scrollbar-track,
+    #cart-container::-webkit-scrollbar-track {
+        background-color: rgba(241, 241, 241, 0); /* Kolor toru przewijania */
+    }
+
+
+
     .draggable {
         float: left;
         width: 30vh;
@@ -47,6 +91,7 @@
         border: 1px solid #4cae4c;
     }
     .remove-button {
+
         background-color: #e74c3c;
         color: #fff;
         border: none;
@@ -87,7 +132,7 @@
 </div>
 <div id="cart-container">
     @foreach($markerData as $index => $mark)
-    <div class="cart" data_queue="{{$index + 1}}">Punkt nr. {{$index + 1 }}</div>
+    <div class="cart" data_queue="{{$index + 1}}">Punkt nr. {{$index + 1 }}<br></div>
     @endforeach
 </div>
 
@@ -180,7 +225,7 @@ if({{$permission}} ==1) {
             const productId = product.id;
             const removeButton = document.createElement('button');
             removeButton.className = 'remove-button';
-            removeButton.innerText = 'Remove';
+            removeButton.innerText = 'Usuń';
             removeButton.id = `rmbtn_${productId}`;
             removeButton.addEventListener('click', () => {
 

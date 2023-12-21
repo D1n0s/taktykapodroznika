@@ -16,8 +16,8 @@ class PublicTripsController extends Controller
     public function index()
     {
 
-
         $trips = PublicTrip::with('trip')->paginate(5);
+//        dd($trips);
         return view('publicTrips', compact('trips'));
     }
 

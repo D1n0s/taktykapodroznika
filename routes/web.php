@@ -46,6 +46,12 @@ Route::get('/profile_cancel', [ProfileController::class, 'cancel'])->name('profi
 
 //Tworzenie TRIPA
 Route::post('/init',[TripController::class, 'init'])->name('init');
+Route::post('/deltrip/{trip_id}',[TripController::class, 'delTrip'])->name('delTrip');
+Route::post('/leavetrip/{trip_id}',[TripController::class, 'leaveTrip'])->name('leaveTrip');
+
+
+
+//Taktyk
 Route::post('/trip/getMarkers/{trip_id}', [TripController::class, 'getMarkers']);
 Route::post('/attraction', [TripController::class, 'Attraction'])->name('Attraction');
 Route::post('/tacticadd', [TripController::class, 'addTactic'])->name('addTactic');

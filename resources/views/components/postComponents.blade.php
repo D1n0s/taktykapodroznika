@@ -273,11 +273,12 @@ color: var(--uia-card-time-color, currentColor);
 
 </style>
 <div class="box">
-<div class="first">
     @if($permission == 1)
+
+<div class="first">
     <button type="button" class="button-perspective" onclick="showForm('addpost')">Dodaj Post</button>
-    @endif
 </div>
+    @endif
 
 <br><br>
 
@@ -365,7 +366,6 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
     @endif
 </div>
                 @if($permission == 1)
-
                 <!-- BUTTONY <3 -->
                 <div class="text-center">
                     <form class="d-inline" action="{{ route('editAttraction') }}" method="post">
@@ -375,7 +375,6 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
                             <i class="far fa-edit mx-3"></i>
                         </button>
                     </form>
-
                     <button style="font-size: 3vh;color:black;" class="btn btn-danger  " type="button" onclick="delAttraction({{ $att->attraction_id }})">
                         <i class="far fa-trash-alt mx-3"></i>
                     </button>
@@ -383,7 +382,6 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
                         <i class="fas fa-list mx-3"></i>
                     </button>
                         @include('components.moveAttractionComponents', ['name' => $att->attraction_id,'post_id'=> $post->post_id,'attraction_id'=>$att->attraction_id])
-
                 </div>
                 @endif
 
@@ -392,6 +390,9 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
     </section>
 @endif
 @endforeach
+    @if($permission == 0)
+<br>
+    @endif
 
     @if($permission == 1)
 

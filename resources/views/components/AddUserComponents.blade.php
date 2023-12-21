@@ -2,7 +2,7 @@
 <div class="row justify-content-center">
     <div id="{{$name}}" style="display: none;" class="form-overlay">
         <div class="form-container text-center">
-            <h4></h4>
+            <h4>{{$title}}</h4>
             <div class="form-group">
                 <label for="title">Podaj email Taktyka:</label>
                 <input type="text" id="email" class="form-control" maxlength="30" placeholder="Taktyk@tactics.tcs" required>
@@ -11,7 +11,7 @@
 
                     <select class="form-control" id="permission">
                         <option value="1" >odczyt/zapis</option>
-                        <option value="2" >odczyt</option>
+                        <option value="0" >odczyt</option>
                     </select>
 
                 </div>
@@ -44,8 +44,6 @@
         const infoMessage = document.getElementById('infoMessage');
         infoMessage.style.display = 'none';
         axios.post("{{ route('addTactic') }}", {
-            user_id: {{$trip->owner_id}},
-            trip_id: {{$trip->trip_id}},
             email: email,
             permission: permission,
         }, {
@@ -55,7 +53,6 @@
             }
         })
             .then(response => {
-                const existingInvite = response.data.existingInvite;
                 document.getElementById('infoMessage').innerHTML = '<br/><div class="alert alert-success">' + response.data.success + '</div>';
                 document.getElementById('infoMessage').style.display = 'block';
                 emailInput.value = '';

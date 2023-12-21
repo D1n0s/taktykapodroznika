@@ -44,7 +44,7 @@ function AddVehicle(){
                 console.log(response.data.success);
                 document.getElementById('vehicle_name').value = '';
                 document.getElementById('consumption').value = '5.0';
-                document.getElementById('fuel').value = '';
+                document.getElementById('fuel').selectedIndex = 0;
             })
             .catch(error => {
                 if (error.response && error.response.data) {

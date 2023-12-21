@@ -202,7 +202,11 @@
     display: block;
     /* Other styles here */
 }
+#trip_title{
+    font-size: 10vh;
+    color:white;
+    text-align: center;
 
-
+}
 
 

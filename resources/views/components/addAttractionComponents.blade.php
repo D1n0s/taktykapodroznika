@@ -86,7 +86,7 @@
 
         .form-content input[type=text], .form-content input[type=password], .form-content textarea, .form-content select {
             width: 100%;
-            float:left;
+            /*float:left;*/
             padding: 9px 20px;
             text-align: left;
             border: 0;
@@ -173,7 +173,7 @@
 
                             </div>
                             <div class="col-md-12">
-                                <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base">{{$att ? $att->desc : '' }} </textarea>
+                                <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base">{{$att ? $att->desc : '' }}</textarea>
                             </div>
 
                                     <div class="col-md-12 ">
@@ -227,7 +227,7 @@
                                 </div>
                             </div>
                             </div>
-                            <div class="col-md-12" id="refresh">
+                            <div class="col-md-12" style="float: none;">
                                 <select id="markerSelect" name="location" class="form-select mt-3">
 
                                     @if($att == null)
@@ -243,27 +243,21 @@
 
                                     @if($att != null)
                                     <option  value="">Lokalizacja (nie wymagane)</option>
-                                        <span id="refresh_markers">
                                     @foreach($markers as $marker)
                                         <option value="{{$marker['id']}}" @if($att->mark && $att->mark->mark_id == $marker['id']) selected @endif>
                                             {{$marker['name']}} || {{ substr($marker['desc'], 0, 23) }}
                                         </option>
                                         @endforeach
-                                        </span>
                                     @endif
-
 
                                 </select>
                             </div>
-                            <div class="col-md-12 mt-3">
-                                <button type="button" class="form-check-label" onclick="refresh_marker()" >Kliknij aby odświeżyć lokalizacje</button>
-                            </div>
 
 
-                            <div class="col-md-12 mt-3 d-flex justify-content-center">
+                            <div class="col-md-12 mt-2 d-flex justify-content-center">
+                                <br>
                                 <button type="submit"  class="btn btn-primary">Utwórz</button>
                             </div>
-
                         </form>
 
 
@@ -273,13 +267,5 @@
         </div>
     </div>
 
-
-    <script>
-function refresh_marker(){
-    $("#refresh_markers").load(location.href + " #refresh_markers");
-}
-
-
-    </script>
 
 @endsection

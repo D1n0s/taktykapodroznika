@@ -237,6 +237,13 @@
         </div>
     <?php endif; ?>
 
+   <p id="trip_title"><?php echo e($trip->title); ?></p>
+
+
+
+
+
+
     <div id="map"></div>
     
 
@@ -247,21 +254,22 @@
                             <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
                             <button class="button-perspective"  onclick="showForm('shareTrip')">Udostępnij</button>
                         </div>
-            <?php echo $__env->make('components.AddUserComponents', ['name' => 'tactic','title' => 'powpow'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-            <?php echo $__env->make('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków!'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('components.AddUserComponents', ['name' => 'tactic','title' => 'Dodaj Taktyka'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <?php echo $__env->make('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
         </div>
 <?php endif; ?>
 
+<?php if($trip->publicTrip != null && $trip->owner_id != Auth::user()->user_id): ?>
     <div class="map_bar container d-flex justify-content-center align-items-center mb-4" >
         <div class="text-center">
             <button class="button-perspective" style="width: 90%" onclick="showForm('copy')">Skopiuj Niezapomniane Chwile</button>
         </div>
     </div>
     <?php echo $__env->make('components.CopyTripComponents', ['name' => 'copy','title' => 'Skopiuj podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+<?php endif; ?>
 
 
     <?php echo $__env->make('components.AddPostComponents', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
