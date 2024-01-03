@@ -169,11 +169,10 @@
                             <input type="hidden" name="attraction_id" value="{{$att->attraction_id}}">
                             @endif
                             <div class="col-md-12">
-                                <input class="form-control" type="text" name="name" placeholder="Nazwa atrakcji" value="{{ $att ? $att->title : '' }}" required>
-
+                                <input class="form-control" type="text" name="name" placeholder="Nazwa atrakcji" value="{{ $att ? $att->title : '' }}" maxlength="37" required>
                             </div>
                             <div class="col-md-12">
-                                <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base">{{$att ? $att->desc : '' }}</textarea>
+                                <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base" maxlength="254">{{$att ? $att->desc : '' }}</textarea>
                             </div>
 
                                     <div class="col-md-12 ">
@@ -256,7 +255,8 @@
 
                             <div class="col-md-12 mt-2 d-flex justify-content-center">
                                 <br>
-                                <button type="submit"  class="btn btn-primary">Utwórz</button>
+                                <button type="submit"  class="btn btn-primary " style="background-color:green;margin-right: 1vh;">Utwórz</button>
+                                <button type="button" class="btn btn-primary" style="background-color:red;" onclick="history.back()">Anuluj</button>
                             </div>
                         </form>
 

@@ -78,7 +78,7 @@
 
     </style>
     @if(!empty($trips))
-        <div class=" framed container_content " style="padding: 0;">
+        <div class=" framed container_content " style="padding: 0;position: relative;">
             <div class="text-center pow"  >
                 <h1>PUBLICZNE PODRÓŻE</h1>
                 <br> <br><BR>

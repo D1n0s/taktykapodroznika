@@ -119,8 +119,7 @@ class TripController extends Controller
             // return redirect()->back()->with('success', 'Dane zostały pomyślnie zapisane.');
             return redirect('/map/' . $trip->trip_id);
         } catch (\Exception $e) {
-            dd('Wystąpił błąd podczas zapisywania danych.' . $e->getMessage());
-        }
+            return redirect()->back();        }
     }
 
     public function Gate($trip_id)
@@ -370,7 +369,7 @@ class TripController extends Controller
         $address = $request->input('address');
 
 
-        // Przykład zapisu do bazy danych w Laravel Eloquent:
+
         $mark = Mark::find($id);
 
         $mark->name = $name;
@@ -399,14 +398,14 @@ class TripController extends Controller
         // Odczytaj dane z żądania POST
         $mark_id = $request->input('productId');
         $queue = $request->input('cartId');
-        // Przykład zapisu do bazy danych w Laravel Eloquent:
         $mark = Mark::find($mark_id);
         if ($mark) {
-            $mark->queue = $queue; // Ustaw wartość atrybutu 'queue' na wartość zmiennej $queue
-            $mark->save(); // Zapisz zmiany w bazie danych
-
-            AddQueueEvent::dispatch($trip_id, "JEST TO FUNKCJA EDIT MARKER", $mark);
+            $mark->queue = $queue;
+            $mark->save();
+            AddQueueEvent::dispatch($trip_id, "", $mark);
             InfoUpdateEvent::dispatch($trip_id);
+            AttractionEvent::dispatch($trip_id);
+
 
         } else {
             // Obsłuż sytuację, gdy nie znaleziono obiektu Mark
@@ -435,8 +434,9 @@ class TripController extends Controller
             return response()->json(['error' => 'Nie znaleziono produktu o podanym ID'], 200);
         }
 
-        DelQueueEvent::dispatch($trip_id, "JEST TO FUNKCJA EDIT MARKER", $mark);
+        DelQueueEvent::dispatch($trip_id, "", $mark);
         InfoUpdateEvent::dispatch($trip_id);
+        AttractionEvent::dispatch($trip_id);
 
         return response()->json(['message' => 'Zaktualizowano dane pomyślnie' . $trip_id], 200);
     }
@@ -460,6 +460,37 @@ class TripController extends Controller
             return response()->json(['message' => 'Nie masz uprawnień'], 400);
         }
 
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:50',
+            'date' => [
+                'nullable',
+                function ($attribute, $value, $fail) use ($trip_id) {
+                    $trip = Trip::find($trip_id);
+
+                    if ($value !== null) {
+                        $startDate = Carbon::createFromFormat('Y-m-d', $trip->start_date);
+                        $endDate = Carbon::createFromFormat('Y-m-d', $trip->end_date);
+                        $inputDate = Carbon::createFromFormat('Y-m-d', $value);
+                        if ($inputDate->lessThan($startDate) || $inputDate->greaterThan($endDate)) {
+                            $fail('Nieprawidłowa data. Data musi być pomiędzy datą rozpoczęcia a datą zakończenia podróży.');
+                        }
+                    }
+                },
+            ],
+        ], [
+            'title.required' => 'Pole tytuł jest wymagane.',
+            'title.max' => 'Pole tytuł może mieć maksymalnie 50 znaków.',
+            'date' => 'Nieprawidłowa data. Data musi być pomiędzy datą rozpoczęcia a datą zakończenia podróży.',
+            'date.nullable' => 'Pole data musi być datą lub wartością pustą.',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return response()->json(['errors' => $errors], 422);
+        }
+
+
+
         $title = $request->input('title');
         $date = $request->input('date');
         $day = null;
@@ -470,7 +501,12 @@ class TripController extends Controller
 
         $existpost = Post::where('date',$date)->first();
 
-        if( $existpost == null){
+
+        if( $existpost == null || $existpost->date == null){
+            $postsWihtOutData = Post::where('date',null)->count();
+            if($postsWihtOutData >= 3 && $request->input('date') == null){
+                return response()->json(['errors' => 'Można stworzyć maksymalnie 3 postów bez określonej daty'], 422);
+            }
             $post = new Post();
             $post->trip_id = $trip_id;
             $post->title = $title;
@@ -478,21 +514,17 @@ class TripController extends Controller
             $post->day = $day;
 
             if ($post->save()) {
-                AddPostEvent::dispatch($trip_id, "Dodano nowy post", $post);
+                AddPostEvent::dispatch($trip_id, "", $post);
                 return response()->json(['success' => 'Udało się utworzyć Post ! '], 200);
 
             } else {
                 return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
             }
         }else if($existpost != null){
-            $existpost->trip_id = $trip_id;
             $existpost->title = $title;
-            $existpost->date = $date;
-            $existpost->day = $day;
             if ($existpost->update()) {
-                AddPostEvent::dispatch($trip_id, "Dodano nowy post", $existpost);
+                AddPostEvent::dispatch($trip_id, "", $existpost);
                 return response()->json(['success' => 'Udało się Zaaktualizować Post ! '], 200);
-
             } else {
                 return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
             }
@@ -818,11 +850,9 @@ class TripController extends Controller
 
         if ($veh->wasRecentlyCreated) {
             InfoUpdateEvent::dispatch($trip_id);
-
             return response()->json(['success' => 'Pomyślnie dodano nowy pojazd'], 200);
         } else {
             InfoUpdateEvent::dispatch($trip_id);
-
             return response()->json(['success' => 'Pomyślnie zaktualizowano istniejący pojazd'], 200);
         }
     }

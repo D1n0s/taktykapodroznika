@@ -6,7 +6,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="title">Tytuł*:</label>
-                    <input type="text" id="tile" name="title" class="form-control" maxlength="30"
+                    <input type="text" id="tile" name="title" class="form-control" maxlength="50"
                            placeholder="np. Dzień 1 || Lokalizacja" required>
                     <br>
                     <label for="date">Wybierz dzień:</label>
@@ -44,10 +44,12 @@
             })
             .catch(function(error) {
                 console.error(error);
-                if (error.response && error.response.status === 400 && error.response.data && error.response.data.error) {
-                    alert('Błąd: ' + error.response.data.error);
+                if (error.response  && error.response.data && error.response.data.errors) {
+                    var errorMessage = error.response.data.message;
+                    // alert('Błąd: ' + error.response.data.errors);
+                    alert('Błąd: ' + JSON.stringify(error.response.data.errors, null, 2));
                 } else {
-                    alert('Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.');
+                    alert('Błąd');
                 }
             });
 

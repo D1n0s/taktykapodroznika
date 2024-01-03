@@ -5,10 +5,7 @@
                     <h4>{{$title}}</h4>
                     @yield('modal.content')
 
-<br />
 
-                    <button type="submit" class="btn btn-primary">zapisz</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideForms('{{$name}}')">Anuluj</button>
                 </div>
 
         </div>

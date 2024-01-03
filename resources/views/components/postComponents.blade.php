@@ -332,10 +332,10 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
 <div class="row " style="overflow: hidden;margin-left: 0px;margin-right:0px ">
     <div class="col-4  " >
     <!-- TYTUŁ  -->
-        <h3 class="ra-heading  ">{{ ucfirst($att->title) }}</h3>
+        <h3 class="ra-heading  " style="word-wrap: break-word;">{{ ucfirst($att->title) }}</h3>
     <!-- opis   -->
     <div class="mt-4" style=" box-sizing: border-box; word-wrap: break-word; overflow: hidden;">
-        <p style="max-width: 100%; margin: 0;">{{$att->desc}}</p>
+        <p style="max-width: 100%; margin: 0;word-wrap: break-word;">{{$att->desc}}</p>
     </div>
     <!-- KONIEC -->
     </div>

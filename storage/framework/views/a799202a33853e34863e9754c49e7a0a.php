@@ -77,7 +77,7 @@
 
     </style>
     <?php if(!empty($trips)): ?>
-        <div class=" framed container_content " style="padding: 0;">
+        <div class=" framed container_content " style="padding: 0;position: relative;">
             <div class="text-center pow"  >
                 <!-- resources/views/mytrips.blade.php -->
                 <h1>Moje podróże</h1>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\TripEvent;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PublicTripsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
 
@@ -33,10 +35,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sharedtrips',[ProfileController::class,'sharedtrips']);
     Route::get('/publictrips',[PublicTripsController::class,'index'])->name('publictrips');
     Route::get('/map/{trip}', [TripController::class, 'index']);
-});
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::get('/profile_edit', [ProfileController::class, 'editshow']);
@@ -83,6 +85,11 @@ Route::post('/PersonNumber', [TripController::class, 'PersonNumber'])->name('Per
 Route::post('/addpublictrip',[PublicTripsController::class,'AddPublicTrip'])->name('AddPublicTrip');
 Route::post('/delpublictrip',[PublicTripsController::class,'DelPublicTrip'])->name('DelPublicTrip');
 Route::post('/copypublictrip/{trip_id}',[PublicTripsController::class,'CopyPublicTrip'])->name('CopyPublicTrip');
+
+
+
+
+});
 
 
 Route::get('/', function () {

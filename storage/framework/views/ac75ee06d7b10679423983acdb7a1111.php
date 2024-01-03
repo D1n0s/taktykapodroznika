@@ -8,7 +8,7 @@
             <a href="/publictrips"><button class="button-perspective">Publiczne podróże</button></a>
             </div>
 
-            
+
             <?php $__env->startSection('modal.content'); ?>
                 <style>
                     [type="date"] {
@@ -73,4 +73,4 @@
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('components/modalWindow', ['name'=>'start' , 'title'=>'Utwórz podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\taktykapodroznika\resources\views/home.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\taktykapodroznika\resources\views/dashboard.blade.php ENDPATH**/ ?>

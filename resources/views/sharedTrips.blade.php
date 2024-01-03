@@ -78,8 +78,8 @@
 
     </style>
     @if(!empty($trips))
-        <div class=" framed container_content " style="padding: 0;">
-            <div class="text-center pow"  >
+        <div class=" framed container_content " style="padding: 0;position: relative; ">
+            <div class="text-center pow"   >
                 <h1>WSPÓŁDZIELONE PODRÓŻE </h1>
                 <br> <br><BR>
                 <table class="table  text-center text-white" style="vertical-align: middle;">

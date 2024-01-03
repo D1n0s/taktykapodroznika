@@ -1,20 +1,7 @@
 <?php $__env->startSection('content'); ?>
 <div class="container py-5">
 <div class="row">
-      <div class="col-lg-4">
-        <div class="card mb-4">
-          <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-              class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3"><?php echo e(Auth::user()->login); ?></h5>
-            <p class="text-muted mb-1"><?php echo e(Auth::user()->desc); ?></p>
-            <div class="d-flex justify-content-center mb-2">
-              <button type="button" class="btn btn-outline-primary ms-1">Zmień zdjęcie</button>
-            </div>
-          </div>
-        </div>
 
-      </div>
       <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-body">

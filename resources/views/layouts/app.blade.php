@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" href='{{ asset('storage/logo.png') }}'>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,7 +39,7 @@
             <div class="container menu_bar" style="height:7em;">
 
             <img id="logo" src={{ asset('storage/logo.png') }}>
-                <a class="navbar-brand logo_tekst" style="" href="{{ url('/') }}">
+                <a class="navbar-brand logo_tekst" style="" href="{{ url('/home') }}">
                     {{ config('app.name', 'Taktyka Podróżnika') }}
                 </a>
 
@@ -170,6 +170,9 @@
 
                             </script>
 
+            <li class="nav-item dropdown-item">
+                <a class="nav-link"   href="{{ url('/dashboard') }}">Panel</a>
+            </li>
             <li class="nav-item dropdown-item">
                 <a class="nav-link"   href="{{ url('/profile') }}">{{ Auth::user()->name }}</a>
             </li>

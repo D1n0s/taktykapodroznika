@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" href='<?php echo e(asset('storage/logo.png')); ?>'>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,7 +39,7 @@
             <div class="container menu_bar" style="height:7em;">
 
             <img id="logo" src=<?php echo e(asset('storage/logo.png')); ?>>
-                <a class="navbar-brand logo_tekst" style="" href="<?php echo e(url('/')); ?>">
+                <a class="navbar-brand logo_tekst" style="" href="<?php echo e(url('/home')); ?>">
                     <?php echo e(config('app.name', 'Taktyka Podróżnika')); ?>
 
                 </a>
@@ -171,6 +171,9 @@
 
                             </script>
 
+            <li class="nav-item dropdown-item">
+                <a class="nav-link"   href="<?php echo e(url('/dashboard')); ?>">Panel</a>
+            </li>
             <li class="nav-item dropdown-item">
                 <a class="nav-link"   href="<?php echo e(url('/profile')); ?>"><?php echo e(Auth::user()->name); ?></a>
             </li>

@@ -5,10 +5,7 @@
                     <h4><?php echo e($title); ?></h4>
                     <?php echo $__env->yieldContent('modal.content'); ?>
 
-<br />
 
-                    <button type="submit" class="btn btn-primary">zapisz</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideForms('<?php echo e($name); ?>')">Anuluj</button>
                 </div>
 
         </div>
