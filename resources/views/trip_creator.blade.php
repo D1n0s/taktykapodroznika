@@ -253,10 +253,12 @@
                             <button class="button-perspective"  onclick="showForm('tactic')">Dodaj Taktyka</button>
                             <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
                             <button class="button-perspective"  onclick="showForm('shareTrip')">Udostępnij</button>
+                            <button class="button-perspective"  onclick="showForm('setting')">Ustawienia</button>
                         </div>
             @include('components.AddUserComponents', ['name' => 'tactic','title' => 'Dodaj Taktyka'])
             @include('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków'])
-            @include('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij podróż'])
+            @include('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij Podróż'])
+            @include('components.TripSettingsComponents', ['name' => 'setting','title' => 'Ustawienia Podróży'])
 
 
         </div>
@@ -283,7 +285,7 @@
             <div class="outer">
             <button class="dash_bttn tablinks active"   data-tab="markers" onclick="change(event, 'markers')"><i class='fas fa-map-marker-alt' ></i> Markery</button>
             <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class='fas fa-route' ></i> Trasowanie</button>
-            <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'posts')"><i class='fas fa-clipboard-list' ></i> Wpisy</button>
+            <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'posts')"><i class='fas fa-clipboard-list' ></i> Wydarzenia</button>
             <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'info')"><i class='fas fa-flag-checkered'></i> Podsumowanie</button>
 
             </div>

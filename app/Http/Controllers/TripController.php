@@ -13,8 +13,10 @@ use App\Events\MarkEvent;
 use App\Events\PersonsUpdateEvent;
 use App\Events\PrivateEvent;
 use App\Events\AddQueueEvent;
+use App\Events\settingsUpdateEvent;
 use App\Events\TripEvent;
 use App\Models\Attraction;
+use App\Models\CategorieAttraction;
 use App\Models\PublicTrip;
 use App\Models\Trip;
 use App\Models\Post;
@@ -32,7 +34,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Validator;
-
+use DateInterval;
+use DateTime;
 
 class TripController extends Controller
 {
@@ -54,6 +57,7 @@ class TripController extends Controller
             return redirect()->back()->with('error', 'Takiej podróży już nie ma ');
         }
     }
+
 
     public function delTrip($trip_id)
     {
@@ -79,7 +83,6 @@ class TripController extends Controller
 
             DB::commit();
 
-            dd('UDAŁO SIĘ ');
 
             return redirect()->back()->with('success', 'Trip został pomyślnie usunięty wraz z powiązaniami.');
         } catch (\Exception $e) {
@@ -114,13 +117,29 @@ class TripController extends Controller
             $trip->title = $request->title;
             $trip->start_date = $request->startdate;
             $trip->end_date = $request->enddate;
-
             $trip->save();
-            // return redirect()->back()->with('success', 'Dane zostały pomyślnie zapisane.');
-            return redirect('/map/' . $trip->trip_id);
+
+//            $data = [];
+            $start_date = new DateTime($trip->start_date);
+            $end_date = new DateTime($trip->end_date);
+
+            while ($start_date <= $end_date) {
+                $post = new Post();
+                $post->trip_id = $trip->trip_id;
+                $post->title = '   ZBIÓR WYDARZEŃ   ';
+                $post->date = $start_date->format('Y-m-d');
+                $post->day = ($start_date->diff(new DateTime($trip->start_date))->days) + 1 ;
+                $post->save();
+//                $data[] = $start_date->format('Y-m-d');
+//                $data[] =  $start_date->diff(new DateTime($trip->start_date))->days;
+                $start_date->add(new DateInterval('P1D'));
+            }
+
+             return redirect('/map/' . $trip->trip_id);
         } catch (\Exception $e) {
             return redirect()->back();        }
-    }
+
+        }
 
     public function Gate($trip_id)
     {
@@ -499,13 +518,13 @@ class TripController extends Controller
             $day = $start_date->diffInDays(Carbon::create($request->input('date'))) + 1;
         }
 
-        $existpost = Post::where('date',$date)->first();
+        $existpost = Post::where('trip_id',$trip_id)->where('date',$date)->first();
 
 
         if( $existpost == null || $existpost->date == null){
-            $postsWihtOutData = Post::where('date',null)->count();
+            $postsWihtOutData = Post::where('trip_id',$trip_id)->where('date',null)->count();
             if($postsWihtOutData >= 3 && $request->input('date') == null){
-                return response()->json(['errors' => 'Można stworzyć maksymalnie 3 postów bez określonej daty'], 422);
+                return response()->json(['errors' => 'Można stworzyć maksymalnie 3 zbiory bez określonej daty'], 422);
             }
             $post = new Post();
             $post->trip_id = $trip_id;
@@ -515,22 +534,23 @@ class TripController extends Controller
 
             if ($post->save()) {
                 AddPostEvent::dispatch($trip_id, "", $post);
-                return response()->json(['success' => 'Udało się utworzyć Post ! '], 200);
+                return response()->json(['success' => 'Udało się utworzyć zbiór wydarzeń ! '], 200);
 
             } else {
                 return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
             }
         }else if($existpost != null){
             $existpost->title = $title;
+            $existpost->update();
             if ($existpost->update()) {
                 AddPostEvent::dispatch($trip_id, "", $existpost);
-                return response()->json(['success' => 'Udało się Zaaktualizować Post ! '], 200);
+                return response()->json(['success' => 'Udało się utworzyć zbiór wydarzeń ! '], 200);
             } else {
                 return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
             }
         }
 
-        return response()->json(['error' => 'Nie udało się utworzyć Posta'], 400);
+        return response()->json(['error' => 'Nie udało się utworzyć zbioru'], 400);
     }
 
     public function delPost(Request $request)
@@ -564,12 +584,14 @@ class TripController extends Controller
             return response()->json(['message' => 'Nie masz uprawnień'], 400);
         }
 
+        $attractions_category = CategorieAttraction::all();
+
         $markers = $this->getMarkers($trip_id);
 
         $post_id = $request->input('post_id');
         $post = Post::find($post_id);
         $att = null;
-        return view('components.addAttractionComponents', compact('att', 'post', 'markers', 'trip_id'));
+        return view('components.addAttractionComponents', compact('att', 'post', 'markers', 'trip_id','attractions_category'));
     }
 
     public function editAttraction(Request $request)
@@ -578,13 +600,14 @@ class TripController extends Controller
         if (!$this->checkPermission()) {
             return response()->json(['message' => 'Nie masz uprawnień'], 400);
         }
+        $attractions_category = CategorieAttraction::all();
 
         $att_id = $request->input('attractionId');
         $att = Attraction::find($att_id);
         $markers = $this->getMarkers($trip_id);
         $post = $att->post;
 
-        return view('components.addAttractionComponents', compact('att', 'post', 'markers', 'trip_id'));
+        return view('components.addAttractionComponents', compact('att', 'post', 'markers', 'trip_id','attractions_category'));
     }
 
     public function addAttraction(Request $request)
@@ -610,6 +633,7 @@ class TripController extends Controller
             }
             $existingAttraction->title = $request->input('name');
             $existingAttraction->desc = $request->input('desc');
+            $existingAttraction->category_id = $request->input('category');
             $existingAttraction->cost = $request->input('price') ?? '0.00';
             $existingAttraction->time_start = $request->input('start_time');
             $existingAttraction->time_end = $request->input('end_time');
@@ -626,8 +650,7 @@ class TripController extends Controller
             AttractionEvent::dispatch($trip_id);
             InfoUpdateEvent::dispatch($trip_id);
 
-            return redirect("/map/$trip_id?tab=posts")->with('success', 'Utworzono pomyślnie atrakcje');
-
+            return redirect("/map/$trip_id?tab=posts")->with('scrollTo', $existingAttraction->attraction_id);
         } else {
             $duration = null;
             if ($request->input('start_time') != null && $request->input('end_time') != null) {
@@ -642,6 +665,7 @@ class TripController extends Controller
             $attraction->post_id = $request->input('post');
             $attraction->title = $request->input('name');
             $attraction->desc = $request->input('desc');
+            $attraction->category_id = $request->input('category');
             $attraction->cost = $request->input('price') ?? '0.00';
             $attraction->time_start = $request->input('start_time');
             $attraction->time_end = $request->input('end_time');
@@ -656,7 +680,8 @@ class TripController extends Controller
             AttractionEvent::dispatch($trip_id);
             InfoUpdateEvent::dispatch($trip_id);
 
-            return redirect("/map/$trip_id?tab=posts")->with('success', 'Utworzono pomyślnie atrakcje');
+            return redirect("/map/$trip_id?tab=posts")->with('scrollTo', $attraction->attraction_id);
+
 
         }
     }
@@ -942,7 +967,76 @@ class TripController extends Controller
         $trip->update();
         InfoUpdateEvent::dispatch($trip_id);
         PersonsUpdateEvent::dispatch($trip_id);
+
         return response()->json(['success' => 'Ustwiono liczbę taktyków'], 200);
     }
+
+function ChangeTripSetting(Request $request){
+    $trip_id = session('trip_id');
+    if (!$this->checkPermission()) {
+        return response()->json(['message' => 'Nie masz uprawnień'], 400);
+    }
+    $trip = Trip::find($trip_id);
+
+    $validatedData = $request->validate([
+        'title' => 'min:3|max:30',
+        'startdate' => [
+            'date',
+            'date_format:Y-m-d',
+            function ($attribute, $value, $fail) use ($trip) {
+                if ($value < $trip->start_date && $value < now()->format('Y-m-d')) {
+                    $fail('Data startu nie może być wcześniejsza niż data początkowa wycieczki oraz data dzisiejsza ');
+                }
+            },
+        ],
+        'enddate' => 'date|date_format:Y-m-d|after_or_equal:startdate',
+    ], [
+        'title.max' => 'W tytule maksymalnie 30 znaków!',
+        'title.min' => 'W tytule minimalnie 3 znaki!',
+        'startdate.date' => 'Pole Data rozpoczęcia musi być prawidłową datą.',
+        'startdate.date_format' => 'Pole data rozpoczęcia musi być w formacie DD-MM-RRRR.',
+        'enddate.date' => 'Pole data zakończenia musi być prawidłową datą.',
+        'enddate.date_format' => 'Pole data zakończenia musi być w formacie DD-MM-RRRR.',
+        'enddate.after_or_equal' => 'Pole data zakończenia musi być datą późniejszą lub równą dacie rozpoczęcia.',
+    ]);
+//    return response()->json(['success' => $trip->title. ' ' . $validatedData['title'] ], 200);
+
+    if ($trip->title != $validatedData['title']) {
+        $trip->title = $validatedData['title'];
+        $trip->save();
+
+    }
+
+    if ($trip->start_date != $validatedData['startdate'] || $trip->end_date != $validatedData['enddate']) {
+        $trip->start_date = $validatedData['startdate'];
+        $trip->end_date = $validatedData['enddate'];
+            if($trip->update()) {
+                          foreach ($trip->posts as $post) {
+
+                    $newDate = new DateTime($trip->start_date);
+                    $end_date = new DateTime($trip->end_date);
+
+                    $dayToAdd = max(0, $post->day - 1);
+
+                    $newDate->add(new DateInterval('P' . $dayToAdd . 'D'));
+
+                    if ($newDate <= $end_date && $post->date != null) {
+                        $post->date = $newDate;
+                    } else if ($newDate > $end_date) {
+                        $post->date = null;
+                        $post->day = null;
+                    }
+                    $post->update();
+                    }
+        }
+    }
+
+
+    settingsUpdateEvent::dispatch($trip_id);
+    DelPostEvent::dispatch($trip_id);
+
+    return response()->json(['success' => 'Zmieniono ustawienia' ], 200);
+
+}
 
 }

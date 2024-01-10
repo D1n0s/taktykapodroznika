@@ -50,9 +50,25 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'login' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'login.required' => 'Pole nazwy użytkownika jest wymagane.',
+            'login.string' => 'Nazwa użytkownika musi być ciągiem znaków.',
+            'login.max' => 'Nazwa użytkownika nie może być dłuższa niż 255 znaków.',
+            'login.unique' => 'Ta nazwa użytkownika jest już zajęta.',
+
+            'email.required' => 'Pole adresu email jest wymagane.',
+            'email.string' => 'Adres email musi być ciągiem znaków.',
+            'email.email' => 'Podany adres email jest nieprawidłowy.',
+            'email.max' => 'Adres email nie może być dłuższy niż 255 znaków.',
+            'email.unique' => 'Ten adres email jest już zarejestrowany.',
+
+            'password.required' => 'Pole hasła jest wymagane.',
+            'password.string' => 'Hasło musi być ciągiem znaków.',
+            'password.min' => 'Hasło musi mieć co najmniej 8 znaków.',
+            'password.confirmed' => 'Potwierdzenie hasła nie pasuje do hasła.',
         ]);
     }
 
@@ -65,7 +81,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'login' => $data['login'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

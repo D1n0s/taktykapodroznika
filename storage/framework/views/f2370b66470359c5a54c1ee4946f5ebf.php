@@ -253,10 +253,12 @@
                             <button class="button-perspective"  onclick="showForm('tactic')">Dodaj Taktyka</button>
                             <button class="button-perspective"  onclick="showForm('tactic_list');reload()">Lista Taktyków</button>
                             <button class="button-perspective"  onclick="showForm('shareTrip')">Udostępnij</button>
+                            <button class="button-perspective"  onclick="showForm('setting')">Ustawienia</button>
                         </div>
             <?php echo $__env->make('components.AddUserComponents', ['name' => 'tactic','title' => 'Dodaj Taktyka'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <?php echo $__env->make('components.UserListComponents', ['name' => 'tactic_list','title' => 'Lista Taktyków'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-            <?php echo $__env->make('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('components.AddPublicComponents', ['name' => 'shareTrip','title' => 'Udostępnij Podróż'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('components.TripSettingsComponents', ['name' => 'setting','title' => 'Ustawienia Podróży'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
         </div>
@@ -283,7 +285,7 @@
             <div class="outer">
             <button class="dash_bttn tablinks active"   data-tab="markers" onclick="change(event, 'markers')"><i class='fas fa-map-marker-alt' ></i> Markery</button>
             <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class='fas fa-route' ></i> Trasowanie</button>
-            <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'posts')"><i class='fas fa-clipboard-list' ></i> Wpisy</button>
+            <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'posts')"><i class='fas fa-clipboard-list' ></i> Wydarzenia</button>
             <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'info')"><i class='fas fa-flag-checkered'></i> Podsumowanie</button>
 
             </div>

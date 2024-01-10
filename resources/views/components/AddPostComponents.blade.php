@@ -38,8 +38,10 @@
 
                 if (response.data && response.data.success) {
                     alert(response.data.success);
+                    hideForm('addpost')
                 } else {
                     alert('Post dodany!');
+                    hideForm('addpost')
                 }
             })
             .catch(function(error) {

@@ -45,6 +45,8 @@ function AddFuelPrice(){
         })
             .then(response => {
                 alert( response.data.success );
+                hideForm('addFuelPrice');
+
             })
             .catch(error => {
                 if (error.response && error.response.data) {

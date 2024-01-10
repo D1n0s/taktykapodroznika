@@ -33,6 +33,7 @@ function ADDPeronsNumber(){
         })
             .then(response => {
                 alert( response.data.success );
+                hideForm('PeronsNumberForm');
             })
             .catch(error => {
                 if (error.response && error.response.data) {

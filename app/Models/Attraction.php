@@ -16,6 +16,7 @@ class Attraction extends Model
         'title',
         'desc',
         'cost',
+        'category_id',
         'time_start',
         'time_end',
         'duration',
@@ -25,6 +26,12 @@ class Attraction extends Model
     protected $casts = [
         'cost' => 'decimal:2',
     ];
+
+
+    public function category()
+    {
+        return $this->belongsTo(CategorieAttraction::class, 'category_id', 'category_attraction_id');
+    }
 
     public function setDurationAttribute($value){
         if ($value instanceof \DateInterval) {

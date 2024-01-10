@@ -80,7 +80,7 @@
                                     <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
                                         <?php $__empty_1 = true; $__currentLoopData = Auth::user()->invitesReceived; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invite): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <div class="dropdown-item" id="<?php echo e($invite->invite_id); ?>">
-                                            <p class="mb-0">Dostałeś zaproszenie od <?php echo e($invite->invitedBy->name); ?></p>
+                                            <p class="mb-0">Dostałeś zaproszenie od <?php echo e($invite->invitedBy->login); ?></p>
                                             <p class="mb-0">do podróży <?php echo e($invite->invitedTrip->title); ?></p>
                                             <div class="d-flex justify-content-center">
                                                 <button type="button" onclick="inviteaccept('<?php echo e($invite->invite_id); ?>')" class="btn btn-secondary btn-success mx-2">Akceptuj</button>
@@ -175,7 +175,7 @@
                 <a class="nav-link"   href="<?php echo e(url('/dashboard')); ?>">Panel</a>
             </li>
             <li class="nav-item dropdown-item">
-                <a class="nav-link"   href="<?php echo e(url('/profile')); ?>"><?php echo e(Auth::user()->name); ?></a>
+                <a class="nav-link"   href="<?php echo e(url('/profile')); ?>"><?php echo e(Auth::user()->login); ?></a>
             </li>
                                 <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 </a> -->

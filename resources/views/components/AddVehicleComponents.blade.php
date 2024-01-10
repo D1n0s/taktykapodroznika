@@ -45,6 +45,7 @@ function AddVehicle(){
                 document.getElementById('vehicle_name').value = '';
                 document.getElementById('consumption').value = '5.0';
                 document.getElementById('fuel').selectedIndex = 0;
+                hideForm('addVehicle')
             })
             .catch(error => {
                 if (error.response && error.response.data) {

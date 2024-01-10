@@ -61,6 +61,7 @@ Route::post('/tacticadel', [TripController::class, 'delTactic'])->name('delTacti
 Route::post('/inviteaccept', [ProfileController::class, 'AcceptInvite'])->name('AcceptInvite');
 Route::post('/invitedeceline', [ProfileController::class, 'DeclineInvite'])->name('DeclineInvite');
 Route::post('/savepermissions', [TripController::class, 'SavePermissions'])->name('SavePermissions');
+Route::post('/changetripsettings', [TripController::class, 'ChangeTripSetting'])->name('ChangeTripSetting');
 
 //TRIP AKCJE
 Route::post('/markadd', [TripController::class, 'addMarker'])->name('addMarker');

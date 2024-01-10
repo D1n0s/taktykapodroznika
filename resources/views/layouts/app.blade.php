@@ -79,7 +79,7 @@
                                     <div class="dropdown-menu"  aria-labelledby="notificationButton" id="notificationDropdown">
                                         @forelse(Auth::user()->invitesReceived as $invite)
                                         <div class="dropdown-item" id="{{$invite->invite_id}}">
-                                            <p class="mb-0">Dostałeś zaproszenie od {{$invite->invitedBy->name}}</p>
+                                            <p class="mb-0">Dostałeś zaproszenie od {{$invite->invitedBy->login}}</p>
                                             <p class="mb-0">do podróży {{$invite->invitedTrip->title}}</p>
                                             <div class="d-flex justify-content-center">
                                                 <button type="button" onclick="inviteaccept('{{$invite->invite_id}}')" class="btn btn-secondary btn-success mx-2">Akceptuj</button>
@@ -174,7 +174,7 @@
                 <a class="nav-link"   href="{{ url('/dashboard') }}">Panel</a>
             </li>
             <li class="nav-item dropdown-item">
-                <a class="nav-link"   href="{{ url('/profile') }}">{{ Auth::user()->name }}</a>
+                <a class="nav-link"   href="{{ url('/profile') }}">{{ Auth::user()->login }}</a>
             </li>
                                 <!-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 </a> -->

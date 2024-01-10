@@ -10,19 +10,19 @@
                         <?php echo csrf_field(); ?>
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Name')); ?></label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Nazwa')); ?></label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control <?php $__errorArgs = ['name'];
+                                <input id="login" type="text" class="form-control <?php $__errorArgs = ['login'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" name="name" value="<?php echo e(old('name')); ?>" required autocomplete="name" autofocus>
+unset($__errorArgs, $__bag); ?>" name="login" value="<?php echo e(old('login')); ?>" required autocomplete="login" autofocus>
 
-                                <?php $__errorArgs = ['name'];
+                                <?php $__errorArgs = ['login'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -38,7 +38,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Email Address')); ?></label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Adres Email')); ?></label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control <?php $__errorArgs = ['email'];
@@ -66,7 +66,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Password')); ?></label>
+                            <label for="password" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Hasło')); ?></label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
@@ -94,7 +94,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Confirm Password')); ?></label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end"><?php echo e(__('Potwierdź hasło')); ?></label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">

@@ -153,14 +153,18 @@
         .valid-feedback{
             color: #2acc80;
         }
+        select {
+            font-family: 'FontAwesome', 'Second Font name';
+        }
     </style>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"/>
     <div class="form-body">
         <div class="row">
             <div class="form-holder" >
                 <div class="form-content">
                     <div class="form-items">
-                        <h3>Nową atrakcją na dziś jest :</h3>
-                        <p>Dodajesz atrakcję do {{$post->title}} </p>
+                        <h3>Nowe wydarzenie na dziś jest :</h3>
+                        <p>Dodajesz wydarzenie do {{$post->title}} </p>
 
                         <form class="requires-validation" method="POST" action="{{route('addAttraction')}}">
                             @csrf
@@ -175,7 +179,32 @@
                                 <textarea name="desc"  style="color:black;" placeholder="Opisz co będziemy robić" class="form-control text-base" maxlength="254">{{$att ? $att->desc : '' }}</textarea>
                             </div>
 
-                                    <div class="col-md-12 ">
+                            <div class="col-md-12 mt-3" style="float: none;">
+                                <label for="category">Kategoria wydarzenia </label>
+                                <select id="markerSelect" name="category" class="form-select " style="margin:auto;">
+                                    @if($att == null)
+                                        @foreach($attractions_category as $att_categorie)
+                                            <option value="{{$att_categorie['category_attraction_id']}}" >
+                                                {{$att_categorie['name']}}
+                                            </option>
+                                            @endforeach
+                                    @endif
+
+                                    @if($att != null)
+                                            @foreach($attractions_category as $att_categorie)
+                                                <option value="{{$att_categorie['category_attraction_id']}}" @if($att->category_id == $att_categorie['category_attraction_id'] ) selected @endif>
+
+                                                    <i style='font-size:24px' class='fas' value="{{$att_categorie['icon']}}">
+
+                                                    </i>{{$att_categorie['name']}}
+                                                </option>
+                                            @endforeach
+                                    @endif
+
+                                </select>
+                            </div>
+
+                                    <div class="col-md-12 mt-4">
                                         <div class="row">
                                             <div class="col-md-5 mx-auto ">
                                                 <label for="start_time">Godzina rozpoczęcia</label>
@@ -217,8 +246,8 @@
                             <div class="row">
                                 <div class="col-md-5 mx-auto">
                                     <div class="input-group">
-                                            <label  for="price" class="bg-transparent  ">Całkowity koszt atrakcji</label>
-                                        <input  type="number" name="price" value="{{$att ? $att->cost : '' }}" class="form-control  rounded " min="0"  step="0.01" oninput="validity.valid||(value='');">
+                                            <label style="margin-right: 55px;" for="price" class="bg-transparent  ">Całkowity koszt  </label>
+                                        <br><input  type="number"  name="price" value="{{$att ? $att->cost : '' }}" class="form-control  rounded " min="0"  step="0.01" oninput="validity.valid||(value='');">
                                         <div class="input-group-append">
                                             <span class="input-group-text bg-transparent border-0" style="color: white; font-weight: bold;">zł</span>
                                         </div>

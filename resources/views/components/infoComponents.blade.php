@@ -118,6 +118,40 @@
         max-height: 1000px;
     }
 
+    .hidden_div {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .show_div {
+        display: block;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+        animation-name: fadeIn;
+        animation-duration: 0.5s;
+    }
+
+
+    @keyframes fadeIn {
+        from {
+            transform: scaleX(0);
+            transform-origin: top;
+            opacity: 0;
+        }
+        to {
+            transform: scaleX(1);
+            transform-origin: top;
+            opacity: 1;
+        }
+    }
+    }
+
 </style>
 <div class="box">
     @if($permission == 1)
@@ -134,13 +168,19 @@
 
     <div id="wrapper">
         <div id="text" name="text"  style="overflow: hidden; word-wrap: break-word; resize: none; ">
-                <div class="btn_info">PODSUMOWANIE</div>
-                <div class="btn_info">POJAZDY</div>
-                <div class="btn_info">KOSZTY</div>
+            <div class="btn_info" onclick="showDiv('podsumowanie')">PODSUMOWANIE</div>
+            <div class="btn_info" onclick="showDiv('pojazdy')">POJAZDY</div>
+            <div class="btn_info" onclick="showDiv('koszty')">KOSZTY</div>
+
+            <script>
+
+
+
+            </script>
 
                 <div id="UpdateInfo">
                     <br>
-                    <div id="podsumowanie">
+                    <div id="podsumowanie" class="hidden_div">
                     <h2 class="text-center" style="font-weight: bolder;line-height:40px;margin-bottom: 0px;"> PODSUMOWANIE</h2>
                     <br>
                     <span style="float:left;">CZAS PODRÓŻY</span><span style="float:right;">{{$trip->travel_time}}</span><br>
@@ -171,7 +211,7 @@
                         </ul>
 
 </div>
-                    <div id="pojazdy">
+                    <div id="pojazdy" class="hidden_div">
                         <h2 class="text-center" style="font-weight: bolder;line-height:40px;margin-bottom: 0px;"> POJAZDY</h2>
                         @foreach($trip->vehicles as $car)
                         <br>
@@ -184,21 +224,43 @@
                         @endforeach
                     </div>
 
-                    <div id="koszty">
+                    <div id="koszty" class="hidden_div">
                         <h2 class="text-center" style="font-weight: bolder;line-height:40px;margin-bottom: 0px;"> KOSZTY</h2>
                         <br>
-                        <ul class="expandable-list" data-list-id="list1">
-                            <li class="expandable-list-item" onclick="toggleList('list1')"><span >ATRAKCJE:</span> <span style="float:right;">{{ number_format($attractions->sum('cost'), 2, '.', ' ') }} zł</span></li>
-                            <div id="list1" class="collapsed">
-                                <ul>
-                                    @foreach($attractions as $att)
-                                        <li style="margin:0px;">
-                                            <span style="float: left;">{{$att->title}}</span><span style="float: right;">{{number_format($att->cost,2,'.',' ')}} zł</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </ul>
+
+{{--                        <ul class="expandable-list" data-list-id="list1">--}}
+{{--                            <li class="expandable-list-item" onclick="toggleList('list1')"><span >WYDARZENIA:</span> <span style="float:right;">{{ number_format($attractions->sum('cost'), 2, '.', ' ') }} zł</span></li>--}}
+{{--                            <div id="list1" class="collapsed">--}}
+{{--                                <ul>--}}
+{{--                                    @foreach($attractions as $att)--}}
+{{--                                        <li style="margin:0px;">--}}
+{{--                                            <span style="float: left;">{{$att->title}} {{$att->category->name}}</span><span style="float: right;">{{number_format($att->cost,2,'.',' ')}} zł</span>--}}
+{{--                                        </li>--}}
+{{--                                    @endforeach--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </ul>--}}
+
+
+                        @foreach($attractions->unique('category_id') as $att)
+                            <ul class="expandable-list" data-list-id="list_cat_{{$att->category_id}}">
+                                <li class="expandable-list-item" onclick="toggleList('list_cat_{{$att->category_id}}')">
+                                    <span><i class="{{$att->category->icon}}"></i>    {{$att->category->name}}</span>
+                                    <span style="float:right;text-decoration: underline;">{{ number_format($att->category->attractions->sum('cost'), 2, '.', ' ') }} zł</span>
+                                </li>
+                                <div id="list_cat_{{$att->category_id}}" class="collapsed">
+                                    <ul style="margin:0px;background-color:rgba(147,147,147,0.48);">
+                                        @foreach($att->category->attractions as $attraction)
+                                            <li >
+                                                <span style="float: left;">{{$attraction->title}}</span>
+                                                <span style="float: right;">{{ number_format($attraction->cost, 2, '.', ' ') }} zł</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </ul>
+                        @endforeach
+
                                                     {{-- ******************SUMA ZA PALIWO ***************************************************--}}
                         @php
                             $totalFuelCost = $trip->vehicles->sum(function ($car) use ($trip) {
@@ -218,10 +280,10 @@
                         <ul class="expandable-list" data-list-id="list2">
                             <li class="expandable-list-item" onclick="toggleList('list2')">
                                 <span>PALIWO:</span>
-                                <span style="float:right;">{{ number_format($totalFuelCost, 2, '.', ' ') }} zł</span>
+                                <span style="float:right;text-decoration: underline;">{{ number_format($totalFuelCost, 2, '.', ' ') }} zł</span>
                             </li>
                             <div id="list2" class="collapsed">
-                                <ul>
+                                <ul style="margin:0px;background-color:rgba(147,147,147,0.48);">
                                     @foreach($trip->vehicles as $car)
                                         <li style="margin:0px;">
                                             <span style="float: left;">{{ $car->name }}</span>
@@ -253,11 +315,53 @@
     </div>
 </div>
 </div>
+
+@if(session('scrollTo'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var attractionId = {{ session('scrollTo') }};
+            var element = document.getElementById('attraction_' + attractionId);
+
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+@endif
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{{ asset('js/info_script.js') }}"></script>
 <script>
+
+    // tutaj są divy
+
+    function showDiv(divId) {
+        hideAllDivs();
+        var selectedDiv = document.getElementById(divId);
+        $(selectedDiv).addClass('show_div fade-in'); // Dodanie klasy fade-in
+        localStorage.setItem('currentDiv', divId);
+    }
+
+    function hideAllDivs() {
+        var divs = document.querySelectorAll('.btn_info');
+        divs.forEach(function (div) {
+            var contentDiv = document.getElementById(div.innerHTML.toLowerCase());
+            $(contentDiv).addClass('hidden_div');
+            $(contentDiv).removeClass('show_div');
+        });
+    }
+
+    window.onload = function () {
+        var storedDiv = localStorage.getItem('currentDiv');
+        if (storedDiv) {
+            showDiv(storedDiv);
+        } else {
+            showDiv('podsumowanie');
+        }
+    };
+// LISTA
+
     function toggleList(listId) {
         var list = $("#" + listId);
         list.toggleClass('expanded collapsed');
@@ -265,7 +369,6 @@
         var isExpanded = list.hasClass('expanded');
         localStorage.setItem(listId, isExpanded);
 
-        // Dodaj animację dla rozwijania/zwijania
         var maxHeight = isExpanded ? list.prop("scrollHeight") + "px" : "0";
         list.css("max-height", maxHeight);
     }
@@ -283,7 +386,6 @@
                 list.addClass('collapsed');
             }
 
-            // Przywróć animację po odświeżeniu
             var maxHeight = isExpanded ? list.prop("scrollHeight") + "px" : "0";
             list.css("max-height", maxHeight);
         });
@@ -323,20 +425,23 @@
     Echo.private('privateTrip.{{$trip->trip_id}}')
         .listen('InfoUpdateEvent', (e) => {
             $("#UpdateInfo").load(location.href + " #UpdateInfo", function () {
-                // Przywróć stan list po odświeżeniu
                 $('.expandable-list').each(function () {
                     var list = $(this);
                     var listId = list.data('list-id');
                     var isExpanded = localStorage.getItem(listId) === 'true';
 
                     if (isExpanded) {
-                        list.find('div').addClass('expanded');
+                        list.find('div').removeClass('collapsed').addClass('expanded');
                     } else {
-                        list.find('div').addClass('collapsed');
+                        list.find('div').removeClass('expanded').addClass('collapsed');
                     }
-
-
                 });
+
+                var currentDiv = $('#' + localStorage.getItem('currentDiv'));
+
+                if (currentDiv.is(':hidden')) {
+                    currentDiv.addClass('show_div').removeClass('hidden_div');
+                }
             });
         });
 

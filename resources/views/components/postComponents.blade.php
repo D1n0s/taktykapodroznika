@@ -276,7 +276,7 @@ color: var(--uia-card-time-color, currentColor);
     @if($permission == 1)
 
 <div class="first">
-    <button type="button" class="button-perspective" onclick="showForm('addpost')">Dodaj Post</button>
+    <button type="button" class="button-perspective" onclick="showForm('addpost')">Dodaj zbiór wydarzeń</button>
 </div>
     @endif
 
@@ -344,7 +344,8 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
         <h3 class="ra-heading ">Szczegóły</h3>
         <!-- opis   -->
         <div class="mt-4" style=" box-sizing: border-box;  word-wrap: break-word; ">
-           <h5> <p style="float: left;">Cena atrakcji:</p> <p style="float: right;margin-right: 10%;">{{$att->cost}}zł</p> </h5>
+           <h5> <p style="float: left;">Kategoria:</p> <p style="float: right;margin-right: 10%;">@if($att->category->icon != "")<i style="font-size: 20px;" class="{{$att->category->icon}}"></i>@endif  {{$att->category->name}} </p> </h5><br><br>
+           <h5> <p style="float: left;">Koszt:</p> <p style="float: right;margin-right: 10%;">{{$att->cost}}zł</p> </h5>
         </div>
         <!-- KONIEC -->
     </div>
@@ -402,7 +403,7 @@ Dzień {{$post->day}}  ( {{date('d-m-Y', strtotime($post->date))}} ) || <span id
     <form action="{{route('Attraction')}}" method="post">
         @csrf
         <input type="hidden" name="post_id" value="{{ $post->post_id }}">
-        <button class="dash_bttn tablinks" type="submit">Dodaj wpis</button>
+        <button class="dash_bttn tablinks" type="submit">Dodaj wydarzenie</button>
     </form>
 </div>
 </section>

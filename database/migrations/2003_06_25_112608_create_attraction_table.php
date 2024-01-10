@@ -8,11 +8,14 @@ class CreateAttractionTable extends Migration
 {
     public function up()
     {
+
+
         Schema::create('attractions', function (Blueprint $table) {
             $table->increments('attraction_id');
             $table->integer('post_id')->unsigned();
             $table->string('title', 37);
             $table->string('desc', 254)->nullable();
+            $table->integer('category_id')->unsigned();
             $table->decimal('cost',10,2)->default(0.00);
             $table->time('duration')->nullable();
             $table->time('time_start')->nullable();
@@ -26,6 +29,10 @@ class CreateAttractionTable extends Migration
         Schema::table('attractions', function (Blueprint $table) {
             $table->foreign('mark_id')->references('mark_id')->on('marks');
         });
+        Schema::table('attractions', function (Blueprint $table) {
+        $table->foreign('category_id')->references('category_attraction_id')->on('categorie_attractions');
+    });
+
     }
 
     public function down()

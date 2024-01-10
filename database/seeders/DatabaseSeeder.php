@@ -44,6 +44,34 @@ class DatabaseSeeder extends Seeder
         DB::table('trips_permissions')->insert([
             'name'=>'Odczyt / Zapis',
         ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'OGÓLNE' ,
+                    'icon' => '',
+                ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'JEDZENIE' ,
+                    'icon' => 'fas fa-pizza-slice',
+                ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'NOCLEG' ,
+                    'icon' => 'fas fa-bed',
+                ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'ROZRYWKA' ,
+                    'icon' => 'fas fa-rocket',
+                ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'ZWIEDZANIE' ,
+                    'icon' => 'fas fa-archway',
+                ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'TRANSPORT LOKALNY' ,
+                    'icon' => 'fas fa-subway',
+                ]);
+                DB::table('categorie_attractions')->insert([
+                    'name' => 'SPECJALNE' ,
+                    'icon' => 'far fa-star',
+                ]);
     }
 
 }
