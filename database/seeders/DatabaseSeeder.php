@@ -39,9 +39,11 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ]);
         DB::table('trips_permissions')->insert([
+            'permission_id'=>2,
             'name'=>'Odczyt',
         ]);
         DB::table('trips_permissions')->insert([
+            'permission_id'=> 1,
             'name'=>'Odczyt / Zapis',
         ]);
                 DB::table('categorie_attractions')->insert([

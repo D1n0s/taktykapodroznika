@@ -7,7 +7,7 @@
 
     <div class="first">
         <div>
-            <button class="button-perspective" onclick="showForm('button1-form')">Dodaj Punkt</button>
+            <button class="button-perspective" onclick="showForm('button1-form')">Dodaj lokalizacje</button>
             <button class="button-perspective" onclick="RefreshDivMarkers()">Odśwież i posortuj</button>
         </div>
     </div>

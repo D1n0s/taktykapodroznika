@@ -100,7 +100,6 @@ class ProfileController extends Controller{
             }
 
         }
-        return response()->json(['succcess' =>  'działa'], 200 );
     }
 
     public function  DeclineInvite(Request $request){

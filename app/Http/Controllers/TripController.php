@@ -287,16 +287,20 @@ class TripController extends Controller
                     $attractions = $attractionsWithTime->merge($attractionsWithoutTime);
 
         if($publictrip != null){
-            $permission = 0;
+            $permission = 2;
         } else if ($trip->owner_id == Auth::user()->user_id) {
             $permission = 1;
         } else {
             $permission = $sharedusers->where('user_id', auth()->user()->user_id)->first()->pivot->permission_id;
         }
 
+
+        $totalAttractionCost = $trip->posts->flatMap(function ($post) {
+            return $post->attractions;
+        })->sum('cost');
         $totalFuelCost = 0;
 
-        return view('trip_creator', compact('markerData', 'trip', 'posts', 'attractions', 'sharedusers', 'permission','totalFuelCost','publictrip'));
+        return view('trip_creator', compact('markerData', 'trip', 'posts', 'attractions', 'sharedusers', 'permission','totalFuelCost','publictrip', 'totalAttractionCost'));
     }
 
     public function addMarker(Request $request)
@@ -733,7 +737,7 @@ class TripController extends Controller
         try {
             $validatedData = $request->validate([
                 'email' => 'required|email',
-                'permission' => 'required|in:0,1',
+                'permission' => 'required|in:1,2',
             ], [
                 'email.required' => 'Pole email jest wymagane.',
                 'email.email' => 'Nieprawidłowy format adresu email.',
@@ -938,6 +942,7 @@ class TripController extends Controller
                 'petrol_cost' => $validatedData['petrol'],
                 'gas_cost' => $validatedData['gas'],
             ]);
+
             fuelUpdateEvent::dispatch($trip_id);
             InfoUpdateEvent::dispatch($trip_id);
             return response()->json(['success' => 'Ceny zostały zaktualizowane pomyślnie'], 200);

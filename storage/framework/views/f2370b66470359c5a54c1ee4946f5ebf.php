@@ -283,7 +283,7 @@
     <div class="dashboard">
         <div class="dash_menu">
             <div class="outer">
-            <button class="dash_bttn tablinks active"   data-tab="markers" onclick="change(event, 'markers')"><i class='fas fa-map-marker-alt' ></i> Markery</button>
+            <button class="dash_bttn tablinks active"   data-tab="markers" onclick="change(event, 'markers')"><i class='fas fa-map-marker-alt' ></i> Lokalizacje</button>
             <button class="dash_bttn tablinks active" data-tab="routes" onclick="change(event, 'routes')"><i class='fas fa-route' ></i> Trasowanie</button>
             <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'posts')"><i class='fas fa-clipboard-list' ></i> Wydarzenia</button>
             <button class="dash_bttn tablinks active"   data-tab="posts" onclick="change(event, 'info')"><i class='fas fa-flag-checkered'></i> Podsumowanie</button>

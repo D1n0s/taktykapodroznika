@@ -150,15 +150,14 @@
             opacity: 1;
         }
     }
-    }
 
 </style>
 <div class="box">
     @if($permission == 1)
 <div class="first">
-    <button class="button-perspective" onclick="showForm('addVehicle')">Dodaj Pojazd</button>
-    <button class="button-perspective" onclick="refreshFuel(),showForm('addFuelPrice')">Ceny Paliwa</button>
-    <button class="button-perspective" onclick="refreshPersons(),showForm('PeronsNumberForm')">Liczba Osób</button>
+    <button class="button-perspective" onclick="showForm('addVehicle')">Dodaj pojazd</button>
+    <button class="button-perspective" onclick="refreshFuel(),showForm('addFuelPrice')">Ceny paliwa</button>
+    <button class="button-perspective" onclick="refreshPersons(),showForm('PeronsNumberForm')">Liczba osób</button>
 </div>
     @endif
 
@@ -219,7 +218,7 @@
                         <span style="float:left;">ZUŻYCIE PALIWA</span><span style="float:right;">{{$car->consumption}} l/100km</span><br>
                         <span style="float:left;">RODZAJ PALIWA</span><span style="float:right;">{{$car->fuel}} </span><br>
                             @if($permission == 1)
-                            <div class="btn_info  mx-auto" onclick="delVehicle({{$car->vehicle_id}})" >Usuń pojazd</div>
+                                <div class="btn_info" style="display: block; margin: 0 auto;text-align: center;" onclick="delVehicle({{$car->vehicle_id}})">Usuń pojazd</div>
                             @endif
                         @endforeach
                     </div>
@@ -241,8 +240,13 @@
 {{--                            </div>--}}
 {{--                        </ul>--}}
 
-
+                        <ul>
+                            <span>Koszt wszystkich wydarzeń </span>
+                            <span style="float:right;">{{ number_format($totalAttractionCost, 2, '.', ' ') }} zł</span>
+                        </ul>
+                        <br>
                         @foreach($attractions->unique('category_id') as $att)
+                            @if($att->cost != 0)
                             <ul class="expandable-list" data-list-id="list_cat_{{$att->category_id}}">
                                 <li class="expandable-list-item" onclick="toggleList('list_cat_{{$att->category_id}}')">
                                     <span><i class="{{$att->category->icon}}"></i>    {{$att->category->name}}</span>
@@ -259,13 +263,13 @@
                                     </ul>
                                 </div>
                             </ul>
+                            @endif
                         @endforeach
 
                                                     {{-- ******************SUMA ZA PALIWO ***************************************************--}}
                         @php
                             $totalFuelCost = $trip->vehicles->sum(function ($car) use ($trip) {
                                 $fuelCost = 0;
-
                                 if ($car->fuel == "benzyna") {
                                     $fuelCost = $trip->petrol_cost;
                                 } elseif ($car->fuel == "gaz") {
@@ -273,7 +277,6 @@
                                 } elseif ($car->fuel == "diesel") {
                                     $fuelCost = $trip->diesel_cost;
                                 }
-
                                 return round(($trip->distance / 100) * $car->consumption * $fuelCost, 2);
                             });
                         @endphp
@@ -303,6 +306,15 @@
                                     @endforeach
                                 </ul>
                             </div>
+                        </ul>
+                        <br>
+                        <ul>
+                            <span>Całkowity koszt podróży </span>
+                            <span style="float:right;">{{ number_format($totalAttractionCost + $totalFuelCost, 2, '.', ' ') }} zł</span>
+                        </ul>
+                        <ul>
+                           <span>Koszt na osobę ({{$trip->persons}})</span>
+                           <span style="float:right;">{{ number_format(($totalAttractionCost + $totalFuelCost)/$trip->persons, 2, '.', ' ') }} zł</span>
                         </ul>
 
 

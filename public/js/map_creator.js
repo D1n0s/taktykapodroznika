@@ -85,21 +85,6 @@ $(document).ready(function() {
             _token: token
         };
 
-        // $.ajax({
-        //     url: form.attr('action'),
-        //     type: "POST",
-        //     data: formData,
-        //     success: function(response) {
-        //         console.log(response);
-        //         // addMarker('address','button1-form');
-        //         alert('Dane zapisane pomyślnie.');
-        //         form.trigger('reset');
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.log(xhr.responseText);
-        //     }
-        // });
-
         axios.post(form.attr('action'), formData)
             .then(function(response) {
                 console.log(response.data);

@@ -29,21 +29,15 @@ Broadcast::channel('private.{user_id}', function ($user, $user_id) {
 
 Broadcast::channel('privateTrip.{trip_id}', function ($trip_id) {
 
-    return $trip_id;
+ return $trip_id;
 
-
-    //    $trip = Trip::find($trip_id)->first();
-//
-//    // Sprawdzamy, czy użytkownik jest właścicielem wycieczki
-//    if ( auth()->$user->user_id === $trip->owner_id) {
-//        return true;
-//    }
-//    // Sprawdzamy, czy użytkownik ma udział w wycieczce na podstawie SharedTrip
-//    $sharedTrip = SharedTrip::where('trip_id', $trip_id)->where('user_id', auth()->$user->user_id)->first();
-//    if ($sharedTrip && $sharedTrip->trip_id === $trip->trip_id) {
-//        return true;
-//    }
 });
+
+
+
+
+
+
 
 Broadcast::channel('presence.{groupId}', function ($user,int $groupId) {
 

@@ -187,7 +187,7 @@
                                     <a class="dropdown-item " href="<?php echo e(route('logout')); ?>"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        <?php echo e(__('Logout')); ?>
+                                        <?php echo e(__('Wyloguj')); ?>
 
                                     </a>
 

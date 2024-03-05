@@ -33,7 +33,6 @@ export default defineConfig({
             'leaflet',
             'leaflet-routing-machine',
             'leaflet-control-geocoder',
-            // Dodaj inne pliki z node_modules, jeśli są wymagane
         ],
     },
 });

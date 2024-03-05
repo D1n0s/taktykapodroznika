@@ -22,14 +22,8 @@ use App\Events\PublicEvent;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 
 Auth::routes();
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/mytrips',[ProfileController::class,'mytrips']);
     Route::get('/sharedtrips',[ProfileController::class,'sharedtrips']);
@@ -37,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/map/{trip}', [TripController::class, 'index']);
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -93,15 +87,13 @@ Route::post('/copypublictrip/{trip_id}',[PublicTripsController::class,'CopyPubli
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
 
 
 
 
+/*
 Route::get('/color', function () {
     return view('color-picker');
 });
@@ -117,6 +109,6 @@ Route::post('/waterEvent', function (Request $request){
 
 Route::post('/fireEvent', function (Request $request) {
     PublicEvent::dispatch($request->color);
-})->name('fire.public.event');
+})->name('fire.public.event');*/
 
 
